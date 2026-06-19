@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StudyMind AI - Welcome</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#c3c6d7",
+                    "on-primary-fixed-variant": "#434654",
+                    "surface-bright": "#3a3935",
+                    "primary-fixed": "#dfe2f3",
+                    "secondary": "#c4c0ff",
+                    "on-secondary-fixed-variant": "#3622ca",
+                    "on-tertiary": "#3d2e00",
+                    "surface-container": "#20201c",
+                    "on-background": "#e5e2db",
+                    "surface-tint": "#c3c6d7",
+                    "surface-variant": "#353530",
+                    "on-primary-fixed": "#171b28",
+                    "on-secondary-container": "#b4b0ff",
+                    "on-tertiary-container": "#987700",
+                    "on-tertiary-fixed": "#241a00",
+                    "primary-fixed-dim": "#c3c6d7",
+                    "tertiary": "#eec13c",
+                    "on-primary": "#2c303d",
+                    "error-container": "#93000a",
+                    "on-error": "#690005",
+                    "outline": "#909096",
+                    "surface-container-highest": "#353530",
+                    "on-primary-container": "#777b8a",
+                    "secondary-container": "#3826cd",
+                    "surface": "#131410",
+                    "surface-container-high": "#2a2a26",
+                    "surface-container-low": "#1c1c18",
+                    "background": "#0A0E1A",
+                    "secondary-fixed-dim": "#c4c0ff",
+                    "secondary-fixed": "#e3dfff",
+                    "inverse-primary": "#5a5e6d",
+                    "tertiary-fixed-dim": "#eec13c",
+                    "outline-variant": "#46464c",
+                    "surface-dim": "#131410",
+                    "on-secondary-fixed": "#100069",
+                    "on-tertiary-fixed-variant": "#584400",
+                    "tertiary-container": "#150e00",
+                    "primary-container": "#0a0e1a",
+                    "on-surface": "#e5e2db",
+                    "inverse-on-surface": "#31312c",
+                    "on-surface-variant": "#c7c6cc",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary": "#2000a4",
+                    "inverse-surface": "#e5e2db",
+                    "tertiary-fixed": "#ffe08f",
+                    "surface-container-lowest": "#0e0e0b",
+                    "error": "#ffb4ab"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "xs": "4px",
+                    "lg": "24px",
+                    "sm": "8px",
+                    "gutter": "16px",
+                    "xxl": "48px",
+                    "xl": "32px",
+                    "margin-desktop": "40px",
+                    "margin-mobile": "20px"
+            },
+            "fontFamily": {
+                    "label-caps": ["DM Sans"],
+                    "body-sm": ["DM Sans"],
+                    "display-lg-mobile": ["Clash Display"],
+                    "headline-sm": ["Clash Display"],
+                    "display-lg": ["Clash Display"],
+                    "body-lg": ["DM Sans"],
+                    "body-md": ["DM Sans"],
+                    "headline-md": ["Clash Display"]
+            },
+            "fontSize": {
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-sm": ["20px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(195, 198, 215, 0.03);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(195, 198, 215, 0.1);
+        }
+        
+        .electric-glow {
+            box-shadow: 0 0 30px rgba(108, 99, 255, 0.15);
+        }
+
+        .animate-slide-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        
+        .bg-gradient-mesh {
+            background: radial-gradient(circle at 50% 50%, rgba(108, 99, 255, 0.08) 0%, transparent 70%),
+                        radial-gradient(circle at 10% 20%, rgba(238, 193, 60, 0.03) 0%, transparent 40%);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden min-h-screen">
+<!-- TopAppBar Semantic Shell -->
+<header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-surface-variant/10 shadow-[0_0_20px_rgba(108,99,255,0.1)] flex justify-between items-center px-margin-mobile py-sm h-16">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="school">school</span>
+<span class="font-headline-md text-headline-md font-bold text-tertiary">StudyMind AI</span>
+</div>
+<a class="text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-200 font-label-caps text-label-caps tracking-widest" href="#">
+            Skip
+        </a>
+</header>
+<main class="relative min-h-screen pt-16 flex flex-col md:flex-row bg-gradient-mesh">
+<!-- Top Section (Mobile) / Left Section (Desktop): Illustration -->
+<section class="flex-1 flex flex-col items-center justify-center p-xl md:p-xxl">
+<div class="relative w-full max-w-[480px] aspect-square flex items-center justify-center">
+<!-- Atmospheric background glow behind illustration -->
+<div class="absolute inset-0 bg-secondary/5 rounded-full blur-[100px] animate-pulse"></div>
+<img alt="Student at glowing desk illustration" class="w-full h-full object-contain relative z-10 drop-shadow-[0_0_40px_rgba(108,99,255,0.3)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5-BTRfjnFfvYrE-5fH2cIClWOpruFmQlALEmoMALyascKAL9HWG03cndbLd5RmaLk8NsAlKwOzKliTmhOalv7TnRypSE5XRabfibRo2_CCjHHWm_ouKHCkEUQP4zhGZbUiiJiM6V2xwQVIvqbKxvFhvc66IaOGeHHZWPMV-Q3-dtHUQHJNH2S1YE8d6O3JvxBTfYvl0Jjrjlc069Q1RDbdJViDjYiHv0AlK_V_IjmIMJf_qBmlPAKSz0XsQkZqksKhzN-skFI7Co"/>
+</div>
+</section>
+<!-- Bottom Section (Mobile) / Right Section (Desktop): Content -->
+<section class="flex-1 flex items-center justify-center p-margin-mobile md:p-margin-desktop z-20">
+<div class="glass-panel w-full max-w-lg p-xl md:p-xxl rounded-[32px] electric-glow flex flex-col gap-xl">
+<div class="space-y-sm">
+<h1 class="font-headline-md text-headline-md md:text-display-lg font-bold leading-tight text-on-surface tracking-tight">
+                        Study Smarter.<br/>
+<span class="text-secondary">Not Harder.</span>
+</h1>
+<div class="h-1 w-12 bg-tertiary rounded-full"></div>
+</div>
+<ul class="flex flex-col gap-lg">
+<li class="flex items-start gap-md animate-slide-up stagger-1">
+<div class="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center shrink-0 border border-secondary/20">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">AI Planning</h3>
+<p class="text-on-surface-variant text-body-sm mt-xs">Personalized study schedules generated by our neural engine based on your goals.</p>
+</div>
+</li>
+<li class="flex items-start gap-md animate-slide-up stagger-2">
+<div class="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center shrink-0 border border-secondary/20">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">query_stats</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Progress Tracking</h3>
+<p class="text-on-surface-variant text-body-sm mt-xs">Visual analytics of your knowledge growth and retention metrics.</p>
+</div>
+</li>
+<li class="flex items-start gap-md animate-slide-up stagger-3">
+<div class="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center shrink-0 border border-secondary/20">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">notifications_active</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Smart Reminders</h3>
+<p class="text-on-surface-variant text-body-sm mt-xs">Optimized notification timing to hit your peak cognitive performance windows.</p>
+</div>
+</li>
+</ul>
+<div class="mt-md pt-md border-t border-surface-variant/10">
+<button class="w-full h-14 bg-[#F5C842] hover:bg-[#F5C842]/90 text-[#0A0E1A] font-bold rounded-xl transition-all active:scale-95 flex items-center justify-center gap-sm group shadow-[0_8px_20px_rgba(245,200,66,0.2)]">
+<span class="font-headline-sm text-headline-sm">Get Started</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<p class="text-center text-body-sm text-on-surface-variant/60 mt-md">
+                        Join 50k+ scholars worldwide.
+                    </p>
+</div>
+</div>
+</section>
+</main>
+<!-- Background Decorative Elements -->
+<div class="fixed top-[20%] right-[-10%] w-[40%] h-[40%] bg-secondary/5 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+<div class="fixed bottom-[-10%] left-[-10%] w-[30%] h-[30%] bg-tertiary/5 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
+<script>
+        // Simple micro-interaction for the CTA button glow intensity on hover
+        const cta = document.querySelector('button');
+        cta.addEventListener('mouseenter', () => {
+            cta.style.boxShadow = '0 12px 30px rgba(245,200,66,0.4)';
+        });
+        cta.addEventListener('mouseleave', () => {
+            cta.style.boxShadow = '0 8px 20px rgba(245,200,66,0.2)';
+        });
+    </script>
+</body></html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Study Groups | StudyMind AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#dfe2f3",
+                    "background": "#0f131f",
+                    "on-primary-container": "#1b0091",
+                    "on-tertiary": "#502500",
+                    "on-primary-fixed": "#100069",
+                    "on-error": "#690005",
+                    "primary-container": "#8781ff",
+                    "surface": "#0f131f",
+                    "on-tertiary-fixed": "#301400",
+                    "on-secondary-fixed-variant": "#584400",
+                    "on-secondary-fixed": "#241a00",
+                    "surface-dim": "#0f131f",
+                    "error-container": "#93000a",
+                    "inverse-on-surface": "#2c303d",
+                    "outline-variant": "#464555",
+                    "tertiary-fixed-dim": "#ffb785",
+                    "tertiary-container": "#db761f",
+                    "surface-container-high": "#262a37",
+                    "surface-tint": "#c4c0ff",
+                    "outline": "#918fa1",
+                    "surface-bright": "#353946",
+                    "primary-fixed": "#e3dfff",
+                    "secondary": "#eec13c",
+                    "on-surface-variant": "#c7c4d8",
+                    "surface-variant": "#313442",
+                    "on-tertiary-container": "#461f00",
+                    "on-error-container": "#ffdad6",
+                    "secondary-container": "#bb9300",
+                    "on-surface": "#dfe2f3",
+                    "on-tertiary-fixed-variant": "#713700",
+                    "tertiary-fixed": "#ffdcc6",
+                    "primary-fixed-dim": "#c4c0ff",
+                    "surface-container-highest": "#313442",
+                    "inverse-surface": "#dfe2f3",
+                    "tertiary": "#ffb785",
+                    "inverse-primary": "#4f44e2",
+                    "surface-container": "#1b1f2c",
+                    "on-primary": "#2000a4",
+                    "secondary-fixed": "#ffe08f",
+                    "surface-container-lowest": "#0a0e1a",
+                    "surface-container-low": "#171b28",
+                    "on-secondary-container": "#3e2f00",
+                    "error": "#ffb4ab",
+                    "on-secondary": "#3d2e00",
+                    "secondary-fixed-dim": "#eec13c",
+                    "primary": "#c4c0ff",
+                    "on-primary-fixed-variant": "#3622ca"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "container-max": "1280px",
+                    "xxl": "64px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "gutter": "24px",
+                    "sm": "8px",
+                    "xl": "40px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "body-md": ["DM Sans"],
+                    "display-lg-mobile": ["Syne"],
+                    "body-lg": ["DM Sans"],
+                    "headline-sm": ["Syne"],
+                    "label-md": ["DM Sans"],
+                    "headline-md": ["Syne"],
+                    "display-lg": ["Syne"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px rgba(108, 99, 255, 0.2);
+            border-color: rgba(196, 192, 255, 0.3);
+        }
+        .glow-indigo {
+            box-shadow: 0 0 15px rgba(196, 192, 255, 0.3);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #0a0e1a;
+            color: #dfe2f3;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased pb-24">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/30 backdrop-blur-xl border-b border-white/10 shadow-md shadow-primary/20">
+<div class="flex justify-between items-center px-lg py-sm max-w-container-max mx-auto">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-2xl">menu</span>
+<h1 class="font-display-lg-mobile text-headline-sm font-bold text-primary">StudyMind AI</h1>
+</div>
+<div class="flex items-center gap-md">
+<div class="hidden md:flex gap-md">
+<span class="text-primary font-label-md uppercase tracking-wider cursor-pointer">Groups</span>
+<span class="text-on-surface-variant font-label-md uppercase tracking-wider cursor-pointer hover:text-primary transition-colors">Insights</span>
+<span class="text-on-surface-variant font-label-md uppercase tracking-wider cursor-pointer hover:text-primary transition-colors">Library</span>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-primary/30 overflow-hidden bg-surface-container">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1L3y8VPhLQG3DfUdtLIG4X3KZb-iTObi1ZVuChPiYgKJnINpHwfGijnfHdvZjyDHc3J-DfCp_eNmN7_H9GNt8Li19KK48oFV-lJg5V8JqYJTZsddVbnKOrDUadzTZsM_6i8sZtCbDCiXL3zfDVW8KYt9jak25TiZeC6RW727y3oKy4fIT6P32uYTCAt5WUuw67WKTrI85m45OwCTrmbboOsfurIcx5onPp_X2hXmNx-Yxf0v5q8MnIm4tlX0_f4eaksltvbiaEAI"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-24 px-md md:px-lg max-w-container-max mx-auto">
+<!-- Header Section -->
+<section class="mb-xl flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div class="space-y-xs">
+<div class="flex items-center gap-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface">Study Groups</h2>
+<span class="bg-secondary/20 text-secondary text-[10px] font-bold px-2 py-0.5 rounded-full border border-secondary/30 tracking-widest uppercase glow-indigo">Premium</span>
+</div>
+<p class="font-body-md text-on-surface-variant max-w-xl">Join elite academic circles, collaborate on research, and leverage AI facilitators to accelerate your mastery.</p>
+</div>
+<button class="bg-primary text-on-primary font-label-md px-lg py-sm rounded-xl hover:scale-105 active:scale-95 transition-all uppercase tracking-widest font-bold">
+                Create New Group
+            </button>
+</section>
+<!-- Bento Grid / Group List -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+<!-- Group Card 1: LIVE SESSION -->
+<div class="glass-card rounded-2xl p-lg flex flex-col gap-md relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-lg">
+<span class="inline-flex items-center gap-xs bg-error/20 text-error text-[10px] font-bold px-2.5 py-1 rounded-full border border-error/30 animate-pulse">
+<span class="w-1.5 h-1.5 bg-error rounded-full"></span>
+                        JOIN LIVE
+                    </span>
+</div>
+<div class="space-y-xs">
+<h3 class="font-headline-sm text-tertiary">Quantum Physics</h3>
+<p class="font-body-md text-on-surface-variant italic">Theoretical dynamics and particle entanglement.</p>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-3">
+<img alt="Scholar" class="w-8 h-8 rounded-full border-2 border-background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXzofHo1dodFmUh6o_oK0jbo6HoOdnz6g3RG85_sJ9tU6GAxoIuGvsh0-J3Pgmkai-Y_j2So5YVaXDAfMvwV8wMbEJFmYRFrxRHatcN62DZTaNrGE1ScsZjNwuoxaRFdQbDW4fdxZ-PwumjOKh2U4h_hvp3P-o27w-vQRBtZCuxa2ghGKzvx33vTYBVe8WvF1Mfc5ZYoa25wiB1PjXqx8EQTxZoxJXgcT25E1BAu2cEumH7XNpv3VRC_rIAbGMYDj0XNodj5T3OdQ"/>
+<img alt="Scholar" class="w-8 h-8 rounded-full border-2 border-background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBilGoCCTh4s745gktlp2rO0prhmkqQNuQQU8a06-GDz-uwOXoBp8VqE4R1fp8WnFj7PAK-qJjb8WJvfIZlrZWDdq4WlEslba8Qnw8NhfdoctAvvrn7vWngWa6MnBOaCDwynNNTtrwvOUGK6nUnOgEcivD7RUul-F_HbEC16hBjwJEhF5Isosl8UfY_nOi3RF0itSwtrhg6CPDnvodehDTvEOtQfv8CUt--X7Y8eVLTrO_R2gyvWM-b1DNh6MTwwbzcjSzuU1ZsU6s"/>
+<img alt="Scholar" class="w-8 h-8 rounded-full border-2 border-background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrCbDMyUGBF6rZV7lXFd4uCSgkZXdyO5Lhoe2O6aXmRPJEl6zoGx60CaE7Hrlh2jXjTV0vfWqYSmDOB1wTrxs3MAwDen1SJD12fNDXdD7zpvHLTGWQEhr2wb4pL3FV-k8IzDm4NccPCfnw3B6NFtgqriqvXetJcAYFa6KTk3CYIxb0y84Q1n4Dk8uscwBXlcVhAIib6hSiZ89NrCOB0hPSa31MxVubOsXmdLhxpnlhMgxKgDK4KZXCNdNLxTgJ-PPbhcJsHqH4AOE"/>
+<div class="w-8 h-8 rounded-full border-2 border-background bg-surface-container-high flex items-center justify-center text-[10px] font-bold">+9</div>
+</div>
+<span class="text-on-surface-variant font-label-md">12 Scholars</span>
+</div>
+<div class="py-sm border-y border-white/5 space-y-sm">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary text-base">schedule</span>
+<span class="font-label-md text-on-surface">Next Session: <span class="text-secondary">Today, 4:00 PM</span></span>
+</div>
+<div class="bg-primary/10 border border-primary/20 rounded-lg p-sm flex items-start gap-sm">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<p class="text-[12px] leading-tight text-primary-container font-medium">AI Facilitator: "Suggested today's focus: Neural Networks &amp; Qubits."</p>
+</div>
+</div>
+<!-- Feature Icons Preview -->
+<div class="flex items-center justify-around py-xs">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer p-2 rounded-lg hover:bg-white/5" title="Shared Planner">calendar_month</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer p-2 rounded-lg hover:bg-white/5" title="Group Chat">chat_bubble</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer p-2 rounded-lg hover:bg-white/5" title="Shared Notes">folder_open</button>
+</div>
+<button class="w-full py-md mt-auto border border-secondary text-secondary font-label-md rounded-xl hover:bg-secondary hover:text-on-secondary transition-all uppercase tracking-widest font-bold flex items-center justify-center gap-sm">
+                    Invite Link <span class="material-symbols-outlined text-sm">link</span>
+</button>
+</div>
+<!-- Group Card 2: Bio-Ethics -->
+<div class="glass-card rounded-2xl p-lg flex flex-col gap-md">
+<div class="space-y-xs">
+<h3 class="font-headline-sm text-tertiary">Bio-Ethics</h3>
+<p class="font-body-md text-on-surface-variant italic">The philosophy of genome sequencing and privacy.</p>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-3">
+<img alt="Scholar" class="w-8 h-8 rounded-full border-2 border-background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDh7WecpZ4rTmY-nhPhFbGbuYK2AJ8z4H8GllJgoNi8muJA1iwzA48LW3opK9w7vj1VrAH-_t1KLlFo9I_211tE8DejnSbalcq0fREsZGOyhusysOdSdFC5a7aNiuu3Qjji8ciLpD9DcOSv12eUc8JtrfQD2x2fJHl-OAr39vX_qRp_f82nC0mi5OI-ieQdd13Iyfhm-koAHYoYRILpwe6DQtvSnjxvSggcfLV9s8J19S05MtKtdN__8MnqJd1Hx1APoOqkf1-lkiA"/>
+<img alt="Scholar" class="w-8 h-8 rounded-full border-2 border-background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDa68925zP5FvjnEuPymuzr_hF8Nl42y8NIOSLo9O2Ky-s5LKgbCdB6zS8PPFM6GAW-e43xzZgNJRV7sPhDGqPv2tFjYD617YwHWZlNs1JDlkpxWBxoB3quhUEuNcEy_7uY76Q6gD47dSweU9ul7EVkE5eyytm4gaud1YAKRzYeQgDxtvnEgjrXQIHzs0FDQo-YzgyRIYT_7YteGF44v9RqOITQRq-tmtOnuTuTScmFKgFkdCxkt5lwUIp4TdOGUj_Nj3dta_U7SDI"/>
+<div class="w-8 h-8 rounded-full border-2 border-background bg-surface-container-high flex items-center justify-center text-[10px] font-bold">+5</div>
+</div>
+<span class="text-on-surface-variant font-label-md">7 Scholars</span>
+</div>
+<div class="py-sm border-y border-white/5 space-y-sm">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-base">schedule</span>
+<span class="font-label-md text-on-surface">Next Session: <span class="text-on-surface-variant">Tomorrow, 10:00 AM</span></span>
+</div>
+<div class="bg-primary/5 border border-white/5 rounded-lg p-sm flex items-start gap-sm">
+<span class="material-symbols-outlined text-primary/70 text-sm" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<p class="text-[12px] leading-tight text-on-surface-variant font-medium">AI Facilitator: "Suggested focus: CRSPR Policy Review."</p>
+</div>
+</div>
+<div class="flex items-center justify-around py-xs">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer p-2 rounded-lg hover:bg-white/5">calendar_month</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer p-2 rounded-lg hover:bg-white/5">chat_bubble</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer p-2 rounded-lg hover:bg-white/5">folder_open</button>
+</div>
+<button class="w-full py-md mt-auto border border-secondary/40 text-secondary/70 font-label-md rounded-xl hover:bg-secondary/10 transition-all uppercase tracking-widest font-bold flex items-center justify-center gap-sm">
+                    Invite Link <span class="material-symbols-outlined text-sm">link</span>
+</button>
+</div>
+<!-- Group Card 3: Advanced Calculus -->
+<div class="glass-card rounded-2xl p-lg flex flex-col gap-md">
+<div class="space-y-xs">
+<h3 class="font-headline-sm text-tertiary">Advanced Calculus</h3>
+<p class="font-body-md text-on-surface-variant italic">Multivariable systems and complex integration.</p>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-3">
+<img alt="Scholar" class="w-8 h-8 rounded-full border-2 border-background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxOixdRiHiJhIGTuzbjLQc7gNF4_c4Saqouq3WwuCcN8N1_0II7LuZuD4G_WXEMsxSuHKMNxRf536l1s0xR-2YN2fz2hnKb2hCvjxWWfX403QH_3VDlFJPldstxJO5FVb1RaK5EcN4UzNQDQVsxqS3cWba6hs8EGmMzR3CxnHeui5b-EaprI3jikVzkFcxQds5OzielNPpg3Zfi50Px5pB8yvOFoDtmxTrBMrhBpVivIXRTFxLGEIKtPZ7eS67Y5lb9M7mHefqPNE"/>
+<img alt="Scholar" class="w-8 h-8 rounded-full border-2 border-background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdI7ZQL4HDjjWDghP1TLcBt4RjicEWEif-Yf9Hi1EuPR09L4KKkjRyexcmbUkRYijUrwRJ88HLIX084yP_qs4HprCDgJebuyaRagqVUnP4tlXfTdZGxo6QMrgnb5h95EGtIqe-Vofit2gWqD3BvDCHT9RKGuDMw2EXwoTDdQ7miicb2V1MLcDrItINYmLodVSzV7O9gvpb9kz2xgLRFVhLR-3iwlPzUuUiqA8lYqZZA_QcQomOgQT75x123jvBEiI4sSkdKXdMs_o"/>
+<img alt="Scholar" class="w-8 h-8 rounded-full border-2 border-background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdw8cLeH7xUUmjoDty-bs-3QGxRcwwHq0il3UXCGSiUpPEq7EFgoRuH4bUjDB0_cm7omPDToYrWIyS2mJaH4THoJGFZdVC3rBIRjW3xkFjrE2ftwep5WwOr-m-m9hzy9ztf6Je3WKCbWQAApgPMbipofg1qJ5oJD4Po8Nzu1LIVKaz0uWFn5JPEZC-kA90zAceR2zxwbCENfWOr3HGUa3rJVULoLIr7e_P0b3r-qx-_mr8fG5y1RqLsgpKCim9x5lngLQFFQ833js"/>
+<div class="w-8 h-8 rounded-full border-2 border-background bg-surface-container-high flex items-center justify-center text-[10px] font-bold">+18</div>
+</div>
+<span class="text-on-surface-variant font-label-md">21 Scholars</span>
+</div>
+<div class="py-sm border-y border-white/5 space-y-sm">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-base">schedule</span>
+<span class="font-label-md text-on-surface">Next Session: <span class="text-on-surface-variant">Wed, 2:00 PM</span></span>
+</div>
+<div class="bg-primary/5 border border-white/5 rounded-lg p-sm flex items-start gap-sm">
+<span class="material-symbols-outlined text-primary/70 text-sm" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<p class="text-[12px] leading-tight text-on-surface-variant font-medium">AI Facilitator: "Suggested focus: Green's Theorem Apps."</p>
+</div>
+</div>
+<div class="flex items-center justify-around py-xs">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer p-2 rounded-lg hover:bg-white/5">calendar_month</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer p-2 rounded-lg hover:bg-white/5">chat_bubble</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer p-2 rounded-lg hover:bg-white/5">folder_open</button>
+</div>
+<button class="w-full py-md mt-auto border border-secondary/40 text-secondary/70 font-label-md rounded-xl hover:bg-secondary/10 transition-all uppercase tracking-widest font-bold flex items-center justify-center gap-sm">
+                    Invite Link <span class="material-symbols-outlined text-sm">link</span>
+</button>
+</div>
+<!-- Promotion Card / CTA -->
+<div class="lg:col-span-2 glass-card rounded-2xl p-lg flex flex-col md:flex-row items-center gap-xl bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20">
+<div class="w-full md:w-1/3 aspect-square rounded-xl overflow-hidden shadow-2xl shadow-primary/20">
+<img class="w-full h-full object-cover grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-700" data-alt="A moody, high-contrast dark academia study room at night. A group of diverse scholars is silhouetted against a large window overlooking a foggy campus. Glowing holographic interfaces hover above a mahogany table, showing complex mathematical formulas and neural networks in electric indigo and warm gold. The atmosphere is intellectual, quiet, and highly collaborative, bathed in soft neon light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgX6UUYjedlI281tRBCHCGMqMwi98QI852CscU_jJpx7PXbqP5jJ0ktDO41j0pk1pbAfHhKiGXGjBR0JEltMXQEJuIyRr5vrUrt7KR9X5nAsDXsOIIFN6Igu9H61Y6cTc26Zgyvh8lXerg00XfZLy8Edn77Va5cifrmHcdBAeMDQPiOWiOS9rkMwN-0D2g0lkTEpqlazeDlpaZGWl_j9mOvjSe2HnPR9UGf02cThmI79Lc7MTh_T1Lm4U4em1Q_CzRtGJCC2-9jQg"/>
+</div>
+<div class="flex-1 space-y-md">
+<div class="space-y-xs">
+<span class="text-secondary font-label-md uppercase tracking-[0.2em]">Synergize Effort</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Host Your Own Lab</h3>
+<p class="font-body-md text-on-surface-variant">Premium members can unlock private research labs with 24/7 AI facilitated tutoring and shared neural-mapped workspaces. Bridge the gap between individual study and collective discovery.</p>
+</div>
+<div class="flex flex-wrap gap-md">
+<button class="bg-secondary text-on-secondary font-label-md px-lg py-sm rounded-xl hover:scale-105 active:scale-95 transition-all uppercase tracking-widest font-bold">Start Private Lab</button>
+<button class="text-on-surface border border-white/10 px-lg py-sm rounded-xl font-label-md uppercase tracking-widest hover:bg-white/5 transition-all">View All Labs</button>
+</div>
+</div>
+</div>
+<!-- Stats/Insight Card -->
+<div class="glass-card rounded-2xl p-lg bg-surface-container-low flex flex-col justify-between">
+<div class="space-y-md">
+<h4 class="font-headline-sm text-primary">Your Collaboration Analytics</h4>
+<div class="space-y-sm">
+<div class="flex justify-between items-center text-sm">
+<span class="text-on-surface-variant">Hours Collaborative</span>
+<span class="text-secondary font-bold">42.5 hrs</span>
+</div>
+<div class="w-full bg-white/5 rounded-full h-1">
+<div class="bg-secondary w-[70%] h-1 rounded-full glow-indigo"></div>
+</div>
+</div>
+<div class="space-y-sm">
+<div class="flex justify-between items-center text-sm">
+<span class="text-on-surface-variant">Global Peer Rank</span>
+<span class="text-primary font-bold">Top 2%</span>
+</div>
+<div class="w-full bg-white/5 rounded-full h-1">
+<div class="bg-primary w-[88%] h-1 rounded-full glow-indigo"></div>
+</div>
+</div>
+</div>
+<p class="text-[11px] text-on-surface-variant/60 italic mt-lg">You are most productive in groups of 5-8 people between 6:00 PM and 9:00 PM.</p>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface-container-lowest/50 backdrop-blur-xl border-t border-white/5 shadow-2xl shadow-primary/40 flex justify-around items-center px-md pb-base pt-sm">
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 p-2 hover:text-primary transition-all active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-[10px] uppercase tracking-wider mt-1">Hub</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 p-2 hover:text-primary transition-all active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-md text-[10px] uppercase tracking-wider mt-1">Study</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container/20 text-primary rounded-xl p-2 shadow-[0_0_15px_rgba(196,192,255,0.3)] transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span class="font-label-md text-[10px] uppercase tracking-wider mt-1">Groups</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 p-2 hover:text-primary transition-all active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined">smart_toy</span>
+<span class="font-label-md text-[10px] uppercase tracking-wider mt-1">AI Chat</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 p-2 hover:text-primary transition-all active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md text-[10px] uppercase tracking-wider mt-1">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple hover interaction for cards to add subtle movement
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>

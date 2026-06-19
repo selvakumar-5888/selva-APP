@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Smart Notes - StudyMind AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#dfe2f3",
+                    "on-secondary-container": "#3e2f00",
+                    "inverse-on-surface": "#2c303d",
+                    "background": "#0f131f",
+                    "outline-variant": "#464555",
+                    "primary-fixed": "#e3dfff",
+                    "on-tertiary-container": "#461f00",
+                    "secondary-fixed-dim": "#eec13c",
+                    "on-tertiary-fixed-variant": "#713700",
+                    "on-tertiary-fixed": "#301400",
+                    "surface-container-lowest": "#0a0e1a",
+                    "tertiary-fixed-dim": "#ffb785",
+                    "surface-variant": "#313442",
+                    "on-primary-fixed": "#100069",
+                    "surface-tint": "#c4c0ff",
+                    "on-secondary-fixed-variant": "#584400",
+                    "on-surface-variant": "#c7c4d8",
+                    "surface-container": "#1b1f2c",
+                    "error-container": "#93000a",
+                    "tertiary-fixed": "#ffdcc6",
+                    "inverse-primary": "#4f44e2",
+                    "surface-container-highest": "#313442",
+                    "on-tertiary": "#502500",
+                    "primary": "#c4c0ff",
+                    "on-secondary-fixed": "#241a00",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary": "#3d2e00",
+                    "tertiary": "#ffb785",
+                    "surface": "#0f131f",
+                    "secondary-container": "#bb9300",
+                    "on-primary-fixed-variant": "#3622ca",
+                    "inverse-surface": "#dfe2f3",
+                    "on-error": "#690005",
+                    "error": "#ffb4ab",
+                    "surface-dim": "#0f131f",
+                    "surface-container-low": "#171b28",
+                    "surface-container-high": "#262a37",
+                    "primary-container": "#8781ff",
+                    "on-primary": "#2000a4",
+                    "outline": "#918fa1",
+                    "surface-bright": "#353946",
+                    "primary-fixed-dim": "#c4c0ff",
+                    "on-background": "#dfe2f3",
+                    "secondary": "#eec13c",
+                    "on-primary-container": "#1b0091",
+                    "secondary-fixed": "#ffe08f",
+                    "tertiary-container": "#db761f"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "24px",
+                    "gutter": "24px",
+                    "xs": "4px",
+                    "xl": "40px",
+                    "md": "16px",
+                    "container-max": "1280px",
+                    "xxl": "64px",
+                    "sm": "8px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "label-md": ["DM Sans"],
+                    "body-md": ["DM Sans"],
+                    "headline-sm": ["Syne"],
+                    "body-lg": ["DM Sans"],
+                    "headline-md": ["Syne"],
+                    "display-lg-mobile": ["Syne"],
+                    "display-lg": ["Syne"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-raised {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .indigo-glow {
+            box-shadow: 0 0 20px rgba(135, 129, 255, 0.15);
+        }
+        .gold-accent {
+            color: #eec13c;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .fab-glow {
+            box-shadow: 0 0 25px rgba(135, 129, 255, 0.4);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen selection:bg-primary/30">
+<!-- Top App Bar -->
+<header class="bg-surface-dim/80 backdrop-blur-xl dark:bg-surface-dim/80 border-b border-white/5 flex justify-between items-center w-full px-md h-16 fixed top-0 z-50">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">menu</span>
+<h1 class="font-headline-sm text-headline-sm font-bold tracking-tight text-secondary dark:text-secondary">StudyMind AI</h1>
+</div>
+<div class="h-10 w-10 rounded-full overflow-hidden border border-primary/20 bg-surface-container-high flex items-center justify-center">
+<img alt="User Profile Scholar Avatar" class="w-full h-full object-cover" data-alt="A highly detailed portrait of a scholarly avatar in a futuristic dark academia aesthetic. The character wears a dark velvet blazer with golden embroidered patterns and glowing indigo tech-rimmed spectacles. The background is a blurred library with floating holographic equations in soft electric indigo and warm gold tones. The lighting is cinematic and high-contrast, evoking a sense of mastery and intellectual rigor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6fHz_XjEbxrKvyyDZjRM089B_gxp1lBF7_UrT5stqEJliXubOYrTJnR3tiS5zKmx9gJ8Auu0jwaKj3s-N455uE2BXn-1gq-zasz-tN_T6QX3Bqex7WvFlr-pzPlScxqugIQluzVcOv5Y5wQ5cVAuAyeSg_G2kDwY3A1lgHckh5vjfJL7qDJ6HU40kNXL-JcnmfHawgDNcyJNAzQCinbhQAbxq6CDbVnkBnmys_i0ofDYfkRozp3nNnwJY2-yqQFOrSKLAp6J3EaU"/>
+</div>
+</header>
+<main class="pt-20 pb-28 px-md">
+<!-- Search & Filter Section -->
+<section class="mb-lg">
+<div class="flex gap-sm items-center">
+<div class="flex-grow glass-raised rounded-xl px-md py-3 flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-on-surface placeholder:text-on-surface-variant font-label-md w-full" placeholder="Search your notes..." type="text"/>
+</div>
+<button class="glass rounded-xl h-12 w-12 flex items-center justify-center active:scale-95 transition-all">
+<span class="material-symbols-outlined text-primary">tune</span>
+</button>
+</div>
+</section>
+<!-- Subject Filters -->
+<section class="mb-xl -mx-md px-md">
+<div class="flex gap-sm overflow-x-auto hide-scrollbar py-2">
+<button class="bg-primary/20 text-primary px-lg py-2 rounded-full font-label-md whitespace-nowrap border border-primary/30">All Notes</button>
+<button class="glass text-on-surface-variant px-lg py-2 rounded-full font-label-md whitespace-nowrap hover:bg-white/5 transition-colors">Organic Chemistry</button>
+<button class="glass text-on-surface-variant px-lg py-2 rounded-full font-label-md whitespace-nowrap hover:bg-white/5 transition-colors">Algorithms</button>
+<button class="glass text-on-surface-variant px-lg py-2 rounded-full font-label-md whitespace-nowrap hover:bg-white/5 transition-colors">Calculus</button>
+<button class="glass text-on-surface-variant px-lg py-2 rounded-full font-label-md whitespace-nowrap hover:bg-white/5 transition-colors">History of Arts</button>
+</div>
+</section>
+<!-- Pinned Section -->
+<section class="mb-xl">
+<div class="flex justify-between items-center mb-md">
+<h2 class="font-headline-sm text-headline-sm text-secondary flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">push_pin</span>
+                    Pinned
+                </h2>
+<span class="font-label-md text-on-surface-variant opacity-60">2 items</span>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<!-- Pinned Card 1 -->
+<div class="glass-raised p-md rounded-xl flex flex-col gap-sm relative overflow-hidden group">
+<div class="absolute -top-4 -right-4 w-16 h-16 bg-primary/10 blur-2xl rounded-full group-hover:bg-primary/20 transition-all"></div>
+<div class="flex justify-between items-start">
+<span class="text-[10px] uppercase tracking-widest text-secondary font-bold">Algorithms</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">push_pin</span>
+</div>
+<h3 class="font-label-md text-on-surface leading-tight line-clamp-2">Graph Theory: Dijkstra’s Implementation</h3>
+<div class="mt-auto pt-sm flex items-center gap-xs text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">calendar_today</span>
+<span>Oct 24</span>
+</div>
+</div>
+<!-- Pinned Card 2 -->
+<div class="glass-raised p-md rounded-xl flex flex-col gap-sm relative overflow-hidden group">
+<div class="absolute -top-4 -right-4 w-16 h-16 bg-primary/10 blur-2xl rounded-full group-hover:bg-primary/20 transition-all"></div>
+<div class="flex justify-between items-start">
+<span class="text-[10px] uppercase tracking-widest text-secondary font-bold">Calculus</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">push_pin</span>
+</div>
+<h3 class="font-label-md text-on-surface leading-tight line-clamp-2">Stoke’s Theorem and Vector Fields</h3>
+<div class="mt-auto pt-sm flex items-center gap-xs text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">calendar_today</span>
+<span>Oct 22</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Notes List -->
+<section class="space-y-md">
+<div class="flex justify-between items-center mb-md">
+<h2 class="font-headline-sm text-headline-sm text-primary">Recent Notes</h2>
+<span class="material-symbols-outlined text-on-surface-variant">sort</span>
+</div>
+<!-- Note Card 1 -->
+<div class="glass p-lg rounded-xl flex flex-col gap-md relative group hover:border-primary/30 transition-all duration-300">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-xs">Reaction Mechanisms</h3>
+<div class="flex gap-sm items-center">
+<span class="bg-secondary-container text-on-secondary-container px-sm py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">Organic Chemistry</span>
+<span class="text-on-surface-variant text-[12px]">Oct 24 • 1.2k words</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<p class="text-on-surface-variant italic font-body-md text-sm border-l-2 border-secondary/40 pl-md py-1">
+                    Exploration of nucleophilic substitution patterns focusing on SN1 and SN2 pathways with energetic profile diagrams.
+                </p>
+<div class="flex gap-sm mt-sm">
+<button class="flex-1 glass-raised hover:bg-primary/10 text-primary py-2.5 rounded-lg font-label-md flex items-center justify-center gap-sm active:scale-95 transition-all group">
+<span class="material-symbols-outlined text-[18px] group-hover:animate-pulse">auto_awesome</span>
+                        SUMMARIZE
+                    </button>
+<button class="flex-1 glass-raised hover:bg-secondary/10 text-secondary py-2.5 rounded-lg font-label-md flex items-center justify-center gap-sm active:scale-95 transition-all group">
+<span class="material-symbols-outlined text-[18px] group-hover:rotate-12 transition-transform">quiz</span>
+                        FLASHCARDS
+                    </button>
+</div>
+</div>
+<!-- Note Card 2 -->
+<div class="glass p-lg rounded-xl flex flex-col gap-md relative group hover:border-primary/30 transition-all duration-300">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-xs">Macroeconomic Models</h3>
+<div class="flex gap-sm items-center">
+<span class="bg-primary/20 text-primary px-sm py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">Economics</span>
+<span class="text-on-surface-variant text-[12px]">Oct 23 • 850 words</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<p class="text-on-surface-variant italic font-body-md text-sm border-l-2 border-secondary/40 pl-md py-1">
+                    Comparative analysis of the IS-LM model and the AD-AS framework in various fiscal policy scenarios.
+                </p>
+<div class="flex gap-sm mt-sm">
+<button class="flex-1 glass-raised hover:bg-primary/10 text-primary py-2.5 rounded-lg font-label-md flex items-center justify-center gap-sm active:scale-95 transition-all group">
+<span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+                        SUMMARIZE
+                    </button>
+<button class="flex-1 glass-raised hover:bg-secondary/10 text-secondary py-2.5 rounded-lg font-label-md flex items-center justify-center gap-sm active:scale-95 transition-all group">
+<span class="material-symbols-outlined text-[18px]">quiz</span>
+                        FLASHCARDS
+                    </button>
+</div>
+</div>
+<!-- Note Card 3 -->
+<div class="glass p-lg rounded-xl flex flex-col gap-md relative group hover:border-primary/30 transition-all duration-300">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-xs">Neural Networks: Backprop</h3>
+<div class="flex gap-sm items-center">
+<span class="bg-secondary-container text-on-secondary-container px-sm py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">AI Ethics</span>
+<span class="text-on-surface-variant text-[12px]">Oct 21 • 2.4k words</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<p class="text-on-surface-variant italic font-body-md text-sm border-l-2 border-secondary/40 pl-md py-1">
+                    Mathematical derivation of chain rule application in deep multilayer perceptrons for gradient descent optimization.
+                </p>
+<div class="flex gap-sm mt-sm">
+<button class="flex-1 glass-raised hover:bg-primary/10 text-primary py-2.5 rounded-lg font-label-md flex items-center justify-center gap-sm active:scale-95 transition-all group">
+<span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+                        SUMMARIZE
+                    </button>
+<button class="flex-1 glass-raised hover:bg-secondary/10 text-secondary py-2.5 rounded-lg font-label-md flex items-center justify-center gap-sm active:scale-95 transition-all group">
+<span class="material-symbols-outlined text-[18px]">quiz</span>
+                        FLASHCARDS
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- FAB -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-primary text-on-primary rounded-2xl flex items-center justify-center fab-glow active:scale-90 transition-all z-50">
+<span class="material-symbols-outlined text-[32px]">add</span>
+</button>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm py-md bg-surface-container/90 backdrop-blur-xl dark:bg-surface-container/90 border-t border-white/10 rounded-t-xl shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary bg-primary/10 rounded-xl px-4 py-1 active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">book_4</span>
+<span class="font-label-md text-label-md mt-1">Library</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-md text-label-md mt-1">Planner</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">timer</span>
+<span class="font-label-md text-label-md mt-1">Focus</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md mt-1">Insights</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for cards and buttons
+        document.querySelectorAll('.glass').forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.style.transform = 'scale(0.98)';
+            });
+            card.addEventListener('touchend', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+
+        // Simple search input focus effect
+        const searchInput = document.querySelector('input');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('border-primary/40');
+            searchInput.parentElement.classList.remove('border-white/10');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('border-primary/40');
+            searchInput.parentElement.classList.add('border-white/10');
+        });
+    </script>
+</body></html>

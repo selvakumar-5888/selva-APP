@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Academic Standing — Rewards &amp; Streaks</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=DM+Sans:wght@400;500;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100..900&amp;family=Syne:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(196, 192, 255, 0.2), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        .streak-glow {
+            filter: drop-shadow(0 0 15px rgba(238, 193, 60, 0.5));
+        }
+        .badge-glow {
+            box-shadow: 0 0 15px rgba(238, 193, 60, 0.3);
+        }
+        .entrance-fade-up {
+            animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-bright": "#353946",
+                      "primary": "#c4c0ff",
+                      "inverse-surface": "#dfe2f3",
+                      "surface-dim": "#0f131f",
+                      "surface-container-high": "#262a37",
+                      "on-secondary-fixed-variant": "#584400",
+                      "on-error-container": "#ffdad6",
+                      "on-background": "#dfe2f3",
+                      "on-tertiary-fixed": "#301400",
+                      "secondary-container": "#bb9300",
+                      "on-tertiary-container": "#461f00",
+                      "secondary-fixed-dim": "#eec13c",
+                      "surface-container-lowest": "#0a0e1a",
+                      "inverse-primary": "#4f44e2",
+                      "surface": "#0f131f",
+                      "surface-container": "#1b1f2c",
+                      "primary-fixed": "#e3dfff",
+                      "inverse-on-surface": "#2c303d",
+                      "on-secondary-fixed": "#241a00",
+                      "surface-tint": "#c4c0ff",
+                      "on-primary-fixed-variant": "#3622ca",
+                      "on-secondary": "#3d2e00",
+                      "tertiary-fixed-dim": "#ffb785",
+                      "on-tertiary-fixed-variant": "#713700",
+                      "tertiary-fixed": "#ffdcc6",
+                      "background": "#0f131f",
+                      "surface-container-highest": "#313442",
+                      "secondary": "#eec13c",
+                      "outline-variant": "#464555",
+                      "tertiary-container": "#db761f",
+                      "on-primary-container": "#1b0091",
+                      "on-primary": "#2000a4",
+                      "outline": "#918fa1",
+                      "error-container": "#93000a",
+                      "on-tertiary": "#502500",
+                      "primary-fixed-dim": "#c4c0ff",
+                      "on-error": "#690005",
+                      "surface-variant": "#313442",
+                      "tertiary": "#ffb785",
+                      "surface-container-low": "#171b28",
+                      "secondary-fixed": "#ffe08f",
+                      "error": "#ffb4ab",
+                      "primary-container": "#8781ff",
+                      "on-surface-variant": "#c7c4d8",
+                      "on-surface": "#dfe2f3",
+                      "on-secondary-container": "#3e2f00",
+                      "on-primary-fixed": "#100069"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "8px",
+                      "container-max": "1280px",
+                      "xl": "40px",
+                      "sm": "8px",
+                      "xxl": "64px",
+                      "gutter": "24px",
+                      "lg": "24px",
+                      "md": "16px",
+                      "xs": "4px"
+              },
+              "fontFamily": {
+                      "headline-sm": ["Syne"],
+                      "label-md": ["DM Sans"],
+                      "headline-md": ["Syne"],
+                      "display-lg-mobile": ["Syne"],
+                      "body-md": ["DM Sans"],
+                      "display-lg": ["Syne"],
+                      "body-lg": ["DM Sans"]
+              },
+              "fontSize": {
+                      "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                      "display-lg-mobile": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-container-lowest text-on-surface font-body-md overflow-x-hidden pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-gutter h-16 bg-surface-dim/80 backdrop-blur-xl border-b border-white/10 shadow-sm">
+<button class="text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-sm text-headline-sm text-primary">ACADEMIC STANDING</h1>
+<div class="w-8 h-8 rounded-full border border-primary/30 overflow-hidden">
+<img alt="Julian Thorne" class="w-full h-full object-cover" data-alt="A sophisticated digital avatar portrait of a scholarly young man with glasses, set against a dark indigo background with subtle geometric patterns. The style is high-end digital illustration with soft glow lighting in electric indigo and warm gold tones, matching a luxury academic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_7UykVcXxcWcC9u_PBcGV-7UvQbL3Zs31GZCaG4LG3xQYaIM-5ziWnk3fGEc7KTJjc9NhSVIWv3ZzQHXSxQcg_iuV1cM2dLMArqPNZKi4NEmMFHeXazP3_0tpXhc8DkV2foOLmiWBR5aN0yvic8l-D6Iof0jGiPs-BBeKA3m3IFgKEhchuSlWp83-RuTfQsR-7aa5DEhTWDgHYkzmfZ8nm9WS1JzpXMvd8OjuiU4SprEmwM_zbf6cxDsJxMBLh3Ra0f34gwjhYtU"/>
+</div>
+</header>
+<main class="mt-20 px-gutter space-y-xl max-w-md mx-auto">
+<!-- Streak Section -->
+<section class="entrance-fade-up flex flex-col items-center py-6">
+<div class="relative w-48 h-48 flex items-center justify-center animate-float">
+<div class="absolute inset-0 bg-secondary/10 rounded-full blur-3xl opacity-50"></div>
+<span class="material-symbols-outlined text-[120px] text-secondary streak-glow" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<div class="absolute inset-0 flex items-center justify-center pt-8">
+<span class="font-display-lg-mobile text-display-lg-mobile text-secondary drop-shadow-md">14</span>
+</div>
+</div>
+<div class="text-center mt-xs">
+<p class="font-headline-sm text-headline-sm text-on-surface">14 Days</p>
+<p class="font-label-md text-label-md text-secondary tracking-widest uppercase">Current Streak</p>
+</div>
+</section>
+<!-- XP Progress Section -->
+<section class="entrance-fade-up delay-1 space-y-sm">
+<div class="flex justify-between items-end">
+<div class="space-y-xs">
+<h2 class="font-headline-sm text-headline-sm leading-none">Julian Thorne</h2>
+<p class="font-label-md text-label-md text-primary">Level 42 Polymath</p>
+</div>
+<div class="text-right">
+<p class="font-body-md text-body-md text-on-surface-variant">8,450 / 10,000 XP</p>
+</div>
+</div>
+<div class="h-4 w-full bg-surface-container-high rounded-full overflow-hidden relative border border-white/5">
+<div class="h-full bg-primary w-[84.5%] rounded-full relative shadow-[0_0_15px_rgba(196,192,255,0.4)]">
+<div class="absolute inset-0 shimmer"></div>
+</div>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant/60 italic text-center">1,550 XP until next mastery level</p>
+</section>
+<!-- Weekly Challenge Card -->
+<section class="entrance-fade-up delay-2">
+<div class="glass-panel rounded-xl p-lg relative overflow-hidden">
+<div class="absolute top-0 right-0 p-lg opacity-20">
+<span class="material-symbols-outlined text-xxl text-secondary" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-secondary mb-xs">Weekly Challenge</h3>
+<p class="font-body-md text-body-md text-on-surface mb-md">Study 15 hours this week for Gold badge.</p>
+<div class="space-y-xs">
+<div class="flex justify-between font-label-md text-label-md">
+<span class="text-on-surface-variant">9.5 / 15h</span>
+<span class="text-primary">63%</span>
+</div>
+<div class="h-2 w-full bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container w-[63%] rounded-full shadow-[0_0_10px_rgba(238,193,60,0.3)]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Badge Grid Section -->
+<section class="entrance-fade-up delay-2 space-y-lg">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Achievements</h3>
+<span class="font-label-md text-label-md text-primary hover:underline cursor-pointer">View All</span>
+</div>
+<div class="grid grid-cols-3 gap-md">
+<!-- Earned Badge 1 -->
+<div class="flex flex-col items-center space-y-sm">
+<div class="w-20 h-20 rounded-full glass-panel flex items-center justify-center border-secondary/40 badge-glow bg-secondary/5">
+<span class="material-symbols-outlined text-secondary text-4xl" style="font-variation-settings: 'FILL' 1;">nightlight_round</span>
+</div>
+<span class="font-label-md text-label-md text-center">Night Owl</span>
+</div>
+<!-- Earned Badge 2 -->
+<div class="flex flex-col items-center space-y-sm">
+<div class="w-20 h-20 rounded-full glass-panel flex items-center justify-center border-secondary/40 badge-glow bg-secondary/5">
+<span class="material-symbols-outlined text-secondary text-4xl" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<span class="font-label-md text-label-md text-center">Focused Mind</span>
+</div>
+<!-- Earned Badge 3 -->
+<div class="flex flex-col items-center space-y-sm">
+<div class="w-20 h-20 rounded-full glass-panel flex items-center justify-center border-secondary/40 badge-glow bg-secondary/5">
+<span class="material-symbols-outlined text-secondary text-4xl" style="font-variation-settings: 'FILL' 1;">history_edu</span>
+</div>
+<span class="font-label-md text-label-md text-center">Scholar</span>
+</div>
+<!-- Locked Badge 1 -->
+<div class="flex flex-col items-center space-y-sm opacity-40">
+<div class="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-on-surface-variant text-4xl">lock</span>
+</div>
+<span class="font-label-md text-label-md text-center">Early Bird</span>
+</div>
+<!-- Locked Badge 2 -->
+<div class="flex flex-col items-center space-y-sm opacity-40">
+<div class="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-on-surface-variant text-4xl">lock</span>
+</div>
+<span class="font-label-md text-label-md text-center">Polyglot</span>
+</div>
+<!-- Locked Badge 3 -->
+<div class="flex flex-col items-center space-y-sm opacity-40">
+<div class="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-on-surface-variant text-4xl">lock</span>
+</div>
+<span class="font-label-md text-label-md text-center">Archivist</span>
+</div>
+</div>
+</section>
+<!-- Leaderboard Section -->
+<section class="entrance-fade-up delay-3 pb-8">
+<div class="flex items-center space-x-lg mb-lg border-b border-white/10 pb-xs">
+<button class="font-label-md text-label-md text-secondary border-b-2 border-secondary pb-xs">Friends</button>
+<button class="font-label-md text-label-md text-on-surface-variant pb-xs opacity-60">Global</button>
+</div>
+<div class="space-y-sm">
+<!-- Rank 1 -->
+<div class="glass-panel flex items-center justify-between p-md rounded-lg">
+<div class="flex items-center space-x-md">
+<span class="font-headline-sm text-headline-sm text-secondary w-6">1</span>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-secondary/30">
+<img alt="Friend 1" class="w-full h-full" data-alt="A stylish digital avatar of a young woman with silver hair and scholarly attire, set against a dark navy minimalist background with glowing light particles in electric indigo. The image follows a high-end, dark academia tech aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvB4sS4bzHZ7wqI5ruWKTiDHe31aXX0b1XPzKajoSto9h5LTxa0-fd94yQ8TgI_CwhW-Oij3PpujKJegwZ3RCWTSdcYIWCvO6x0CH6AaQAXU-8A7NadKpV48e6bokfh809CE5bth1rnyyT2AmChckToS1tbJiKGlaiLWN8ILXVHb_fJhYYB7x-8KHgYLZdI-oRKUVrbCwuw1KnYvqDzll6Zn7DhPEAB2qpS-_HexZ7dPEevPS9U1hVN6kd7BiNxi9c7EmDaz1x7tg"/>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold">Elena Vance</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Level 45</p>
+</div>
+</div>
+<p class="font-label-md text-label-md text-secondary">9,820 XP</p>
+</div>
+<!-- Rank 2 -->
+<div class="glass-panel flex items-center justify-between p-md rounded-lg">
+<div class="flex items-center space-x-md">
+<span class="font-headline-sm text-headline-sm text-on-surface-variant w-6 opacity-60">2</span>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-white/10">
+<img alt="Friend 2" class="w-full h-full" data-alt="A clean, professional digital avatar portrait of a man with dark hair and a turtleneck, rendered in a modern tech-illustration style. The background is a deep charcoal with subtle indigo lens flare effects, fitting a dark academia aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRkkrheAn9iP_UTTLRUHKxxt-knP7qf-zCRF8btU4LGbPn79wz03HTn4QShvxRAeLWPVpFXBa5tTjKjoVpIv2C__qDotTUSs-tqMfVmOYngED62ZOr-Rh7oB-r4SQCl0ST_qmzDXStlXlT7ZRr3RIJZdo-UVD21ia4FUJTocTD0nep1eivSBEOpbGqlnEdZEQEzvqmjipDY5SIEsBg6jAU7FK4UuTsr43dZjpA-4qNUpw8mDeKys5AGXop7c-knR-UFxIX1UauU2M"/>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold">Marcus Thorne</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Level 43</p>
+</div>
+</div>
+<p class="font-label-md text-label-md text-primary">8,950 XP</p>
+</div>
+<!-- User Rank (#3) -->
+<div class="bg-primary/10 border border-primary/30 flex items-center justify-between p-md rounded-lg shadow-[0_0_15px_rgba(196,192,255,0.1)]">
+<div class="flex items-center space-x-md">
+<span class="font-headline-sm text-headline-sm text-primary w-6">3</span>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary">
+<img alt="Julian Thorne" class="w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA5DnbbEUwwsYlGxdOYh8i1zXSK6DH6cduvlqz74DTDEgEqWIzE44LpUcEOguxdTrLD5Llx_xz_taGb52jEEe_LmuF6XzhV3f_DwPYIR7XXJuSdThioVR6bCSthUKF1PcI8XuAiQwrtSHk8VlwfW2DTulzeb0lC8IS-F8dtB0Smhlw5BISNpZ6Cw4EemUq0PbDgUT08zs_vX9fn2EniWuvYz2v26X8l5ZpByIUfYD9l3k-eeezWfozSx46FvwFQMrBDkwi-QeyVcQ"/>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold text-primary">You (Julian)</p>
+<p class="font-label-md text-label-md text-primary/80">Level 42</p>
+</div>
+</div>
+<p class="font-label-md text-label-md text-primary font-bold">8,450 XP</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface-container/90 backdrop-blur-lg border-t border-white/10 shadow-lg rounded-t-xl">
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:opacity-100 transition-all duration-200">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-md text-label-md mt-1">Study</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:opacity-100 transition-all duration-200">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md mt-1">Vault</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary drop-shadow-[0_0_8px_rgba(238,193,60,0.4)] transition-all duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="font-label-md text-label-md mt-1">Streaks</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:opacity-100 transition-all duration-200">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md mt-1">Social</span>
+</button>
+</nav>
+<script>
+        // Simple micro-interaction for badge clicks
+        document.querySelectorAll('.badge-glow').forEach(badge => {
+            badge.addEventListener('click', function() {
+                this.classList.add('scale-110');
+                setTimeout(() => this.classList.remove('scale-110'), 200);
+            });
+        });
+
+        // Background atmosphere: slow moving particles via canvas
+        const canvas = document.createElement('canvas');
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.zIndex = '-1';
+        canvas.style.pointerEvents = 'none';
+        document.body.appendChild(canvas);
+
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.speedY = Math.random() * 0.5 + 0.1;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+                this.y -= this.speedY;
+                if (this.y < 0) this.reset();
+            }
+            draw() {
+                ctx.fillStyle = `rgba(196, 192, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 40; i++) particles.push(new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body></html>

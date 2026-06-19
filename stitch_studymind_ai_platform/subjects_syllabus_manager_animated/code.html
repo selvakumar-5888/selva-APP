@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StudyMind AI - Subjects &amp; Syllabus Manager</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-on-surface": "#2c303d",
+                        "on-secondary-fixed": "#241a00",
+                        "error-container": "#93000a",
+                        "primary-fixed": "#e3dfff",
+                        "primary-fixed-dim": "#c4c0ff",
+                        "surface-container-lowest": "#0a0e1a",
+                        "on-secondary": "#3d2e00",
+                        "tertiary": "#ffb785",
+                        "outline-variant": "#464555",
+                        "background": "#0f131f",
+                        "surface-container": "#1b1f2c",
+                        "on-secondary-fixed-variant": "#584400",
+                        "on-primary": "#2000a4",
+                        "surface-container-low": "#171b28",
+                        "secondary": "#eec13c",
+                        "on-tertiary-fixed-variant": "#713700",
+                        "on-background": "#dfe2f3",
+                        "error": "#ffb4ab",
+                        "on-error-container": "#ffdad6",
+                        "on-error": "#690005",
+                        "surface-container-high": "#262a37",
+                        "on-surface-variant": "#c7c4d8",
+                        "inverse-surface": "#dfe2f3",
+                        "primary": "#c4c0ff",
+                        "on-surface": "#dfe2f3",
+                        "on-primary-container": "#1b0091",
+                        "secondary-fixed-dim": "#eec13c",
+                        "on-secondary-container": "#3e2f00",
+                        "inverse-primary": "#4f44e2",
+                        "tertiary-fixed-dim": "#ffb785",
+                        "surface-dim": "#0f131f",
+                        "tertiary-fixed": "#ffdcc6",
+                        "surface-bright": "#353946",
+                        "on-tertiary": "#502500",
+                        "tertiary-container": "#db761f",
+                        "surface-variant": "#313442",
+                        "secondary-container": "#bb9300",
+                        "on-primary-fixed": "#100069",
+                        "surface-container-highest": "#313442",
+                        "secondary-fixed": "#ffe08f",
+                        "primary-container": "#8781ff",
+                        "on-primary-fixed-variant": "#3622ca",
+                        "on-tertiary-fixed": "#301400",
+                        "outline": "#918fa1",
+                        "surface-tint": "#c4c0ff",
+                        "on-tertiary-container": "#461f00",
+                        "surface": "#0f131f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "container-max": "1280px",
+                        "xl": "40px",
+                        "xxl": "64px",
+                        "sm": "8px",
+                        "gutter": "24px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["DM Sans"],
+                        "display-lg-mobile": ["Syne"],
+                        "body-md": ["DM Sans"],
+                        "headline-sm": ["Syne"],
+                        "label-md": ["DM Sans"],
+                        "headline-md": ["Syne"],
+                        "display-lg": ["Syne"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .interactive-glow:hover {
+            box-shadow: 0 0 20px rgba(196, 192, 255, 0.15);
+        }
+        .ai-button-glow {
+            box-shadow: 0 0 30px rgba(196, 192, 255, 0.4);
+            animation: pulse-glow 3s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 10px rgba(196, 192, 255, 0.3); transform: scale(1); }
+            50% { box-shadow: 0 0 35px rgba(196, 192, 255, 0.5); transform: scale(1.02); }
+            100% { box-shadow: 0 0 10px rgba(196, 192, 255, 0.3); transform: scale(1); }
+        }
+        .fab-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
+        .completed-topic-text {
+            opacity: 0.4;
+            text-decoration: line-through;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .topic-row {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .topic-row.is-completed {
+            transform: translateX(8px);
+            background-color: rgba(255, 255, 255, 0.01);
+            border-color: rgba(255, 255, 255, 0.02);
+        }
+        .syllabus-accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+            opacity: 0;
+        }
+        .syllabus-accordion-active .syllabus-accordion-content {
+            max-height: 1200px;
+            opacity: 1;
+        }
+        .syllabus-accordion-active .accordion-chevron {
+            transform: rotate(180deg);
+        }
+        .syllabus-accordion-active {
+            background-color: rgba(255, 255, 255, 0.06);
+            border-color: rgba(196, 192, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary selection:text-on-primary-container overflow-x-hidden min-h-screen pb-32">
+<!-- Top App Bar -->
+<header class="bg-surface-dim/80 backdrop-blur-xl dark:bg-surface-dim/80 flex justify-between items-center w-full px-md h-16 fixed top-0 z-50 border-b border-white/5">
+<div class="flex items-center gap-md">
+<button class="text-primary dark:text-primary hover:bg-white/5 transition-colors p-2 rounded-full active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-headline-sm text-headline-sm font-bold tracking-tight text-secondary dark:text-secondary">StudyMind AI</h1>
+</div>
+<div class="flex items-center gap-md">
+<div class="h-10 w-10 rounded-full border border-primary/20 overflow-hidden">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="A portrait of a sophisticated, young scholar with intellectual features, wearing dark academia style spectacles and a charcoal wool sweater. The lighting is low-key with a soft rim light, emphasizing a focused, studious atmosphere against a blurred background of a dimly lit library filled with leather-bound books. The color palette consists of deep midnight blues, warm golds, and soft cream tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDY-g-rydliC3dxJ3BRDUrkm9X5NwHyNv_2iYw9vR-v5AnSPJt3DQwcFSRfwxc_n0ycw6-6IF_N6To7ls5sU2r0RAQ91bJQiQ6qNAuVmL2Trp5qmvCWN1FWGCcQ1iDd7hhOLM3rNVLbGCv27a-nW6dqOpwfIEwCyUDeDUjbLZvzjscuh8x0nPN28-58G7xedWnsuqBryn4dAS5Y9wI9awCy3jrFBVQ6J11YZWaz1bOT4TyanqzWmy1NDCg1wUnGHyMgz4HeBaYSKiU"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="mt-24 px-md max-w-container-max mx-auto space-y-xl">
+<!-- Header & AI Prompt Section -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-lg">
+<div class="space-y-sm">
+<h2 class="font-headline-md text-headline-md text-primary tracking-tight">Curriculum Library</h2>
+<p class="font-body-md text-on-surface-variant max-w-lg">Manage your academic trajectory with precision. Track syllabus completion and leverage neural insights for exam preparation.</p>
+</div>
+<button class="ai-button-glow bg-primary text-on-primary-container px-lg py-md rounded-xl font-bold flex items-center gap-md transition-all active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Suggest study order for upcoming exam</span>
+</button>
+</section>
+<!-- Bento Layout / Subjects List -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Sidebar Stats / Filters (Asymmetric) -->
+<div class="lg:col-span-3 space-y-lg">
+<div class="glass-card p-lg rounded-xl space-y-md">
+<h3 class="font-label-md text-label-md uppercase text-secondary tracking-widest border-b border-white/5 pb-sm">Academic Snapshot</h3>
+<div class="space-y-sm pt-sm">
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant">Active Subjects</span>
+<span class="text-primary font-bold">04</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant">Overall Progress</span>
+<span class="text-secondary font-bold">68%</span>
+</div>
+</div>
+<div class="w-full bg-white/5 h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 68%;"></div>
+</div>
+</div>
+<div class="glass-card p-lg rounded-xl space-y-md hidden md:block">
+<h3 class="font-label-md text-label-md uppercase text-secondary tracking-widest border-b border-white/5 pb-sm">Recent Activity</h3>
+<div class="space-y-md pt-sm">
+<div class="flex items-center gap-md">
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="history">history</span>
+</div>
+<div class="text-sm">
+<p class="text-on-surface font-medium">Quantum Mechanics</p>
+<p class="text-on-surface-variant text-xs">Marked 'Schrodinger's Cat' as complete</p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="p-2 bg-tertiary/10 rounded-lg text-tertiary">
+<span class="material-symbols-outlined text-[20px]" data-icon="event">event</span>
+</div>
+<div class="text-sm">
+<p class="text-on-surface font-medium">Advanced Jurisprudence</p>
+<p class="text-on-surface-variant text-xs">Exam scheduled in 12 days</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Subject Accordions (Main List) -->
+<div class="lg:col-span-9 space-y-md" id="subjects-container">
+<!-- Subject 1: Physics -->
+<div class="glass-card rounded-xl overflow-hidden interactive-glow transition-all duration-500 syllabus-accordion" onclick="toggleAccordion(this)">
+<div class="p-lg cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-lg">
+<div class="flex items-center gap-lg">
+<div class="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary shadow-[0_0_15px_rgba(196,192,255,0.1)]">
+<span class="material-symbols-outlined" data-icon="science" style="font-variation-settings: 'FILL' 1;">science</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Advanced Quantum Physics</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">PHYS 402 • Professor Alaric Thorne</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-sm w-full md:w-48">
+<div class="flex justify-between w-full font-label-md text-label-md">
+<span class="text-on-surface-variant">Syllabus Covered</span>
+<span class="text-primary font-bold">72%</span>
+</div>
+<div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 72%;"></div>
+</div>
+</div>
+<span class="material-symbols-outlined accordion-chevron transition-transform text-on-surface-variant" data-icon="expand_more">expand_more</span>
+</div>
+<div class="syllabus-accordion-content border-t border-white/5 bg-white/[0.01]">
+<div class="p-lg space-y-md">
+<h5 class="font-label-md text-label-md uppercase text-secondary/70 tracking-widest mb-md">Course Modules</h5>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="flex items-center justify-between p-md bg-white/[0.02] border border-white/5 rounded-lg group transition-colors hover:bg-white/[0.05] topic-row is-completed" onclick="event.stopPropagation()">
+<div class="flex items-center gap-md">
+<input checked="" class="w-5 h-5 rounded border-white/20 bg-transparent text-primary focus:ring-primary focus:ring-offset-background cursor-pointer" onchange="toggleComplete(this)" type="checkbox"/>
+<span class="text-on-surface font-medium completed-topic-text">Wave-Particle Duality</span>
+</div>
+<span class="material-symbols-outlined text-primary/40 text-sm" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="flex items-center justify-between p-md bg-white/[0.02] border border-white/5 rounded-lg group transition-colors hover:bg-white/[0.05] topic-row is-completed" onclick="event.stopPropagation()">
+<div class="flex items-center gap-md">
+<input checked="" class="w-5 h-5 rounded border-white/20 bg-transparent text-primary focus:ring-primary focus:ring-offset-background cursor-pointer" onchange="toggleComplete(this)" type="checkbox"/>
+<span class="text-on-surface font-medium completed-topic-text">Schrödinger Equation</span>
+</div>
+<span class="material-symbols-outlined text-primary/40 text-sm" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="flex items-center justify-between p-md bg-white/[0.02] border border-white/5 rounded-lg group transition-colors hover:bg-white/[0.05] topic-row" onclick="event.stopPropagation()">
+<div class="flex items-center gap-md">
+<input class="w-5 h-5 rounded border-white/20 bg-transparent text-primary focus:ring-primary focus:ring-offset-background cursor-pointer" onchange="toggleComplete(this)" type="checkbox"/>
+<span class="text-on-surface font-medium">Heisenberg Uncertainty Principle</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-md bg-white/[0.02] border border-white/5 rounded-lg group transition-colors hover:bg-white/[0.05] topic-row" onclick="event.stopPropagation()">
+<div class="flex items-center gap-md">
+<input class="w-5 h-5 rounded border-white/20 bg-transparent text-primary focus:ring-primary focus:ring-offset-background cursor-pointer" onchange="toggleComplete(this)" type="checkbox"/>
+<span class="text-on-surface font-medium">Quantum Entanglement</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Subject 2: Law -->
+<div class="glass-card rounded-xl overflow-hidden interactive-glow transition-all duration-500 syllabus-accordion" onclick="toggleAccordion(this)">
+<div class="p-lg cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-lg">
+<div class="flex items-center gap-lg">
+<div class="w-12 h-12 rounded-xl bg-tertiary/20 flex items-center justify-center text-tertiary shadow-[0_0_15px_rgba(255,183,133,0.1)]">
+<span class="material-symbols-outlined" data-icon="balance" style="font-variation-settings: 'FILL' 1;">balance</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Foundations of Jurisprudence</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">LAW 501 • Professor Eleanor Vance</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-sm w-full md:w-48">
+<div class="flex justify-between w-full font-label-md text-label-md">
+<span class="text-on-surface-variant">Syllabus Covered</span>
+<span class="text-tertiary font-bold">45%</span>
+</div>
+<div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 45%;"></div>
+</div>
+</div>
+<span class="material-symbols-outlined accordion-chevron transition-transform text-on-surface-variant" data-icon="expand_more">expand_more</span>
+</div>
+<div class="syllabus-accordion-content border-t border-white/5 bg-white/[0.01]">
+<div class="p-lg space-y-md">
+<h5 class="font-label-md text-label-md uppercase text-secondary/70 tracking-widest mb-md">Course Modules</h5>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="flex items-center justify-between p-md bg-white/[0.02] border border-white/5 rounded-lg group transition-colors hover:bg-white/[0.05] topic-row" onclick="event.stopPropagation()">
+<div class="flex items-center gap-md">
+<input class="w-5 h-5 rounded border-white/20 bg-transparent text-primary focus:ring-primary focus:ring-offset-background cursor-pointer" onchange="toggleComplete(this)" type="checkbox"/>
+<span class="text-on-surface font-medium">Natural Law Theory</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-md bg-white/[0.02] border border-white/5 rounded-lg group transition-colors hover:bg-white/[0.05] topic-row" onclick="event.stopPropagation()">
+<div class="flex items-center gap-md">
+<input class="w-5 h-5 rounded border-white/20 bg-transparent text-primary focus:ring-primary focus:ring-offset-background cursor-pointer" onchange="toggleComplete(this)" type="checkbox"/>
+<span class="text-on-surface font-medium">Legal Positivism</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Subject 3: Philosophy -->
+<div class="glass-card rounded-xl overflow-hidden interactive-glow transition-all duration-500 syllabus-accordion" onclick="toggleAccordion(this)">
+<div class="p-lg cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-lg">
+<div class="flex items-center gap-lg">
+<div class="w-12 h-12 rounded-xl bg-secondary/20 flex items-center justify-center text-secondary shadow-[0_0_15px_rgba(238,193,60,0.1)]">
+<span class="material-symbols-outlined" data-icon="menu_book" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Stoic Logic &amp; Ethics</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">PHIL 302 • Professor Marcus Aurel</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-sm w-full md:w-48">
+<div class="flex justify-between w-full font-label-md text-label-md">
+<span class="text-on-surface-variant">Syllabus Covered</span>
+<span class="text-secondary font-bold">90%</span>
+</div>
+<div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 90%;"></div>
+</div>
+</div>
+<span class="material-symbols-outlined accordion-chevron transition-transform text-on-surface-variant" data-icon="expand_more">expand_more</span>
+</div>
+<div class="syllabus-accordion-content border-t border-white/5 bg-white/[0.01]">
+<div class="p-lg space-y-md">
+<h5 class="font-label-md text-label-md uppercase text-secondary/70 tracking-widest mb-md">Course Modules</h5>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="flex items-center justify-between p-md bg-white/[0.02] border border-white/5 rounded-lg group transition-colors hover:bg-white/[0.05] topic-row" onclick="event.stopPropagation()">
+<div class="flex items-center gap-md">
+<input class="w-5 h-5 rounded border-white/20 bg-transparent text-primary focus:ring-primary focus:ring-offset-background cursor-pointer" onchange="toggleComplete(this)" type="checkbox"/>
+<span class="text-on-surface font-medium">Introduction to Dialectic</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-md bg-white/[0.02] border border-white/5 rounded-lg group transition-colors hover:bg-white/[0.05] topic-row is-completed" onclick="event.stopPropagation()">
+<div class="flex items-center gap-md">
+<input checked="" class="w-5 h-5 rounded border-white/20 bg-transparent text-primary focus:ring-primary focus:ring-offset-background cursor-pointer" onchange="toggleComplete(this)" type="checkbox"/>
+<span class="text-on-surface font-medium completed-topic-text">Virtue as Sole Good</span>
+</div>
+<span class="material-symbols-outlined text-primary/40 text-sm" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Action Button -->
+<div class="fixed bottom-24 right-lg z-50">
+<button class="w-16 h-16 rounded-full bg-secondary text-on-secondary-container shadow-2xl flex items-center justify-center interactive-glow transition-transform hover:scale-110 active:scale-95 fab-float">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+</div>
+<!-- Bottom Nav Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm py-md bg-surface-container/90 backdrop-blur-xl dark:bg-surface-container/90 border-t border-white/10 shadow-[0_-4px_20px_rgba(0,0,0,0.5)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary bg-primary/10 rounded-xl px-4 py-1 active:scale-90 duration-150 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="book_4" style="font-variation-settings: 'FILL' 1;">book_4</span>
+<span class="font-label-md text-label-md">Library</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-md text-label-md">Planner</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="timer">timer</span>
+<span class="font-label-md text-label-md">Focus</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-md text-label-md">Insights</span>
+</a>
+</nav>
+<script>
+        function toggleAccordion(element) {
+            const isActive = element.classList.contains('syllabus-accordion-active');
+            
+            // Close all others with a nice sequence
+            const accordions = document.querySelectorAll('.syllabus-accordion');
+            accordions.forEach(acc => {
+                if (acc !== element) {
+                    acc.classList.remove('syllabus-accordion-active');
+                }
+            });
+            
+            // Toggle current
+            if (isActive) {
+                element.classList.remove('syllabus-accordion-active');
+            } else {
+                element.classList.add('syllabus-accordion-active');
+                // Scroll into view gently if it's mobile or tight space
+                setTimeout(() => {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 300);
+            }
+        }
+
+        function toggleComplete(checkbox) {
+            const row = checkbox.closest('.topic-row');
+            const label = checkbox.nextElementSibling;
+            
+            if (checkbox.checked) {
+                row.classList.add('is-completed');
+                label.classList.add('completed-topic-text');
+                
+                // Add verification icon if not exists
+                if (!row.querySelector('[data-icon="verified"]')) {
+                    const icon = document.createElement('span');
+                    icon.className = 'material-symbols-outlined text-primary/40 text-sm transition-all duration-700 opacity-0 transform scale-50';
+                    icon.setAttribute('data-icon', 'verified');
+                    icon.style.fontVariationSettings = "'FILL' 1";
+                    icon.textContent = 'verified';
+                    row.appendChild(icon);
+                    // Trigger animation
+                    setTimeout(() => {
+                        icon.classList.remove('opacity-0', 'scale-50');
+                        icon.classList.add('opacity-100', 'scale-100');
+                    }, 50);
+                }
+
+                // Trigger a celebratory mini-ripple effect
+                const ripple = document.createElement('div');
+                ripple.className = 'absolute inset-0 bg-primary/10 pointer-events-none rounded-lg animate-ping';
+                row.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            } else {
+                row.classList.remove('is-completed');
+                label.classList.remove('completed-topic-text');
+                const icon = row.querySelector('[data-icon="verified"]');
+                if (icon) {
+                    icon.classList.add('opacity-0', 'scale-50');
+                    setTimeout(() => icon.remove(), 300);
+                }
+            }
+        }
+
+        // Prevent checkbox clicks from triggering the accordion toggle
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        });
+        
+        // Subject cards initialization (optional: open the first one)
+        window.addEventListener('DOMContentLoaded', () => {
+            // Uncomment to open first by default
+            // const first = document.querySelector('.syllabus-accordion');
+            // if (first) toggleAccordion(first);
+        });
+    </script>
+</body></html>

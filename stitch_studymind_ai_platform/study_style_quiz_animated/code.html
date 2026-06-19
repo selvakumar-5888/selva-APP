@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StudyMind AI - Study Style Quiz</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed-dim": "#eec13c",
+                      "surface": "#0f131f",
+                      "error-container": "#93000a",
+                      "surface-container-highest": "#313442",
+                      "outline": "#918fa1",
+                      "on-background": "#dfe2f3",
+                      "inverse-primary": "#4f44e2",
+                      "secondary-fixed": "#ffe08f",
+                      "secondary": "#eec13c",
+                      "primary-fixed": "#e3dfff",
+                      "tertiary-fixed-dim": "#ffb785",
+                      "tertiary-fixed": "#ffdcc6",
+                      "surface-tint": "#c4c0ff",
+                      "on-tertiary-fixed-variant": "#713700",
+                      "on-secondary-fixed": "#241a00",
+                      "error": "#ffb4ab",
+                      "surface-container": "#1b1f2c",
+                      "on-error-container": "#ffdad6",
+                      "inverse-surface": "#dfe2f3",
+                      "primary": "#c4c0ff",
+                      "on-surface": "#dfe2f3",
+                      "surface-dim": "#0f131f",
+                      "primary-fixed-dim": "#c4c0ff",
+                      "on-error": "#690005",
+                      "tertiary-container": "#db761f",
+                      "surface-container-lowest": "#0a0e1a",
+                      "on-tertiary-fixed": "#301400",
+                      "on-surface-variant": "#c7c4d8",
+                      "outline-variant": "#464555",
+                      "secondary-container": "#bb9300",
+                      "on-tertiary": "#502500",
+                      "on-secondary": "#3d2e00",
+                      "on-primary-fixed-variant": "#3622ca",
+                      "surface-variant": "#313442",
+                      "on-primary-container": "#1b0091",
+                      "on-tertiary-container": "#461f00",
+                      "tertiary": "#ffb785",
+                      "surface-container-high": "#262a37",
+                      "inverse-on-surface": "#2c303d",
+                      "on-secondary-fixed-variant": "#584400",
+                      "on-secondary-container": "#3e2f00",
+                      "background": "#0f131f",
+                      "surface-container-low": "#171b28",
+                      "primary-container": "#8781ff",
+                      "on-primary": "#2000a4",
+                      "surface-bright": "#353946",
+                      "on-primary-fixed": "#100069"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xl": "40px",
+                      "gutter": "24px",
+                      "sm": "8px",
+                      "xxl": "64px",
+                      "md": "16px",
+                      "base": "8px",
+                      "lg": "24px",
+                      "container-max": "1280px",
+                      "xs": "4px"
+              },
+              "fontFamily": {
+                      "display-lg": ["Syne"],
+                      "body-md": ["DM Sans"],
+                      "body-lg": ["DM Sans"],
+                      "label-md": ["DM Sans"],
+                      "headline-sm": ["Syne"],
+                      "display-lg-mobile": ["Syne"],
+                      "headline-md": ["Syne"]
+              },
+              "fontSize": {
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "display-lg-mobile": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0a0e1a;
+            color: #dfe2f3;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(108, 99, 255, 0.4);
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 10px 30px -10px rgba(108, 99, 255, 0.2);
+        }
+        .glass-card:active {
+            transform: scale(0.98);
+        }
+        .quiz-card-selected {
+            border-color: #6C63FF !important;
+            background: rgba(108, 99, 255, 0.15) !important;
+            box-shadow: 0 0 25px rgba(108, 99, 255, 0.4);
+        }
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .is-flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: inherit;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+        .glow-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80vw;
+            height: 80vh;
+            background: radial-gradient(circle, rgba(108, 99, 255, 0.08) 0%, rgba(10, 14, 26, 0) 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .shimmer-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer-effect::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(196, 192, 255, 0.2),
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-body-md text-body-md">
+<!-- Top Navigation Bar -->
+<header class="bg-surface/30 backdrop-blur-xl border-b border-white/10 shadow-[0_0_20px_rgba(108,99,255,0.1)] flex justify-between items-center w-full px-lg py-md sticky top-0 z-50">
+<div class="flex items-center gap-sm">
+<span class="font-headline-md text-headline-md text-secondary tracking-tight">StudyMind AI</span>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant">monitoring</span>
+<div class="w-10 h-10 rounded-full bg-primary-container/20 border border-primary/30 flex items-center justify-center overflow-hidden">
+<img alt="Scholar profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHnXSOeceD9Phz_BczXsy_SmsgqUY0PFsIcOYUN8I2TNRnUhoIbBF2u65OP-51SBF8NR0zIqJmrbNSUH0aqlPGU1svw6zWvPS3T21LwZeVnTwW-1VjHGsFr37yjJaGDUrH3F0vmlTrNZbibnq97nKhlvFdmBolvdwTaIISpqKTW5GqX8Irh-FgoQirkR0aX4UXRJt1ZMSiT-Rih9apwrK3CJ6_cRhzzt5OQP3UguC-eDv939fjZQT2jtjJE4DG_uFiTGIxVGwdrew"/>
+</div>
+</div>
+</header>
+<main class="flex-grow flex flex-col items-center px-md py-xxl max-w-container-max mx-auto w-full relative">
+<!-- Progress Indicator -->
+<div class="w-full max-w-2xl mb-xl">
+<div class="flex justify-between items-end mb-sm">
+<span class="font-headline-sm text-headline-sm text-secondary-fixed-dim">Study Style Quiz</span>
+<span class="font-label-md text-label-md text-on-surface-variant">STEP 4 OF 4</span>
+</div>
+<div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary to-secondary w-full shadow-[0_0_10px_rgba(196,192,255,0.5)]"></div>
+</div>
+</div>
+<!-- Question Header -->
+<div class="text-center mb-xxl animate-in fade-in slide-in-from-bottom-4 duration-700">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-background mb-md">When do you study best?</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mx-auto">Your circadian rhythm dictates your cognitive peak. Let's align your plan with your biology.</p>
+</div>
+<!-- Answer Cards Grid -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-lg w-full max-w-5xl mb-xxl">
+<!-- Morning Card -->
+<div class="perspective-1000 h-64 cursor-pointer quiz-card-container" onclick="toggleSelection(this)">
+<div class="flip-card-inner glass-card rounded-xl">
+<div class="flip-card-front flex flex-col items-center justify-center p-lg">
+<div class="mb-md">
+<span class="material-symbols-outlined text-4xl text-secondary" style="font-variation-settings: 'FILL' 1;">light_mode</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Morning</h3>
+<p class="font-label-md text-label-md text-on-surface-variant mt-sm">5:00 AM - 11:00 AM</p>
+</div>
+<div class="flip-card-back flex flex-col items-center justify-center bg-primary/10 rounded-xl p-md">
+<span class="material-symbols-outlined text-4xl text-primary mb-md">check_circle</span>
+<p class="font-label-md text-label-md text-primary text-center">Early Bird Mastery Selected</p>
+</div>
+</div>
+</div>
+<!-- Afternoon Card -->
+<div class="perspective-1000 h-64 cursor-pointer quiz-card-container" onclick="toggleSelection(this)">
+<div class="flip-card-inner glass-card rounded-xl">
+<div class="flip-card-front flex flex-col items-center justify-center p-lg">
+<div class="mb-md">
+<span class="material-symbols-outlined text-4xl text-secondary" style="font-variation-settings: 'FILL' 1;">table_lamp</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Afternoon</h3>
+<p class="font-label-md text-label-md text-on-surface-variant mt-sm">12:00 PM - 5:00 PM</p>
+</div>
+<div class="flip-card-back flex flex-col items-center justify-center bg-primary/10 rounded-xl p-md">
+<span class="material-symbols-outlined text-4xl text-primary mb-md">check_circle</span>
+<p class="font-label-md text-label-md text-primary text-center">Focused Midday Selected</p>
+</div>
+</div>
+</div>
+<!-- Evening Card -->
+<div class="perspective-1000 h-64 cursor-pointer quiz-card-container" onclick="toggleSelection(this)">
+<div class="flip-card-inner glass-card rounded-xl">
+<div class="flip-card-front flex flex-col items-center justify-center p-lg">
+<div class="mb-md">
+<span class="material-symbols-outlined text-4xl text-secondary" style="font-variation-settings: 'FILL' 1;">dark_mode</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Evening</h3>
+<p class="font-label-md text-label-md text-on-surface-variant mt-sm">6:00 PM - 10:00 PM</p>
+</div>
+<div class="flip-card-back flex flex-col items-center justify-center bg-primary/10 rounded-xl p-md">
+<span class="material-symbols-outlined text-4xl text-primary mb-md">check_circle</span>
+<p class="font-label-md text-label-md text-primary text-center">Twilight Deep Work Selected</p>
+</div>
+</div>
+</div>
+<!-- Late Night Card -->
+<div class="perspective-1000 h-64 cursor-pointer quiz-card-container" onclick="toggleSelection(this)">
+<div class="flip-card-inner glass-card rounded-xl">
+<div class="flip-card-front flex flex-col items-center justify-center p-lg">
+<div class="mb-md">
+<span class="material-symbols-outlined text-4xl text-secondary" style="font-variation-settings: 'FILL' 1;">ac_unit</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Late Night</h3>
+<p class="font-label-md text-label-md text-on-surface-variant mt-sm">11:00 PM - 4:00 AM</p>
+</div>
+<div class="flip-card-back flex flex-col items-center justify-center bg-primary/10 rounded-xl p-md">
+<span class="material-symbols-outlined text-4xl text-primary mb-md">check_circle</span>
+<p class="font-label-md text-label-md text-primary text-center">Night Owl Sprint Selected</p>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Badge -->
+<div class="w-full max-w-xl bg-surface-container/40 backdrop-blur-md border border-primary/20 rounded-full px-lg py-sm flex items-center justify-center gap-md mb-xl animate-pulse shimmer-effect">
+<span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<p class="font-label-md text-label-md text-on-surface-variant">We'll personalize your plan based on this.</p>
+</div>
+<!-- Footer CTA -->
+<div class="w-full flex justify-center pb-xxl">
+<button class="group relative px-xxl py-md bg-primary text-on-primary font-headline-sm text-headline-sm rounded-full overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(108,99,255,0.4)] active:scale-95">
+<span class="relative z-10 uppercase tracking-widest">Finalize Profile</span>
+<div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+</button>
+</div>
+</main>
+<div class="glow-overlay"></div>
+<script>
+        function toggleSelection(container) {
+            // Unselect others
+            const allContainers = document.querySelectorAll('.quiz-card-container');
+            allContainers.forEach(c => {
+                if (c !== container) {
+                    c.classList.remove('is-flipped');
+                    c.querySelector('.flip-card-inner').classList.remove('quiz-card-selected');
+                }
+            });
+            
+            // Toggle current
+            const inner = container.querySelector('.flip-card-inner');
+            const isNowFlipped = container.classList.toggle('is-flipped');
+            
+            if (isNowFlipped) {
+                inner.classList.add('quiz-card-selected');
+            } else {
+                inner.classList.remove('quiz-card-selected');
+            }
+            
+            // Micro-interaction: Haptic feedback simulation
+            if (window.navigator.vibrate) {
+                window.navigator.vibrate(10);
+            }
+        }
+
+        // Atmospheric background particles (Constellation effect)
+        const createParticle = () => {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.width = Math.random() * 2 + 1 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.background = Math.random() > 0.5 ? 'rgba(108, 99, 255, 0.3)' : 'rgba(238, 193, 60, 0.2)';
+            particle.style.borderRadius = '50%';
+            particle.style.top = Math.random() * 100 + 'vh';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '-1';
+            document.body.appendChild(particle);
+
+            particle.animate([
+                { opacity: 0, transform: 'scale(0.5)' },
+                { opacity: 0.8, transform: 'scale(1.2)' },
+                { opacity: 0, transform: 'scale(0.5)' }
+            ], {
+                duration: Math.random() * 3000 + 3000,
+                iterations: Infinity,
+                easing: 'ease-in-out'
+            });
+
+            // Subtle drift
+            particle.animate([
+                { transform: `translate(0, 0)` },
+                { transform: `translate(${(Math.random() - 0.5) * 50}px, ${(Math.random() - 0.5) * 50}px)` }
+            ], {
+                duration: Math.random() * 10000 + 10000,
+                iterations: Infinity,
+                direction: 'alternate'
+            });
+        };
+
+        for (let i = 0; i < 40; i++) {
+            createParticle();
+        }
+    </script>
+</body></html>

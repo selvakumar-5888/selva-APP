@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StudyMind AI - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @keyframes subtle-pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(108, 99, 255, 0.2); }
+            50% { box-shadow: 0 0 35px rgba(108, 99, 255, 0.4); }
+        }
+        .animate-pulse-glow {
+            animation: subtle-pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        .bg-mesh {
+            background-color: #0a0e1a;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(108, 99, 255, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(108, 99, 255, 0.1) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(15, 19, 31, 1) 0px, transparent 100%);
+        }
+        .shimmer-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0) 40%,
+                rgba(255, 255, 255, 0.15) 50%,
+                rgba(255, 255, 255, 0) 60%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-dim": "#0f131f",
+                      "on-surface": "#dfe2f3",
+                      "on-tertiary-container": "#461f00",
+                      "primary": "#c4c0ff",
+                      "surface-container-low": "#171b28",
+                      "secondary-container": "#bb9300",
+                      "secondary-fixed-dim": "#eec13c",
+                      "primary-fixed": "#e3dfff",
+                      "on-primary-fixed-variant": "#3622ca",
+                      "on-error-container": "#ffdad6",
+                      "surface-container-high": "#262a37",
+                      "surface-container": "#1b1f2c",
+                      "primary-fixed-dim": "#c4c0ff",
+                      "on-secondary-fixed-variant": "#584400",
+                      "secondary": "#eec13c",
+                      "on-tertiary-fixed-variant": "#713700",
+                      "on-secondary-fixed": "#241a00",
+                      "on-secondary-container": "#3e2f00",
+                      "surface-container-lowest": "#0a0e1a",
+                      "error-container": "#93000a",
+                      "primary-container": "#8781ff",
+                      "on-secondary": "#3d2e00",
+                      "tertiary-container": "#db761f",
+                      "on-primary": "#2000a4",
+                      "inverse-surface": "#dfe2f3",
+                      "tertiary-fixed-dim": "#ffb785",
+                      "tertiary": "#ffb785",
+                      "surface-variant": "#313442",
+                      "surface": "#0f131f",
+                      "tertiary-fixed": "#ffdcc6",
+                      "on-surface-variant": "#c7c4d8",
+                      "inverse-on-surface": "#2c303d",
+                      "background": "#0f131f",
+                      "surface-container-highest": "#313442",
+                      "on-primary-fixed": "#100069",
+                      "secondary-fixed": "#ffe08f",
+                      "outline": "#918fa1",
+                      "on-tertiary": "#502500",
+                      "inverse-primary": "#4f44e2",
+                      "error": "#ffb4ab",
+                      "surface-bright": "#353946",
+                      "on-error": "#690005",
+                      "outline-variant": "#464555",
+                      "on-tertiary-fixed": "#301400",
+                      "on-primary-container": "#1b0091",
+                      "on-background": "#dfe2f3",
+                      "surface-tint": "#c4c0ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "md": "16px",
+                      "lg": "24px",
+                      "xs": "4px",
+                      "xl": "40px",
+                      "sm": "8px",
+                      "base": "8px",
+                      "gutter": "24px",
+                      "xxl": "64px",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "label-md": ["DM Sans"],
+                      "headline-md": ["Syne"],
+                      "body-lg": ["DM Sans"],
+                      "display-lg-mobile": ["Syne"],
+                      "body-md": ["DM Sans"],
+                      "headline-sm": ["Syne"],
+                      "display-lg": ["Syne"]
+              },
+              "fontSize": {
+                      "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "display-lg-mobile": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-mesh min-h-screen flex items-center justify-center p-gutter font-body-md text-on-surface overflow-hidden">
+<!-- Top Navigation Anchor (Manual suppression of Shell as per Transactional rule) -->
+<header class="fixed top-0 left-0 w-full flex justify-between items-center px-gutter py-md z-50">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary" data-icon="school">school</span>
+<span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">StudyMind AI</span>
+</div>
+<button class="font-label-md text-label-md text-secondary hover:opacity-80 transition-opacity uppercase tracking-widest">
+            Help
+        </button>
+</header>
+<!-- Main Content: Login Card -->
+<main class="relative z-10 w-full max-w-[400px]">
+<!-- Background Glow Effect behind card -->
+<div class="absolute -top-12 -left-12 w-32 h-32 bg-primary/20 blur-[60px] rounded-full"></div>
+<div class="absolute -bottom-12 -right-12 w-32 h-32 bg-secondary/10 blur-[60px] rounded-full"></div>
+<!-- Glassmorphism Card -->
+<div class="backdrop-blur-[12px] bg-white/5 border border-white/10 rounded-xl p-lg shadow-2xl flex flex-col gap-lg items-center animate-pulse-glow">
+<!-- Brand Identity -->
+<div class="flex flex-col items-center gap-xs mt-sm">
+<div class="w-16 h-16 rounded-full bg-surface-container-highest border border-primary/30 flex items-center justify-center mb-xs">
+<span class="material-symbols-outlined text-[32px] text-primary" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-secondary text-center">Login</h1>
+<p class="font-body-md text-body-md text-on-surface-variant text-center px-md">Welcome back, Scholar. Access your research lab.</p>
+</div>
+<!-- Login Form -->
+<form class="w-full flex flex-col gap-md" onsubmit="event.preventDefault();">
+<!-- Email Input -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-secondary uppercase tracking-widest px-xs" for="email">Academic Email</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors" data-icon="mail">mail</span>
+<input class="w-full bg-surface-container-lowest border-0 border-b border-outline-variant focus:border-primary focus:ring-0 pl-xl pr-md py-md text-on-surface placeholder:text-outline-variant transition-all rounded-t-lg" id="email" placeholder="scholar@university.edu" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div class="flex flex-col gap-xs">
+<div class="flex justify-between items-center px-xs">
+<label class="font-label-md text-label-md text-secondary uppercase tracking-widest" for="password">Passphrase</label>
+<a class="font-label-md text-label-md text-outline hover:text-secondary transition-colors" href="#">Forgot?</a>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors" data-icon="lock">lock</span>
+<input class="w-full bg-surface-container-lowest border-0 border-b border-outline-variant focus:border-primary focus:ring-0 pl-xl pr-md py-md text-on-surface placeholder:text-outline-variant transition-all rounded-t-lg" id="password" placeholder="••••••••••••" type="password"/>
+</div>
+</div>
+<!-- Primary CTA -->
+<button class="relative overflow-hidden w-full bg-primary py-lg rounded-lg text-on-primary font-label-md text-label-md uppercase tracking-[0.2em] font-bold mt-md shadow-lg shadow-primary/20 hover:shadow-primary/40 active:scale-[0.98] transition-all shimmer-btn">
+                    Login
+                </button>
+<!-- Biometric Alternative -->
+<div class="flex flex-col items-center gap-sm mt-md">
+<span class="font-label-md text-label-md text-outline-variant uppercase tracking-widest">Secure Entry</span>
+<button class="group p-md rounded-full bg-surface-container-highest border border-white/5 hover:border-primary/50 hover:bg-primary/10 transition-all duration-300">
+<span class="material-symbols-outlined text-[40px] text-primary group-active:scale-90 transition-transform" data-icon="fingerprint">fingerprint</span>
+</button>
+</div>
+</form>
+<!-- Secondary Action -->
+<div class="mt-md">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    New to the lab? 
+                    <a class="text-secondary font-bold hover:underline decoration-secondary/30 underline-offset-4 ml-xs transition-all" href="#">Create account</a>
+</p>
+</div>
+</div>
+</main>
+<!-- Visual Background Element (Abstract) -->
+<div class="fixed inset-0 pointer-events-none opacity-20 overflow-hidden">
+<div class="absolute top-[10%] left-[5%] w-[80%] h-[80%] border border-primary/20 rounded-full animate-[spin_60s_linear_infinite]"></div>
+<div class="absolute top-[15%] left-[10%] w-[70%] h-[70%] border border-secondary/10 rounded-full animate-[spin_45s_linear_infinite_reverse]"></div>
+</div>
+<!-- Screen Size Alert & Mobile Bottom Navbar Logic (Manual Suppression as per "Task-Focused" rule) -->
+<!-- BottomNavBar and FAB are omitted intentionally to prioritize the focus on the login transaction -->
+<script>
+        // Micro-interaction for the biometric icon
+        const bioBtn = document.querySelector('button .material-symbols-outlined[data-icon="fingerprint"]').parentElement;
+        bioBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            bioBtn.classList.add('scale-95');
+            setTimeout(() => bioBtn.classList.remove('scale-95'), 150);
+        });
+
+        // Simple mouse tracking for background depth
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            const card = document.querySelector('.backdrop-blur');
+            if (card) {
+                const moveX = (x - 0.5) * 10;
+                const moveY = (y - 0.5) * 10;
+                card.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            }
+        });
+
+        // Login Logic
+        const form = document.querySelector('form');
+        const loginBtn = document.querySelector('.shimmer-btn');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (!email || !password) {
+                alert('Please enter both email and password.');
+                return;
+            }
+
+            const originalText = loginBtn.textContent;
+            loginBtn.textContent = 'Authenticating...';
+            loginBtn.disabled = true;
+
+            try {
+                // Connect to the local backend that is already running perfectly!
+                const response = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Login successful! Welcome to StudyMind AI.');
+                    // Save the token to local storage
+                    localStorage.setItem('token', data.token);
+                    // Redirect to the actual app dashboard
+                    window.location.href = 'http://localhost:3000';
+                } else {
+                    alert('Login failed: ' + (data.message || 'Invalid credentials'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Could not connect to the backend server. Is it running?');
+            } finally {
+                loginBtn.textContent = originalText;
+                loginBtn.disabled = false;
+            }
+        });
+    </script>
+</body></html>

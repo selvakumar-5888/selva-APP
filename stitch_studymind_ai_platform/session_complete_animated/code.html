@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Session Complete — StudyMind AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&amp;family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-low": "#171b28",
+                    "surface-variant": "#313442",
+                    "primary-fixed": "#e3dfff",
+                    "on-secondary-fixed": "#241a00",
+                    "secondary-fixed": "#ffe08f",
+                    "on-secondary": "#3d2e00",
+                    "surface-tint": "#c4c0ff",
+                    "on-error-container": "#ffdad6",
+                    "tertiary": "#ffb785",
+                    "error-container": "#93000a",
+                    "tertiary-fixed-dim": "#ffb785",
+                    "tertiary-fixed": "#ffdcc6",
+                    "surface-dim": "#0f131f",
+                    "surface-container": "#1b1f2c",
+                    "on-tertiary-fixed-variant": "#713700",
+                    "on-background": "#dfe2f3",
+                    "on-tertiary": "#502500",
+                    "inverse-surface": "#dfe2f3",
+                    "on-surface-variant": "#c7c4d8",
+                    "error": "#ffb4ab",
+                    "on-secondary-fixed-variant": "#584400",
+                    "inverse-primary": "#4f44e2",
+                    "secondary": "#eec13c",
+                    "primary-container": "#8781ff",
+                    "on-primary": "#2000a4",
+                    "on-surface": "#dfe2f3",
+                    "background": "#0f131f",
+                    "on-tertiary-fixed": "#301400",
+                    "on-secondary-container": "#3e2f00",
+                    "on-primary-fixed-variant": "#3622ca",
+                    "on-primary-container": "#1b0091",
+                    "secondary-fixed-dim": "#eec13c",
+                    "outline-variant": "#464555",
+                    "on-primary-fixed": "#100069",
+                    "tertiary-container": "#db761f",
+                    "surface-bright": "#353946",
+                    "primary-fixed-dim": "#c4c0ff",
+                    "outline": "#918fa1",
+                    "primary": "#c4c0ff",
+                    "surface-container-lowest": "#0a0e1a",
+                    "on-tertiary-container": "#461f00",
+                    "inverse-on-surface": "#2c303d",
+                    "surface-container-highest": "#313442",
+                    "surface-container-high": "#262a37",
+                    "surface": "#0f131f",
+                    "secondary-container": "#bb9300",
+                    "on-error": "#690005"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "24px",
+                    "xxl": "64px",
+                    "sm": "8px",
+                    "container-max": "1280px",
+                    "base": "8px",
+                    "gutter": "24px",
+                    "xs": "4px",
+                    "xl": "40px",
+                    "md": "16px"
+            },
+            "fontFamily": {
+                    "body-lg": ["DM Sans"],
+                    "label-md": ["DM Sans"],
+                    "display-lg-mobile": ["Syne"],
+                    "body-md": ["DM Sans"],
+                    "headline-sm": ["Syne"],
+                    "headline-md": ["Syne"],
+                    "display-lg": ["Syne"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0a0e1a;
+            background-image: radial-gradient(circle at 50% -20%, #1b1f2c 0%, #0a0e1a 70%);
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .grain-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.04;
+            background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
+        }
+        .confetti-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 20;
+        }
+        .glow-indigo {
+            box-shadow: 0 0 40px rgba(108, 99, 255, 0.15);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-custom {
+            0%, 100% { transform: scale(1); opacity: 0.4; }
+            50% { transform: scale(1.1); opacity: 0.6; }
+        }
+        .animate-pulse-custom {
+            animation: pulse-custom 3s ease-in-out infinite;
+        }
+
+        /* Staggered float delays */
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.5s; }
+        .delay-3 { animation-delay: 0.8s; }
+        .delay-4 { animation-delay: 1.1s; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .animate-float, .animate-pulse-custom, .confetti-canvas {
+                animation: none !important;
+                display: none !important;
+            }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="min-h-screen text-on-surface font-body-md selection:bg-primary/30">
+<div class="grain-overlay"></div>
+<canvas class="confetti-canvas" id="confetti"></canvas>
+<!-- Top Navigation Anchor -->
+<header class="bg-surface-dim/80 backdrop-blur-xl dark:bg-surface-dim/80 flex justify-between items-center w-full px-md h-16 fixed top-0 z-50 border-b border-white/5">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="menu">menu</span>
+<h1 class="font-headline-sm text-headline-sm font-bold tracking-tight text-secondary dark:text-secondary">StudyMind AI</h1>
+</div>
+<div class="flex items-center gap-md">
+<img alt="User Profile" class="w-10 h-10 rounded-full border border-white/10" data-alt="A professional studio portrait of a young male scholar with glasses, wearing a dark turtleneck against a minimalist charcoal background. The lighting is dramatic and high-contrast, fitting a dark academia aesthetic with deep shadows and sharp highlights. The overall mood is intellectual, focused, and sophisticated, using a palette of midnight blue and warm gold accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjmNast5LdaQC0uTlAF2Za4OjFmiqK8Mllxr1uFXc_jDFJByVKbMyewNQnd61Ps9MJR8Pe30wB5di_4SBn6awJYjavSgiJLDjQtfZ3RzYc6d2g6PHFhFfRtXJcz1vnbfFw_lMfwgFH-mxYsZVSooNPZBf-_gDnkzf0A_JlQPnd7MvD3yaraPJ64j3Hrs-Knuhz6vbvM61oWInEOpd9nPNMoPvqzEPw7tMz2YYfTOhg2oupJu_InPz6NEKmfbzRZAOqaZopgXYUkaE"/>
+</div>
+</header>
+<main class="relative pt-xxl pb-xxl px-md max-w-container-max mx-auto flex flex-col items-center">
+<!-- Hero Celebration Section -->
+<div class="mt-xl mb-xxl text-center">
+<div class="relative inline-block mb-lg">
+<div class="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-150 animate-pulse-custom"></div>
+<div class="relative w-32 h-32 rounded-full border-2 border-primary/40 flex items-center justify-center glow-indigo bg-surface-container-low/50 backdrop-blur-md animate-float">
+<span class="material-symbols-outlined text-6xl text-secondary" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-xs">Mastery Achieved</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mx-auto">Your focus during this session was exceptional. The path to wisdom is paved with consistency.</p>
+</div>
+<!-- Stats Grid -->
+<section class="w-full grid grid-cols-1 md:grid-cols-3 gap-lg mb-xl">
+<!-- Stat Card 1 -->
+<div class="glass-card rounded-xl p-lg flex flex-col items-center justify-center text-center group hover:border-primary/30 transition-all duration-300 animate-float delay-1">
+<span class="material-symbols-outlined text-primary mb-md" data-icon="timer">timer</span>
+<span class="font-label-md text-label-md text-surface-variant uppercase tracking-widest mb-xs">Time Studied</span>
+<span class="font-headline-md text-headline-md text-on-surface">45m</span>
+</div>
+<!-- Stat Card 2 -->
+<div class="glass-card rounded-xl p-lg flex flex-col items-center justify-center text-center group hover:border-primary/30 transition-all duration-300 animate-float delay-2">
+<span class="material-symbols-outlined text-primary mb-md" data-icon="task_alt">task_alt</span>
+<span class="font-label-md text-label-md text-surface-variant uppercase tracking-widest mb-xs">Tasks Completed</span>
+<span class="font-headline-md text-headline-md text-on-surface">3 / 3</span>
+</div>
+<!-- Stat Card 3 -->
+<div class="glass-card rounded-xl p-lg flex flex-col items-center justify-center text-center group hover:border-primary/30 transition-all duration-300 animate-float delay-3">
+<span class="material-symbols-outlined text-primary mb-md" data-icon="analytics">analytics</span>
+<span class="font-label-md text-label-md text-surface-variant uppercase tracking-widest mb-xs">Focus Score</span>
+<span class="font-headline-md text-headline-md text-secondary">94%</span>
+</div>
+</section>
+<!-- AI Feedback Card -->
+<section class="w-full mb-xxl">
+<div class="glass-card rounded-xxl p-xl relative overflow-hidden group animate-float delay-4">
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-secondary/5 rounded-full blur-3xl group-hover:bg-secondary/10 transition-colors"></div>
+<div class="flex flex-col md:flex-row items-center gap-lg">
+<div class="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-secondary mb-xs">AI Insight</h4>
+<p class="font-body-lg text-body-lg text-on-surface">Great session! You were <span class="text-secondary font-bold">23% more focused</span> than last week. Your cognitive endurance is peaking between 10:00 AM and 11:30 AM.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Action Buttons -->
+<section class="w-full max-w-2xl flex flex-col gap-md">
+<button class="w-full py-md px-xl bg-primary text-on-primary font-label-md text-label-md rounded-xl hover:bg-primary-container transition-all duration-200 active:scale-95 shadow-lg shadow-primary/20 uppercase tracking-widest font-bold">
+                Start Next Session
+            </button>
+<div class="flex gap-md w-full">
+<button class="flex-1 py-md px-lg glass-card text-on-surface font-label-md text-label-md rounded-xl hover:bg-white/5 transition-all duration-200 uppercase tracking-widest">
+                    Take a Break
+                </button>
+<button class="flex-1 py-md px-lg glass-card text-on-surface font-label-md text-label-md rounded-xl hover:bg-white/5 transition-all duration-200 uppercase tracking-widest">
+                    Dashboard
+                </button>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm py-md bg-surface-container/90 backdrop-blur-xl dark:bg-surface-container/90 border-t border-white/10 shadow-[0_-4px_20px_rgba(0,0,0,0.5)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="book_4">book_4</span>
+<span class="font-label-md text-label-md">Library</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-md text-label-md">Planner</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary bg-primary/10 rounded-xl px-4 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="timer">timer</span>
+<span class="font-label-md text-label-md">Focus</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-md text-label-md">Insights</span>
+</a>
+</nav>
+<script>
+        // Immersive Particle & Confetti System
+        const canvas = document.getElementById('confetti');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        const particles = [];
+        const confettiCount = 120;
+        // Theme Colors: Indigo (#c4c0ff), Gold (#eec13c), and variations
+        const colors = ['#c4c0ff', '#eec13c', '#ffffff', '#8781ff', '#ffe08f'];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Confetti {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height - height; // Start above viewport
+                this.size = Math.random() * 8 + 4;
+                this.weight = Math.random() * 2 + 1;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 5 - 2.5;
+                this.oscillation = Math.random() * 2 * Math.PI;
+                this.oscillationSpeed = Math.random() * 0.05 + 0.02;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = Math.random() * 1.5 + 0.5;
+            }
+
+            update() {
+                this.y += this.vy + this.weight;
+                this.x += Math.sin(this.oscillation) + this.vx;
+                this.rotation += this.rotationSpeed;
+                this.oscillation += this.oscillationSpeed;
+
+                if (this.y > height) {
+                    this.y = -20;
+                    this.x = Math.random() * width;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = 0.7;
+                
+                // Draw square or rectangle confetti
+                if (Math.random() > 0.5) {
+                    ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size/2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+
+        function setup() {
+            resize();
+            for (let i = 0; i < confettiCount; i++) {
+                particles.push(new Confetti());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Respect prefers-reduced-motion
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animate);
+            }
+        }
+
+        window.addEventListener('resize', resize);
+        
+        // Initialize
+        setup();
+        animate();
+    </script>
+</body></html>

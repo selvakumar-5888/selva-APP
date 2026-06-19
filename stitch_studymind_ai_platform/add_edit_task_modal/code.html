@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StudyMind AI - Add Task</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&amp;family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .glass-sheet {
+            background: rgba(15, 19, 31, 0.85);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+        }
+        .input-glass {
+            background: rgba(255, 255, 255, 0.03);
+            border: none;
+            border-bottom: 1px solid rgba(145, 143, 161, 0.3);
+            transition: all 0.3s ease;
+        }
+        .input-glass:focus {
+            border-bottom: 1px solid #c4c0ff;
+            box-shadow: 0 4px 12px -2px rgba(108, 99, 255, 0.15);
+            outline: none;
+        }
+        .segmented-control-active {
+            background: rgba(196, 192, 255, 0.15);
+            color: #c4c0ff;
+            box-shadow: 0 0 15px rgba(108, 99, 255, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        .ai-glow {
+            background: linear-gradient(90deg, rgba(108, 99, 255, 0.05) 0%, rgba(187, 147, 0, 0.05) 100%);
+            border: 1px solid rgba(196, 192, 255, 0.2);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#3d2e00",
+                        "on-background": "#dfe2f3",
+                        "on-secondary-fixed-variant": "#584400",
+                        "inverse-primary": "#4f44e2",
+                        "secondary": "#eec13c",
+                        "primary-fixed-dim": "#c4c0ff",
+                        "on-primary": "#2000a4",
+                        "surface-dim": "#0f131f",
+                        "on-tertiary-container": "#461f00",
+                        "on-tertiary-fixed": "#301400",
+                        "primary": "#c4c0ff",
+                        "secondary-fixed": "#ffe08f",
+                        "on-primary-fixed-variant": "#3622ca",
+                        "on-surface-variant": "#c7c4d8",
+                        "on-error": "#690005",
+                        "background": "#0f131f",
+                        "on-tertiary": "#502500",
+                        "inverse-on-surface": "#2c303d",
+                        "tertiary-fixed": "#ffdcc6",
+                        "surface-container-highest": "#313442",
+                        "outline-variant": "#464555",
+                        "tertiary-fixed-dim": "#ffb785",
+                        "on-error-container": "#ffdad6",
+                        "surface-container": "#1b1f2c",
+                        "surface-bright": "#353946",
+                        "surface-variant": "#313442",
+                        "surface-tint": "#c4c0ff",
+                        "on-primary-container": "#1b0091",
+                        "secondary-fixed-dim": "#eec13c",
+                        "surface-container-low": "#171b28",
+                        "primary-fixed": "#e3dfff",
+                        "on-tertiary-fixed-variant": "#713700",
+                        "surface": "#0f131f",
+                        "outline": "#918fa1",
+                        "inverse-surface": "#dfe2f3",
+                        "on-secondary-fixed": "#241a00",
+                        "tertiary": "#ffb785",
+                        "on-primary-fixed": "#100069",
+                        "on-surface": "#dfe2f3",
+                        "on-secondary-container": "#3e2f00",
+                        "primary-container": "#8781ff",
+                        "tertiary-container": "#db761f",
+                        "secondary-container": "#bb9300",
+                        "surface-container-lowest": "#0a0e1a",
+                        "error-container": "#93000a",
+                        "error": "#ffb4ab",
+                        "surface-container-high": "#262a37"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "xl": "40px",
+                        "lg": "24px",
+                        "container-max": "1280px",
+                        "xxl": "64px",
+                        "base": "8px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Syne"],
+                        "body-md": ["DM Sans"],
+                        "label-md": ["DM Sans"],
+                        "display-lg-mobile": ["Syne"],
+                        "headline-sm": ["Syne"],
+                        "display-lg": ["Syne"],
+                        "body-lg": ["DM Sans"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md overflow-hidden">
+<!-- Background Mock (Blurred Task Manager) -->
+<main class="fixed inset-0 z-0 filter blur-xl opacity-40 scale-105 pointer-events-none">
+<div class="p-gutter h-screen flex flex-col gap-lg">
+<div class="h-16 w-full bg-surface-container rounded-xl"></div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg h-full">
+<div class="bg-surface-container rounded-xl p-md h-64"></div>
+<div class="bg-surface-container rounded-xl p-md h-96 md:col-span-2"></div>
+<div class="bg-surface-container rounded-xl p-md h-64"></div>
+<div class="bg-surface-container rounded-xl p-md h-64 md:col-span-2"></div>
+</div>
+</div>
+</main>
+<!-- Overlay / Dimmer -->
+<div class="fixed inset-0 bg-black/60 z-10 backdrop-blur-sm transition-opacity duration-500"></div>
+<!-- Bottom Sheet Modal -->
+<div class="fixed bottom-0 left-0 right-0 z-50 glass-sheet rounded-t-[32px] max-h-[813px] overflow-y-auto custom-scrollbar transition-transform duration-500 translate-y-0 shadow-2xl" id="task-modal">
+<!-- Drag Handle -->
+<div class="flex justify-center pt-4 pb-2">
+<div class="w-12 h-1 bg-white/20 rounded-full"></div>
+</div>
+<!-- Header -->
+<header class="px-gutter pb-md pt-2 flex justify-between items-center">
+<h1 class="font-headline-sm text-headline-sm text-primary tracking-tight">New Task</h1>
+<button class="p-2 hover:bg-white/10 rounded-full transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">close</span>
+</button>
+</header>
+<!-- Form Content -->
+<div class="px-gutter pb-xxl flex flex-col gap-lg max-w-2xl mx-auto">
+<!-- Task Title -->
+<div class="group">
+<input class="w-full text-[28px] md:text-[36px] font-headline-md bg-transparent border-none focus:ring-0 placeholder:text-on-surface-variant/30 text-secondary py-2" placeholder="Task Title..." type="text" value="Advanced Neural Networks Synthesis"/>
+</div>
+<!-- Subject & Due Date Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="flex flex-col gap-sm">
+<label class="font-label-md text-label-md text-on-surface-variant/60 uppercase tracking-widest">Subject Area</label>
+<div class="relative">
+<select class="input-glass w-full py-4 px-md rounded-xl text-body-md appearance-none">
+<option>Artificial Intelligence</option>
+<option selected="">Organic Chemistry</option>
+<option>Algorithms &amp; Data Structures</option>
+<option>Thermodynamics</option>
+<option>Modern Philosophy</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-sm">
+<label class="font-label-md text-label-md text-on-surface-variant/60 uppercase tracking-widest">Deadline</label>
+<div class="relative">
+<input class="input-glass w-full py-4 px-md rounded-xl text-body-md" type="date" value="2023-11-24"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-primary">calendar_today</span>
+</div>
+</div>
+</div>
+<!-- AI Suggestion Strip -->
+<div class="ai-glow p-md rounded-xl flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<p class="text-label-md font-medium text-on-surface">StudyMind AI suggests allocating <span class="text-secondary">45 minutes</span> based on your last chemistry lab report.</p>
+</div>
+<!-- Priority & Duration -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="flex flex-col gap-sm">
+<label class="font-label-md text-label-md text-on-surface-variant/60 uppercase tracking-widest">Priority</label>
+<div class="flex bg-surface-container-highest/40 p-1 rounded-xl">
+<button class="flex-1 py-3 text-label-md rounded-lg transition-all text-on-surface-variant hover:text-on-surface">Low</button>
+<button class="flex-1 py-3 text-label-md rounded-lg transition-all segmented-control-active font-bold">Medium</button>
+<button class="flex-1 py-3 text-label-md rounded-lg transition-all text-on-surface-variant hover:text-on-surface">High</button>
+</div>
+</div>
+<div class="flex flex-col gap-sm">
+<label class="font-label-md text-label-md text-on-surface-variant/60 uppercase tracking-widest">Estimated Time (Min)</label>
+<div class="flex items-center justify-between input-glass p-2 rounded-xl">
+<button class="w-10 h-10 flex items-center justify-center bg-white/5 hover:bg-white/10 rounded-lg text-primary transition-colors">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<span class="text-body-lg font-bold">45</span>
+<button class="w-10 h-10 flex items-center justify-center bg-white/5 hover:bg-white/10 rounded-lg text-primary transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Notes -->
+<div class="flex flex-col gap-sm">
+<label class="font-label-md text-label-md text-on-surface-variant/60 uppercase tracking-widest">Research Notes</label>
+<textarea class="input-glass w-full p-md rounded-xl text-body-md resize-none" placeholder="Briefly describe the focus of this session..." rows="4">Focus on chiral center identification and reaction mechanisms for the upcoming mid-semester synthesis project.</textarea>
+</div>
+<!-- AI Toggle -->
+<div class="flex items-center justify-between p-md bg-white/5 rounded-xl border border-white/5">
+<div class="flex flex-col">
+<span class="text-on-surface font-bold">Add to AI Planner automatically</span>
+<span class="text-label-md text-on-surface-variant/70">Let the model optimize your study block</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-12 h-7 bg-surface-container-highest rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-on-background after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+<!-- Action Buttons -->
+<div class="flex gap-md pt-lg">
+<button class="flex-[2] py-4 bg-secondary text-on-secondary font-headline-sm text-headline-sm rounded-xl hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-sm shadow-[0_0_20px_rgba(238,193,60,0.2)]">
+                    Save Task
+                </button>
+<button class="flex-1 py-4 text-on-surface-variant font-label-md uppercase tracking-widest border border-white/10 rounded-xl hover:bg-white/5 transition-colors">
+                    Cancel
+                </button>
+</div>
+</div>
+</div>
+<!-- Script for simple interaction -->
+<script>
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                // Subtle ripple/click effect logic can go here
+                if(this.textContent.trim() === 'Cancel' || this.querySelector('.material-symbols-outlined')?.textContent === 'close') {
+                    const modal = document.getElementById('task-modal');
+                    modal.style.transform = 'translateY(100%)';
+                    setTimeout(() => {
+                        window.history.back();
+                    }, 300);
+                }
+            });
+        });
+
+        // Toggle segmented control
+        const segments = document.querySelectorAll('.flex.bg-surface-container-highest\\/40 button');
+        segments.forEach(seg => {
+            seg.addEventListener('click', () => {
+                segments.forEach(s => s.classList.remove('segmented-control-active', 'font-bold'));
+                segments.forEach(s => s.classList.add('text-on-surface-variant'));
+                seg.classList.remove('text-on-surface-variant');
+                seg.classList.add('segmented-control-active', 'font-bold');
+            });
+        });
+    </script>
+</body></html>

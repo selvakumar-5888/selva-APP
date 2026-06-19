@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StudyMind AI - Generating Your Plan</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;family=Syne:wght@600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100..900&amp;family=Syne:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#713700",
+                        "on-error": "#690005",
+                        "on-secondary": "#3d2e00",
+                        "outline": "#918fa1",
+                        "on-secondary-fixed": "#241a00",
+                        "on-background": "#dfe2f3",
+                        "surface-container-highest": "#313442",
+                        "on-surface-variant": "#c7c4d8",
+                        "error": "#ffb4ab",
+                        "surface-container-low": "#171b28",
+                        "error-container": "#93000a",
+                        "primary": "#c4c0ff",
+                        "on-secondary-fixed-variant": "#584400",
+                        "on-tertiary-fixed": "#301400",
+                        "secondary": "#eec13c",
+                        "surface-bright": "#353946",
+                        "surface": "#0f131f",
+                        "primary-fixed": "#e3dfff",
+                        "surface-container": "#1b1f2c",
+                        "tertiary-container": "#db761f",
+                        "inverse-primary": "#4f44e2",
+                        "on-primary-fixed": "#100069",
+                        "inverse-on-surface": "#2c303d",
+                        "secondary-container": "#bb9300",
+                        "background": "#0f131f",
+                        "on-tertiary": "#502500",
+                        "secondary-fixed": "#ffe08f",
+                        "on-primary-container": "#1b0091",
+                        "tertiary-fixed-dim": "#ffb785",
+                        "secondary-fixed-dim": "#eec13c",
+                        "on-primary-fixed-variant": "#3622ca",
+                        "surface-dim": "#0f131f",
+                        "on-secondary-container": "#3e2f00",
+                        "on-error-container": "#ffdad6",
+                        "surface-tint": "#c4c0ff",
+                        "on-primary": "#2000a4",
+                        "tertiary-fixed": "#ffdcc6",
+                        "surface-container-high": "#262a37",
+                        "on-surface": "#dfe2f3",
+                        "surface-container-lowest": "#0a0e1a",
+                        "primary-container": "#8781ff",
+                        "primary-fixed-dim": "#c4c0ff",
+                        "on-tertiary-container": "#461f00",
+                        "inverse-surface": "#dfe2f3",
+                        "surface-variant": "#313442",
+                        "tertiary": "#ffb785",
+                        "outline-variant": "#464555"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "container-max": "1280px",
+                        "xxl": "64px",
+                        "sm": "8px",
+                        "xl": "40px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "base": "8px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["DM Sans"],
+                        "body-lg": ["DM Sans"],
+                        "headline-sm": ["Syne"],
+                        "label-md": ["DM Sans"],
+                        "headline-md": ["Syne"],
+                        "display-lg": ["Syne"],
+                        "display-lg-mobile": ["Syne"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0a0e1a; /* Explicit surface-container-lowest */
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glow-indigo {
+            box-shadow: 0 0 40px rgba(108, 99, 255, 0.3);
+        }
+
+        .animate-pulse-slow {
+            animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 10px rgba(108, 99, 255, 0.4)); }
+            50% { opacity: 0.8; transform: scale(1.05); filter: drop-shadow(0 0 30px rgba(108, 99, 255, 0.6)); }
+        }
+
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .carousel-container {
+            height: 2.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .carousel-item {
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-in-out;
+        }
+
+        .carousel-item.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .carousel-item.exit {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col items-center justify-center min-h-screen">
+<!-- Particle Background -->
+<canvas id="particle-canvas"></canvas>
+<!-- Main Content Shell -->
+<main class="relative z-10 flex flex-col items-center justify-center w-full max-w-lg px-lg text-center">
+<!-- Logo Header -->
+<div class="mb-xxl">
+<h1 class="font-headline-md text-headline-md font-bold text-secondary tracking-tight">StudyMind AI</h1>
+</div>
+<!-- Central Brain/Network Icon -->
+<div class="relative mb-xl">
+<div class="absolute inset-0 bg-primary opacity-20 blur-3xl rounded-full scale-150 animate-pulse-slow"></div>
+<div class="glass-panel w-40 h-40 md:w-56 md:h-56 rounded-full flex items-center justify-center glow-indigo animate-pulse-slow">
+<span class="material-symbols-outlined text-[80px] md:text-[120px] text-primary" style="font-variation-settings: 'FILL' 1;">
+                    neurology
+                </span>
+</div>
+</div>
+<!-- Text Carousel -->
+<div class="carousel-container w-full max-w-md mb-md">
+<div class="carousel-item active font-headline-sm text-headline-sm text-on-surface" id="item-0">Analyzing your subjects...</div>
+<div class="carousel-item font-headline-sm text-headline-sm text-on-surface" id="item-1">Mapping your schedule...</div>
+<div class="carousel-item font-headline-sm text-headline-sm text-on-surface" id="item-2">Generating smart sessions...</div>
+<div class="carousel-item font-headline-sm text-headline-sm text-on-surface" id="item-3">Almost ready!</div>
+</div>
+<!-- Progress Indicator -->
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden mb-lg">
+<div class="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-300 ease-out" id="progress-bar" style="width: 5%;"></div>
+</div>
+<!-- Subtitle -->
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xs">
+            Our AI is orchestrating a high-performance roadmap tailored to your academic goals.
+        </p>
+</main>
+<!-- Ambient Accents -->
+<div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
+<div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary/5 blur-[120px] rounded-full pointer-events-none"></div>
+<script>
+        // Particle Animation
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const particleCount = 60;
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                // Randomly pick between Indigo (Primary) and Gold (Secondary)
+                this.color = Math.random() > 0.5 ? '#c4c0ff' : '#eec13c';
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+
+            draw() {
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Carousel Logic
+        const items = document.querySelectorAll('.carousel-item');
+        const progressBar = document.getElementById('progress-bar');
+        let currentIndex = 0;
+
+        function rotateText() {
+            const currentItem = items[currentIndex];
+            currentItem.classList.remove('active');
+            currentItem.classList.add('exit');
+
+            setTimeout(() => {
+                currentItem.classList.remove('exit');
+            }, 800);
+
+            currentIndex = (currentIndex + 1) % items.length;
+            items[currentIndex].classList.add('active');
+            
+            // Update progress bar
+            const progress = ((currentIndex + 1) / items.length) * 100;
+            progressBar.style.width = `${Math.min(progress, 98)}%`;
+        }
+
+        setInterval(rotateText, 3000);
+
+        // Simulation for loading progress
+        let pWidth = 5;
+        const progressTimer = setInterval(() => {
+            if (pWidth < 95) {
+                pWidth += Math.random() * 1.5;
+                progressBar.style.width = pWidth + '%';
+            }
+        }, 150);
+
+    </script>
+</body></html>

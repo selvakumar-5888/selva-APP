@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#e3dfff",
+                    "on-tertiary-fixed-variant": "#713700",
+                    "surface-variant": "#313442",
+                    "primary-fixed-dim": "#c4c0ff",
+                    "error": "#ffb4ab",
+                    "surface-dim": "#0f131f",
+                    "on-error": "#690005",
+                    "error-container": "#93000a",
+                    "outline-variant": "#464555",
+                    "on-tertiary-container": "#461f00",
+                    "surface-container-low": "#171b28",
+                    "surface": "#0f131f",
+                    "on-secondary-container": "#3e2f00",
+                    "on-secondary": "#3d2e00",
+                    "surface-container-lowest": "#0a0e1a",
+                    "inverse-primary": "#4f44e2",
+                    "tertiary-fixed": "#ffdcc6",
+                    "secondary-fixed": "#ffe08f",
+                    "tertiary-fixed-dim": "#ffb785",
+                    "surface-tint": "#c4c0ff",
+                    "surface-bright": "#353946",
+                    "surface-container-highest": "#313442",
+                    "background": "#0f131f",
+                    "on-tertiary": "#502500",
+                    "on-surface": "#dfe2f3",
+                    "inverse-surface": "#dfe2f3",
+                    "on-primary-fixed": "#100069",
+                    "surface-container-high": "#262a37",
+                    "secondary-container": "#bb9300",
+                    "tertiary": "#ffb785",
+                    "secondary": "#eec13c",
+                    "surface-container": "#1b1f2c",
+                    "primary": "#c4c0ff",
+                    "outline": "#918fa1",
+                    "on-tertiary-fixed": "#301400",
+                    "on-primary-container": "#1b0091",
+                    "on-secondary-fixed": "#241a00",
+                    "on-primary": "#2000a4",
+                    "on-primary-fixed-variant": "#3622ca",
+                    "secondary-fixed-dim": "#eec13c",
+                    "primary-container": "#8781ff",
+                    "tertiary-container": "#db761f",
+                    "on-background": "#dfe2f3",
+                    "on-surface-variant": "#c7c4d8",
+                    "inverse-on-surface": "#2c303d",
+                    "on-secondary-fixed-variant": "#584400",
+                    "on-error-container": "#ffdad6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xxl": "64px",
+                    "xl": "40px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "gutter": "24px",
+                    "base": "8px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "headline-sm": ["Syne"],
+                    "label-md": ["DM Sans"],
+                    "display-lg-mobile": ["Syne"],
+                    "body-md": ["DM Sans"],
+                    "body-lg": ["DM Sans"],
+                    "headline-md": ["Syne"],
+                    "display-lg": ["Syne"]
+            },
+            "fontSize": {
+                    "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glow-indigo {
+            box-shadow: 0 0 20px rgba(108, 99, 255, 0.15);
+        }
+        .glow-gold {
+            box-shadow: 0 0 15px rgba(238, 193, 60, 0.2);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-container-lowest text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/30 dark:bg-surface/30 backdrop-blur-xl border-b border-white/10 shadow-[0_0_20px_rgba(108,99,255,0.1)] flex justify-between items-center px-gutter h-16">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary active:scale-95 duration-200" data-icon="arrow_back">arrow_back</button>
+<h1 class="font-headline-sm text-headline-sm-mobile md:text-headline-sm text-primary">Notifications</h1>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-secondary/30">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="A professional portrait of a young intellectual student with sharp features, wearing dark academic attire, in a dimly lit library setting. The lighting is dramatic and moody, emphasizing a midnight scholar aesthetic with deep blues and warm amber highlights on the face. High-end photography style with shallow depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbU38xklmBygw7XXY0WFmguzCqPLbFPjNakOkhFFk4MBORTuHHV3HFeIe8raIYC7PnBiovmVT4ge2VXGII3jNX_kxcIQHxZVL9Kp0vIrn6wB-4dyFtQ-pswvx_RJbmhDbjtVvID6FrHm-daMDhxioxCQ8iMG1MOkBHa8aW1SxaCVFHPPHmwhzJHFUjRAxJskNSf6NxEFXp4OaHs1NEo8PuMQ6p4oYry7AEs_tKjoHcMCGmLtNaTCiKx3R8Whz0mNRm0sS7NAZiuTQ"/>
+</div>
+</header>
+<main class="pt-24 px-4 max-w-lg mx-auto space-y-8">
+<!-- Notification Preview Section -->
+<section class="space-y-4">
+<div class="flex items-center justify-between px-1">
+<span class="font-label-md text-label-md text-on-surface-variant tracking-widest uppercase">Preview</span>
+</div>
+<div class="glass-panel rounded-xl p-4 flex gap-4 glow-indigo border-primary/20 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full -mr-8 -mt-8 blur-2xl"></div>
+<div class="flex-shrink-0 w-12 h-12 bg-primary rounded-lg flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-on-primary-container" data-icon="psychology" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<div class="flex-1 space-y-1">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-sm text-[16px] text-secondary">Time to Focus: Organic Chemistry</h3>
+<span class="text-[12px] text-on-surface-variant/60 font-label-md">Just now</span>
+</div>
+<p class="font-body-md text-[14px] text-on-surface-variant leading-relaxed">Your AI-optimized study block starts in 5 minutes. Ready to maintain your 12-day streak?</p>
+</div>
+</div>
+</section>
+<!-- Smart Reminders Master -->
+<section>
+<div class="glass-panel rounded-2xl p-6 border-secondary/20 glow-gold relative group">
+<div class="flex justify-between items-start mb-3">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-sm text-headline-sm-mobile text-secondary">Smart Reminders</h2>
+<span class="px-2 py-0.5 rounded-full bg-secondary/10 border border-secondary/30 text-[10px] font-bold text-secondary uppercase tracking-tighter">AI</span>
+</div>
+<p class="font-body-md text-on-surface-variant text-[14px]">AI-driven alerts optimized for your circadian rhythm and focus peaks.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-14 h-7 bg-surface-container-high rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<div class="mt-4 pt-4 border-t border-white/5 flex gap-4 text-[12px] font-label-md text-secondary/70">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="bolt">bolt</span> Peak Focus: 10:00 AM</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="bedtime">bedtime</span> Optimal Rest: 11:30 PM</span>
+</div>
+</div>
+</section>
+<!-- Notification Toggle List -->
+<section class="space-y-2 pb-10">
+<h2 class="font-label-md text-label-md text-on-surface-variant tracking-widest uppercase px-1 mb-4">Manual Preferences</h2>
+<div class="space-y-3">
+<!-- Session Reminders -->
+<div class="glass-panel rounded-xl p-4 flex items-center justify-between hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary group-hover:text-secondary transition-colors">
+<span class="material-symbols-outlined" data-icon="timer">timer</span>
+</div>
+<div>
+<p class="font-body-md text-on-surface font-medium">Session Reminders</p>
+<p class="font-label-md text-[12px] text-on-surface-variant">15m before</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-high rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Break Alerts -->
+<div class="glass-panel rounded-xl p-4 flex items-center justify-between hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary group-hover:text-secondary transition-colors">
+<span class="material-symbols-outlined" data-icon="coffee">coffee</span>
+</div>
+<div>
+<p class="font-body-md text-on-surface font-medium">Break Alerts</p>
+<p class="font-label-md text-[12px] text-on-surface-variant">Every 50m</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-high rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Exam Countdown -->
+<div class="glass-panel rounded-xl p-4 flex items-center justify-between hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary group-hover:text-secondary transition-colors">
+<span class="material-symbols-outlined" data-icon="event">event</span>
+</div>
+<div>
+<p class="font-body-md text-on-surface font-medium">Exam Countdown</p>
+<p class="font-label-md text-[12px] text-on-surface-variant">Daily at 9:00 AM</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-high rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Streak Warnings -->
+<div class="glass-panel rounded-xl p-4 flex items-center justify-between hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary group-hover:text-secondary transition-colors">
+<span class="material-symbols-outlined" data-icon="local_fire_department">local_fire_department</span>
+</div>
+<div>
+<p class="font-body-md text-on-surface font-medium">Streak Warnings</p>
+<p class="font-label-md text-[12px] text-on-surface-variant">Evening</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-high rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- AI Insights -->
+<div class="glass-panel rounded-xl p-4 flex items-center justify-between hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary group-hover:text-secondary transition-colors">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+</div>
+<div>
+<p class="font-body-md text-on-surface font-medium">AI Insights</p>
+<p class="font-label-md text-[12px] text-on-surface-variant">Real-time</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-high rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Weekly Report -->
+<div class="glass-panel rounded-xl p-4 flex items-center justify-between hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary group-hover:text-secondary transition-colors">
+<span class="material-symbols-outlined" data-icon="bar_chart">bar_chart</span>
+</div>
+<div>
+<p class="font-body-md text-on-surface font-medium">Weekly Report</p>
+<p class="font-label-md text-[12px] text-on-surface-variant">Sundays</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-high rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface-container/40 dark:bg-surface-container/40 backdrop-blur-xl border-t border-white/10 shadow-[0_-4px_20px_rgba(0,0,0,0.4)] flex justify-around items-center h-20 px-4 pb-safe">
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 hover:text-primary transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="timer">timer</span>
+<span class="font-label-md text-label-md mt-1">Focus</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 hover:text-primary transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+<span class="font-label-md text-label-md mt-1">Library</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 hover:text-primary transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span class="font-label-md text-label-md mt-1">AI Tutor</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary scale-110 transition-transform shadow-[0_0_15px_rgba(238,193,60,0.3)] active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-md text-label-md mt-1">Profile</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for toggles and buttons
+        document.querySelectorAll('input[type="checkbox"]').forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                const parent = this.closest('.glass-panel');
+                if (this.checked) {
+                    parent.style.borderColor = 'rgba(108, 99, 255, 0.3)';
+                } else {
+                    parent.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                }
+            });
+        });
+    </script>
+</body></html>

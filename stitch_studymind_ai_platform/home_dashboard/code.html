@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StudyMind AI - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0a0e1a;
+            color: #dfe2f3;
+            -webkit-font-smoothing: antialiased;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(108, 99, 255, 0.3);
+            box-shadow: 0 0 20px rgba(108, 99, 255, 0.1);
+        }
+        .streak-glow {
+            text-shadow: 0 0 12px rgba(238, 193, 60, 0.4);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "inverse-surface": "#dfe2f3",
+                "primary-container": "#8781ff",
+                "secondary-fixed-dim": "#eec13c",
+                "tertiary-container": "#db761f",
+                "inverse-primary": "#4f44e2",
+                "error-container": "#93000a",
+                "error": "#ffb4ab",
+                "on-secondary-fixed-variant": "#584400",
+                "tertiary-fixed": "#ffdcc6",
+                "on-primary-fixed-variant": "#3622ca",
+                "surface": "#0f131f",
+                "inverse-on-surface": "#2c303d",
+                "on-tertiary-fixed-variant": "#713700",
+                "primary-fixed-dim": "#c4c0ff",
+                "surface-dim": "#0f131f",
+                "surface-variant": "#313442",
+                "surface-bright": "#353946",
+                "secondary-fixed": "#ffe08f",
+                "surface-tint": "#c4c0ff",
+                "on-tertiary-container": "#461f00",
+                "on-secondary-container": "#3e2f00",
+                "surface-container-highest": "#313442",
+                "on-primary-container": "#1b0091",
+                "surface-container": "#1b1f2c",
+                "surface-container-low": "#171b28",
+                "surface-container-high": "#262a37",
+                "on-error": "#690005",
+                "on-secondary": "#3d2e00",
+                "on-error-container": "#ffdad6",
+                "on-surface-variant": "#c7c4d8",
+                "on-background": "#dfe2f3",
+                "primary": "#c4c0ff",
+                "outline-variant": "#464555",
+                "surface-container-lowest": "#0a0e1a",
+                "background": "#0f131f",
+                "on-primary": "#2000a4",
+                "tertiary-fixed-dim": "#ffb785",
+                "outline": "#918fa1",
+                "tertiary": "#ffb785",
+                "primary-fixed": "#e3dfff",
+                "on-surface": "#dfe2f3",
+                "on-secondary-fixed": "#241a00",
+                "secondary": "#eec13c",
+                "secondary-container": "#bb9300",
+                "on-tertiary-fixed": "#301400",
+                "on-tertiary": "#502500",
+                "on-primary-fixed": "#100069"
+              },
+              "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+              },
+              "spacing": {
+                "base": "8px",
+                "xxl": "64px",
+                "xs": "4px",
+                "md": "16px",
+                "gutter": "24px",
+                "lg": "24px",
+                "container-max": "1280px",
+                "xl": "40px",
+                "sm": "8px"
+              },
+              "fontFamily": {
+                "body-md": ["DM Sans"],
+                "label-md": ["DM Sans"],
+                "display-lg": ["Syne"],
+                "headline-md": ["Syne"],
+                "headline-sm": ["Syne"],
+                "display-lg-mobile": ["Syne"],
+                "body-lg": ["DM Sans"]
+              },
+              "fontSize": {
+                "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                "label-md": ["14px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "700" }],
+                "headline-sm": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                "display-lg-mobile": ["36px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-container-lowest min-h-screen pb-xxl">
+<!-- TopAppBar -->
+<header class="bg-surface/30 backdrop-blur-xl border-b border-white/10 shadow-[0_0_20px_rgba(108,99,255,0.1)] sticky top-0 z-40">
+<div class="flex justify-between items-center w-full px-lg py-md max-w-container-max mx-auto">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden border border-primary/20">
+<img alt="Scholar profile picture" class="w-full h-full object-cover" data-alt="A professional and intellectual close-up portrait of a young scholar in a modern, dimly lit library setting. The lighting is moody with soft indigo backlighting, highlighting their focused expression. The overall aesthetic is dark academia with high-end tech influences, featuring clean lines and a premium, studious atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNCD77Zq9quwnXjInBl__DXhPQbLZN4nzx5oCq2zukuykCnF2MsQApwYEDqpDpxw-ulgoq_jAuP6u4l7LC5sLR5A8pzg16VMF2b8bQSdGreSj6_zhDTXnYL9ltiUmQKlgSoHiRHfxsnsYKH32zojfQuNRH5vuLmVQBR0fL5kQ3VlnJjxGIAb8LnIX0kTjQZjMGg0vIQA9P6L1tJjN21TncYC8p02GLLa36MPx7cdRqMn4fPnMX7Zsm5ueAb_7VFVASnXW5jMlPBnY"/>
+</div>
+<span class="font-headline-md text-headline-md text-secondary tracking-tight">StudyMind AI</span>
+</div>
+<div class="flex items-center gap-md">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-md md:px-lg py-xl">
+<!-- User Greeting & Streak -->
+<section class="mb-xxl flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-xs">Good morning, Alex 👋</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Ready to master your research today?</p>
+</div>
+<div class="glass-card px-lg py-md rounded-xl flex items-center gap-sm self-start md:self-auto">
+<span class="material-symbols-outlined text-secondary" data-icon="workspace_premium" data-weight="fill" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<span class="font-headline-sm text-headline-sm text-secondary streak-glow">14 Day Streak</span>
+</div>
+</section>
+<!-- Stats Grid -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-md mb-xxl">
+<!-- Stat 1 -->
+<div class="glass-card p-md rounded-xl border-l-4 border-l-primary">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-xs">Today's Sessions</p>
+<div class="flex items-end gap-xs">
+<span class="font-headline-md text-headline-md text-on-surface">3</span>
+<span class="font-label-md text-label-md text-primary mb-1">completed</span>
+</div>
+</div>
+<!-- Stat 2 -->
+<div class="glass-card p-md rounded-xl border-l-4 border-l-secondary">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-xs">Weekly Hours</p>
+<div class="flex items-end gap-xs">
+<span class="font-headline-md text-headline-md text-on-surface">12.5h</span>
+<span class="font-label-md text-label-md text-secondary mb-1">+2.1h vs lw</span>
+</div>
+</div>
+<!-- Stat 3 -->
+<div class="glass-card p-md rounded-xl border-l-4 border-l-tertiary">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-xs">Tasks Done</p>
+<div class="flex items-end gap-xs">
+<span class="font-headline-md text-headline-md text-on-surface">8/10</span>
+<div class="w-16 h-1 bg-surface-container rounded-full mb-2 overflow-hidden">
+<div class="bg-tertiary h-full w-[80%]"></div>
+</div>
+</div>
+</div>
+<!-- Stat 4 -->
+<div class="glass-card p-md rounded-xl border-l-4 border-l-primary-container">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-xs">Streak Days</p>
+<div class="flex items-end gap-xs">
+<span class="font-headline-md text-headline-md text-on-surface">14</span>
+<span class="font-label-md text-label-md text-primary-container mb-1">Top 5%</span>
+</div>
+</div>
+</section>
+<!-- Main Plan Section -->
+<section class="mb-xxl">
+<div class="flex items-center justify-between mb-lg">
+<h2 class="font-headline-md text-headline-md text-on-surface">Today's AI Plan</h2>
+<button class="text-primary font-label-md text-label-md flex items-center gap-xs hover:underline transition-all">
+                    View full itinerary <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<div class="flex gap-lg overflow-x-auto pb-lg hide-scrollbar snap-x">
+<!-- Session Card 1 -->
+<div class="glass-card min-w-[300px] md:min-w-[360px] p-lg rounded-xl snap-start flex flex-col gap-md relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-lg opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl" data-icon="science">science</span>
+</div>
+<div>
+<span class="bg-primary/10 text-primary px-sm py-xs rounded font-label-md text-label-md mb-md inline-block">INTENSIVE SESSION</span>
+<h3 class="font-headline-sm text-headline-sm text-secondary mb-xs">Organic Chemistry</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Focus: Molecular Orbitals &amp; Resonance</p>
+</div>
+<div class="flex items-center gap-md mt-md">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+<span class="font-label-md text-label-md">45m</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="bolt">bolt</span>
+<span class="font-label-md text-label-md">High Focus</span>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-md rounded-lg font-label-md text-label-md font-bold tracking-widest uppercase hover:bg-primary-container active:scale-95 transition-all">Start</button>
+</div>
+<!-- Session Card 2 -->
+<div class="glass-card min-w-[300px] md:min-w-[360px] p-lg rounded-xl snap-start flex flex-col gap-md relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-lg opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl" data-icon="psychology">psychology</span>
+</div>
+<div>
+<span class="bg-tertiary/10 text-tertiary px-sm py-xs rounded font-label-md text-label-md mb-md inline-block">REVIEW PHASE</span>
+<h3 class="font-headline-sm text-headline-sm text-secondary mb-xs">Advanced Macro</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Focus: Keynesian Models &amp; Inflation</p>
+</div>
+<div class="flex items-center gap-md mt-md">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+<span class="font-label-md text-label-md">30m</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="star">star</span>
+<span class="font-label-md text-label-md">Standard</span>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-md rounded-lg font-label-md text-label-md font-bold tracking-widest uppercase hover:bg-primary-container active:scale-95 transition-all">Start</button>
+</div>
+<!-- Session Card 3 -->
+<div class="glass-card min-w-[300px] md:min-w-[360px] p-lg rounded-xl snap-start flex flex-col gap-md relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-lg opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl" data-icon="code">code</span>
+</div>
+<div>
+<span class="bg-primary-container/10 text-primary-container px-sm py-xs rounded font-label-md text-label-md mb-md inline-block">PRACTICE RUN</span>
+<h3 class="font-headline-sm text-headline-sm text-secondary mb-xs">Algorithms III</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Focus: Graph Traversal &amp; Heuristics</p>
+</div>
+<div class="flex items-center gap-md mt-md">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+<span class="font-label-md text-label-md">60m</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="priority_high">priority_high</span>
+<span class="font-label-md text-label-md">Critical</span>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-md rounded-lg font-label-md text-label-md font-bold tracking-widest uppercase hover:bg-primary-container active:scale-95 transition-all">Start</button>
+</div>
+</div>
+</section>
+<!-- Insights Preview (Asymmetric Pattern) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-lg mb-xxl">
+<div class="md:col-span-2 glass-card p-lg rounded-xl flex flex-col justify-between min-h-[240px]">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-xs">Study Velocity</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">Your retention in Organic Chemistry has increased by 14% since using AI-generated mnemonics.</p>
+</div>
+<div class="h-32 flex items-end gap-xs w-full mt-lg">
+<div class="flex-1 bg-surface-container rounded-t-sm h-[40%] group relative">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-label-md text-primary transition-opacity">Mon</div>
+</div>
+<div class="flex-1 bg-surface-container rounded-t-sm h-[60%] group relative">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-label-md text-primary transition-opacity">Tue</div>
+</div>
+<div class="flex-1 bg-secondary rounded-t-sm h-[85%] group relative">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-label-md text-secondary transition-opacity font-bold">Wed</div>
+</div>
+<div class="flex-1 bg-surface-container rounded-t-sm h-[45%] group relative">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-label-md text-primary transition-opacity">Thu</div>
+</div>
+<div class="flex-1 bg-surface-container rounded-t-sm h-[30%] group relative">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-label-md text-primary transition-opacity">Fri</div>
+</div>
+<div class="flex-1 bg-primary rounded-t-sm h-[95%] group relative">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-label-md text-primary transition-opacity font-bold">Sat</div>
+</div>
+<div class="flex-1 bg-surface-container rounded-t-sm h-[20%] group relative">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-label-md text-primary transition-opacity">Sun</div>
+</div>
+</div>
+</div>
+<div class="glass-card p-lg rounded-xl bg-primary/5 border-primary/20 flex flex-col items-center justify-center text-center">
+<div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-md border border-primary/30">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="tips_and_updates">tips_and_updates</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-xs">Pro Tip</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Switch to "Deep Focus" mode for the next Chemistry session to maximize retention.</p>
+</div>
+</section>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-24 right-md md:right-lg w-14 h-14 bg-secondary text-on-secondary rounded-full shadow-[0_10px_30px_rgba(238,193,60,0.4)] flex items-center justify-center hover:scale-110 active:scale-95 transition-transform z-50 group">
+<span class="material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform duration-300" data-icon="add">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-md pb-lg pt-md bg-surface-container/20 backdrop-blur-md border-t border-white/5 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-primary-fixed transition-all group" href="#">
+<span class="material-symbols-outlined mb-xs" data-icon="auto_stories">auto_stories</span>
+<span class="font-label-md text-label-md">Library</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary drop-shadow-[0_0_8px_rgba(238,193,60,0.4)] transition-all scale-110" href="#">
+<span class="material-symbols-outlined mb-xs" data-icon="timer">timer</span>
+<span class="font-label-md text-label-md">Focus</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-primary-fixed transition-all group" href="#">
+<span class="material-symbols-outlined mb-xs" data-icon="query_stats">query_stats</span>
+<span class="font-label-md text-label-md">Insights</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-primary-fixed transition-all group" href="#">
+<span class="material-symbols-outlined mb-xs" data-icon="school">school</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions and atmospheric logic
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const icon = card.querySelector('.material-symbols-outlined');
+                if (icon) icon.style.transform = 'translateY(-2px) scale(1.05)';
+            });
+            card.addEventListener('mouseleave', () => {
+                const icon = card.querySelector('.material-symbols-outlined');
+                if (icon) icon.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Horizontal scroll button prevention
+        const scrollContainer = document.querySelector('.hide-scrollbar');
+        scrollContainer.addEventListener('wheel', (evt) => {
+            evt.preventDefault();
+            scrollContainer.scrollLeft += evt.deltaY;
+        });
+    </script>
+</body></html>

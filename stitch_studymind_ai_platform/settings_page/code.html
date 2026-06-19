@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StudyMind AI - Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#ffb785",
+                    "on-primary": "#2000a4",
+                    "secondary-fixed": "#ffe08f",
+                    "outline": "#918fa1",
+                    "primary-fixed": "#e3dfff",
+                    "primary-fixed-dim": "#c4c0ff",
+                    "surface-container-low": "#171b28",
+                    "inverse-on-surface": "#2c303d",
+                    "outline-variant": "#464555",
+                    "on-primary-fixed": "#100069",
+                    "tertiary-fixed": "#ffdcc6",
+                    "tertiary-container": "#db761f",
+                    "surface-container-lowest": "#0a0e1a",
+                    "on-secondary-container": "#3e2f00",
+                    "secondary-fixed-dim": "#eec13c",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-highest": "#313442",
+                    "tertiary-fixed-dim": "#ffb785",
+                    "surface-variant": "#313442",
+                    "on-secondary-fixed": "#241a00",
+                    "on-error": "#690005",
+                    "surface-tint": "#c4c0ff",
+                    "surface-dim": "#0f131f",
+                    "surface": "#0f131f",
+                    "surface-container-high": "#262a37",
+                    "surface-bright": "#353946",
+                    "primary-container": "#8781ff",
+                    "error": "#ffb4ab",
+                    "primary": "#c4c0ff",
+                    "on-tertiary-fixed-variant": "#713700",
+                    "background": "#0f131f",
+                    "surface-container": "#1b1f2c",
+                    "on-tertiary-container": "#461f00",
+                    "on-surface": "#dfe2f3",
+                    "secondary-container": "#bb9300",
+                    "on-primary-container": "#1b0091",
+                    "on-primary-fixed-variant": "#3622ca",
+                    "on-secondary": "#3d2e00",
+                    "on-surface-variant": "#c7c4d8",
+                    "on-background": "#dfe2f3",
+                    "inverse-surface": "#dfe2f3",
+                    "on-tertiary": "#502500",
+                    "on-tertiary-fixed": "#301400",
+                    "on-secondary-fixed-variant": "#584400",
+                    "inverse-primary": "#4f44e2",
+                    "secondary": "#eec13c",
+                    "error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "container-max": "1280px",
+                    "gutter": "24px",
+                    "xl": "40px",
+                    "lg": "24px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "xs": "4px",
+                    "xxl": "64px"
+            },
+            "fontFamily": {
+                    "headline-sm": ["Syne"],
+                    "body-lg": ["DM Sans"],
+                    "label-md": ["DM Sans"],
+                    "headline-md": ["Syne"],
+                    "display-lg": ["Syne"],
+                    "display-lg-mobile": ["Syne"],
+                    "body-md": ["DM Sans"]
+            },
+            "fontSize": {
+                    "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0A0E1A; /* Base Midnight Scholar background */
+            -webkit-tap-highlight-color: transparent;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(108, 99, 255, 0.15);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(196, 192, 255, 0.1);
+            border-radius: 10px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface custom-scrollbar selection:bg-primary/30">
+<!-- TopAppBar -->
+<header class="sticky top-0 w-full bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border-b border-white/10 shadow-sm z-50">
+<div class="flex items-center justify-between px-md py-sm max-w-container-max mx-auto">
+<div class="flex items-center gap-md">
+<button class="p-2 hover:bg-white/5 rounded-full transition-colors duration-200 text-primary">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline-sm text-headline-sm text-primary">Settings</h1>
+</div>
+<button class="p-2 hover:bg-white/5 rounded-full transition-colors duration-200 text-primary">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</header>
+<main class="max-w-container-max mx-auto pb-xxl px-md md:px-lg space-y-lg pt-md">
+<!-- Profile Section -->
+<section class="space-y-sm">
+<h2 class="px-xs font-label-md text-label-md text-secondary uppercase tracking-widest opacity-80">Profile</h2>
+<div class="glass-card rounded-xl p-md flex items-center gap-md">
+<div class="relative w-16 h-16 rounded-full overflow-hidden border-2 border-primary/20">
+<img alt="Academic Researcher" class="w-full h-full object-cover" data-alt="A highly detailed portrait avatar of a distinguished academic researcher in a futuristic midnight setting. The character wears sophisticated smart glasses and a dark tailored blazer. The background features subtle glowing data points and deep indigo hues, reflecting a premium Dark Academia tech aesthetic. High-contrast lighting highlights the clean, modern digital art style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEGHKagc5eyFtm16Hm6kyzs5NJqnKMxDRhQKpGpXzYswWc8tpRPFKIU25VtSGiikiWOMIBP_86_rG1vIUh5Ka86mkqK4hwZ9Mep7vZJN-xeN1pO4Ey6QKbAPGy8sg5T1KYed29QUrLw2JCZlnXrEe0PqT2UHJrd3N8ifUe-537CsjjiteubCrO4eGIRQqI4pP2noda_tJs1wcVxRoccSXEEU-DIDbMTfYwtr6Ifqm6fnSqBhVGNkxSkz4YVp0Bs-TYQNmT1M0JtNo"/>
+</div>
+<div class="flex-1">
+<p class="font-headline-sm text-headline-sm text-on-surface">Academic Researcher</p>
+<p class="font-body-md text-body-md text-on-surface-variant">alex.researcher@uni.edu</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+</section>
+<!-- Subscription Section (Promoted) -->
+<section class="glass-card rounded-xl p-md bg-gradient-to-br from-primary/10 to-transparent border-primary/20 relative overflow-hidden">
+<div class="relative z-10 flex justify-between items-center">
+<div class="space-y-xs">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<span class="font-label-md text-label-md text-secondary uppercase font-bold tracking-widest">Scholar Pro</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface">Active until Sep 2025</p>
+</div>
+<button class="px-md py-sm bg-primary text-on-primary font-bold rounded-lg text-label-md uppercase tracking-wider hover:opacity-90 transition-opacity">
+                    Manage
+                </button>
+</div>
+<!-- Decorative Background Element -->
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-secondary/10 rounded-full blur-3xl"></div>
+</section>
+<!-- Appearance & Customization -->
+<section class="space-y-sm">
+<h2 class="px-xs font-label-md text-label-md text-secondary uppercase tracking-widest opacity-80">Appearance</h2>
+<div class="glass-card rounded-xl divide-y divide-white/5">
+<!-- Theme Row -->
+<div class="p-md flex items-center justify-between hover:bg-white/5 transition-colors duration-200">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">dark_mode</span>
+<span class="font-body-md text-body-md">Theme</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="text-on-surface-variant font-label-md">Midnight</span>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+</div>
+<!-- Accent Color Picker -->
+<div class="p-md space-y-md">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">palette</span>
+<span class="font-body-md text-body-md">Accent Color</span>
+</div>
+<div class="flex items-center gap-md px-xxl">
+<button class="w-8 h-8 rounded-full bg-primary ring-2 ring-primary ring-offset-4 ring-offset-surface"></button>
+<button class="w-8 h-8 rounded-full bg-secondary hover:scale-110 transition-transform"></button>
+<button class="w-8 h-8 rounded-full bg-tertiary hover:scale-110 transition-transform"></button>
+<button class="w-8 h-8 rounded-full bg-error hover:scale-110 transition-transform"></button>
+</div>
+</div>
+</div>
+</section>
+<!-- Preferences Sections -->
+<section class="space-y-sm">
+<h2 class="px-xs font-label-md text-label-md text-secondary uppercase tracking-widest opacity-80">Intelligence &amp; Study</h2>
+<div class="glass-card rounded-xl divide-y divide-white/5">
+<!-- AI Tone -->
+<div class="p-md flex items-center justify-between hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">psychology</span>
+<span class="font-body-md text-body-md">AI Model Tone</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="text-on-surface-variant font-label-md">Formal Academic</span>
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</div>
+</div>
+<!-- Training Toggle -->
+<div class="p-md flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">security</span>
+<span class="font-body-md text-body-md">Data Training</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Focus Timer -->
+<div class="p-md flex items-center justify-between hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">timer</span>
+<span class="font-body-md text-body-md">Default Focus Timer</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="text-on-surface-variant font-label-md">45 minutes</span>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Connectivity -->
+<section class="space-y-sm">
+<h2 class="px-xs font-label-md text-label-md text-secondary uppercase tracking-widest opacity-80">Integrations</h2>
+<div class="glass-card rounded-xl divide-y divide-white/5">
+<div class="p-md flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">calendar_month</span>
+<span class="font-body-md text-body-md">Google Calendar</span>
+</div>
+<span class="text-secondary font-label-md px-sm py-1 bg-secondary/10 rounded-full">Connected</span>
+</div>
+<div class="p-md flex items-center justify-between opacity-60">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">description</span>
+<span class="font-body-md text-body-md">Notion</span>
+</div>
+<button class="text-on-surface-variant font-label-md border border-white/10 px-sm py-1 rounded-full hover:bg-white/5 transition-colors">Connect</button>
+</div>
+</div>
+</section>
+<!-- Danger Zone / Data -->
+<section class="space-y-sm">
+<h2 class="px-xs font-label-md text-label-md text-secondary uppercase tracking-widest opacity-80">Data &amp; Privacy</h2>
+<div class="glass-card rounded-xl divide-y divide-white/5">
+<div class="p-md flex items-center justify-between hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">download</span>
+<span class="font-body-md text-body-md">Export My Data</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+<div class="p-md flex items-center justify-between hover:bg-error/10 transition-colors group">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-error">delete_forever</span>
+<span class="font-body-md text-body-md text-error">Delete Account</span>
+</div>
+<span class="material-symbols-outlined text-error/40 group-hover:text-error">chevron_right</span>
+</div>
+</div>
+</section>
+<!-- Help & Version -->
+<section class="space-y-sm">
+<h2 class="px-xs font-label-md text-label-md text-secondary uppercase tracking-widest opacity-80">Support</h2>
+<div class="glass-card rounded-xl divide-y divide-white/5">
+<div class="p-md flex items-center justify-between hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">help</span>
+<span class="font-body-md text-body-md">FAQ &amp; Guides</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">open_in_new</span>
+</div>
+<div class="p-md flex items-center justify-between hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">mail</span>
+<span class="font-body-md text-body-md">Contact Support</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+</div>
+<div class="text-center pt-md pb-xxl">
+<p class="font-label-md text-label-md text-on-surface-variant opacity-40">StudyMind AI v2.4.0</p>
+<p class="font-label-md text-[10px] text-on-surface-variant opacity-30 mt-1 uppercase tracking-tighter">Handcrafted for intellectual mastery</p>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 bg-surface/90 dark:bg-surface/90 backdrop-blur-lg border-t border-white/10 shadow-[0_-4px_20px_rgba(108,99,255,0.15)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">book</span>
+<span class="font-label-md text-label-md mt-1">Library</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">timer</span>
+<span class="font-label-md text-label-md mt-1">Study</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-md text-label-md mt-1">AI Lab</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed shadow-[0_0_15px_rgba(238,193,60,0.3)] scale-105 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-label-md text-label-md mt-1">Settings</span>
+</a>
+</nav>
+<!-- Desktop Navigation (SideNav Mock for responsiveness) -->
+<aside class="hidden md:flex flex-col fixed left-0 top-0 h-screen h-full w-80 bg-surface dark:bg-surface bg-surface-container dark:bg-surface-container-low border-r border-white/5 shadow-xl transition-all duration-300 ease-in-out z-[60]">
+<div class="p-lg flex flex-col h-full">
+<div class="mb-xxl">
+<h2 class="font-headline-sm text-headline-sm text-secondary dark:text-secondary mb-xs">StudyMind AI</h2>
+<div class="flex items-center gap-md p-md glass-card rounded-xl">
+<img class="w-10 h-10 rounded-full" data-alt="Small detailed profile icon for desktop view sidebar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAz2wKoTgGYf4ZADUPexZhLofqgPbmWIPjMWIP40L_TJZuhIoz23THkIz6xwGA7prMy3RWdRdTbJwoa43DhfQs73IJELJd64QSgG_csQQ2RCiiam6PqZms96oZlMrBZkfUPZp7CtHNMauyMIco3XOu6JjlyOrdiBVIDT4FqRF3kdMVEuqx-kIzJCtw5VsOpx48XbuACGEnNQpFBZf3yKjdIe4AuixZRLlS5jaSyrCE6F3Ho0LT_bSia_T8-qdH1VVTBGQMSj5rezmI"/>
+<div>
+<p class="font-body-md text-body-md font-bold text-primary">Academic Res.</p>
+<p class="text-[12px] opacity-60">v2.4.0</p>
+</div>
+</div>
+</div>
+<nav class="space-y-sm flex-1">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-all" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-body-md text-body-md">Profile</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-all" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-body-md text-body-md">Notifications</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-all" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-body-md text-body-md">AI Preferences</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg bg-primary/10 text-primary font-bold border-l-4 border-primary transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-md border-t border-white/5">
+<button class="w-full text-left flex items-center gap-md px-md py-sm text-error/60 hover:text-error transition-colors">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body-md text-body-md">Sign Out</span>
+</button>
+</div>
+</div>
+</aside>
+<script>
+        // Micro-interactions for toggles and buttons
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const parent = this.closest('.glass-card');
+                if (this.checked) {
+                    parent.style.borderColor = 'rgba(196, 192, 255, 0.2)';
+                } else {
+                    parent.style.borderColor = 'rgba(255, 255, 255, 0.05)';
+                }
+            });
+        });
+
+        // Simple hover effect for glass cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('neon-glow');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('neon-glow');
+            });
+        });
+    </script>
+</body></html>
