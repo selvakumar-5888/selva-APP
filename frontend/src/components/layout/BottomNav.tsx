@@ -14,7 +14,7 @@ export function BottomNav() {
   ]
 
   return (
-    <nav className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-4 border-t border-surface-border rounded-t-2xl bg-surface/80 backdrop-blur-xl">
+    <nav className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-4 border-t border-surface-border rounded-t-2xl bg-[#09090b]/90 backdrop-blur-xl shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
       {NAV_ITEMS.map((item) => {
         const isActive = location.pathname.startsWith(item.path)
         return (

@@ -8,10 +8,10 @@ import { ArrowLeft, Send, Users, Sparkles, MessageSquare } from 'lucide-react'
 
 interface Message {
   id: string
-  userId: string
-  userName: string
+  user_id: string
+  user_name: string
   text: string
-  timestamp: number
+  created_at: string
 }
 
 export default function StudyRoomsPage() {
@@ -21,14 +21,14 @@ export default function StudyRoomsPage() {
   const [profile, setProfile] = useState<any>(null)
   const [onlineCount, setOnlineCount] = useState(1)
   const messagesEndRef = useRef<HTMLDivElement>(null)
-  const channelRef = useRef<any>(null)
+  const presenceChannelRef = useRef<any>(null)
 
   useEffect(() => {
-    fetchProfileAndJoin()
+    fetchProfileAndMessages()
+    setupRealtimeSubscription()
+    
     return () => {
-      if (channelRef.current) {
-        supabase.removeChannel(channelRef.current)
-      }
+      supabase.removeAllChannels()
     }
   }, [])
 
@@ -36,49 +36,77 @@ export default function StudyRoomsPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  const fetchProfileAndJoin = async () => {
+  const fetchProfileAndMessages = async () => {
     try {
       if (import.meta.env.VITE_BYPASS_AUTH === 'true') {
         setProfile({ id: 'dev-user', full_name: 'Dev Scholar' })
-        joinRoom({ id: 'dev-user', full_name: 'Dev Scholar' })
+        joinPresenceRoom({ id: 'dev-user', full_name: 'Dev Scholar' })
         return
       }
 
       const userId = await getUserId()
       if (!userId) { navigate('/login', { replace: true }); return }
 
-      const { data, error } = await supabase.from('profiles').select('*').eq('id', userId).single()
-      if (error) throw error
-      setProfile(data)
-      joinRoom(data)
+      // Fetch user profile
+      const { data: profileData, error: profileError } = await supabase.from('profiles').select('*').eq('id', userId).single()
+      if (profileError) throw profileError
+      setProfile(profileData)
+      
+      // Join presence room
+      joinPresenceRoom(profileData)
+
+      // Fetch last 50 messages
+      const { data: msgData, error: msgError } = await supabase
+        .from('study_messages')
+        .select('*')
+        .order('created_at', { ascending: true })
+        .limit(50)
+        
+      if (msgError) {
+        console.error("No study_messages table found. Make sure to run the SQL setup script.")
+      } else {
+        setMessages(msgData || [])
+      }
+
     } catch (e) {
       console.error(e)
-      toast.error('Failed to load profile')
+      toast.error('Failed to load room data')
     }
   }
 
-  const joinRoom = (userProfile: any) => {
-    // Join a global study room channel
-    const room = supabase.channel('global-study-room', {
+  const setupRealtimeSubscription = () => {
+    const channel = supabase.channel('schema-db-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'study_messages',
+        },
+        (payload) => {
+          const newMessage = payload.new as Message
+          setMessages((prev) => {
+            // Avoid duplicates if we already optimistic-added it
+            if (prev.find(m => m.id === newMessage.id)) return prev;
+            return [...prev, newMessage]
+          })
+        }
+      )
+      .subscribe()
+  }
+
+  const joinPresenceRoom = (userProfile: any) => {
+    // We still use a broadcast channel for presence (online count)
+    const room = supabase.channel('global-study-presence', {
       config: {
-        broadcast: { ack: false },
         presence: { key: userProfile.id }
       }
     })
 
     room
-      .on('broadcast', { event: 'chat' }, payload => {
-        setMessages(prev => [...prev, payload.payload as Message])
-      })
       .on('presence', { event: 'sync' }, () => {
         const state = room.presenceState()
         setOnlineCount(Object.keys(state).length)
-      })
-      .on('presence', { event: 'join' }, ({ key, newPresences }) => {
-        // Optional: show toast when someone joins
-      })
-      .on('presence', { event: 'leave' }, ({ key, leftPresences }) => {
-        // Optional: show toast when someone leaves
       })
       .subscribe(async (status) => {
         if (status === 'SUBSCRIBED') {
@@ -86,32 +114,37 @@ export default function StudyRoomsPage() {
         }
       })
 
-    channelRef.current = room
+    presenceChannelRef.current = room
   }
 
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!inputText.trim() || !profile) return
-
-    const newMessage: Message = {
-      id: crypto.randomUUID(),
-      userId: profile.id,
-      userName: profile.full_name || 'Scholar',
-      text: inputText.trim(),
-      timestamp: Date.now()
-    }
-
-    // Optimistic update
-    setMessages(prev => [...prev, newMessage])
+    
+    const textToSend = inputText.trim()
     setInputText('')
 
-    // Broadcast to others
-    if (channelRef.current) {
-      await channelRef.current.send({
-        type: 'broadcast',
-        event: 'chat',
-        payload: newMessage
-      })
+    if (import.meta.env.VITE_BYPASS_AUTH === 'true') {
+      const devMsg: Message = { id: crypto.randomUUID(), user_id: profile.id, user_name: profile.full_name, text: textToSend, created_at: new Date().toISOString() }
+      setMessages(prev => [...prev, devMsg])
+      return
+    }
+
+    // Insert into DB
+    const { data, error } = await supabase
+      .from('study_messages')
+      .insert([
+        {
+          user_id: profile.id,
+          user_name: profile.full_name || 'Scholar',
+          text: textToSend
+        }
+      ])
+      .select()
+
+    if (error) {
+      console.error(error)
+      toast.error('Failed to send message. Have you run the SQL script?')
     }
   }
 
@@ -150,9 +183,9 @@ export default function StudyRoomsPage() {
           </div>
         ) : (
           <AnimatePresence>
-            {messages.map((msg, idx) => {
-              const isMe = msg.userId === profile?.id
-              const isSystem = msg.userId === 'system'
+            {messages.map((msg) => {
+              const isMe = msg.user_id === profile?.id
+              const isSystem = msg.user_id === 'system'
               
               if (isSystem) {
                 return (
@@ -177,7 +210,7 @@ export default function StudyRoomsPage() {
                   className={`flex flex-col max-w-[80%] ${isMe ? 'self-end items-end' : 'self-start items-start'}`}
                 >
                   {!isMe && (
-                    <span className="text-xs font-semibold text-text-muted ml-1 mb-1">{msg.userName}</span>
+                    <span className="text-xs font-semibold text-text-muted ml-1 mb-1">{msg.user_name}</span>
                   )}
                   <div 
                     className={`px-4 py-3 rounded-2xl ${
