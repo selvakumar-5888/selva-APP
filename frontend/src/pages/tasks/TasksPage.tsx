@@ -3,6 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import { supabase, getUserId } from '@/lib/supabase'
 import toast from 'react-hot-toast'
 import { BottomNav } from '@/components/layout/BottomNav'
+import { motion, AnimatePresence } from 'framer-motion'
+import { 
+  ArrowLeft, Plus, Calendar, PlayCircle, CheckCircle, Trash2, X
+} from 'lucide-react'
 
 interface Task {
   id: string
@@ -21,15 +25,9 @@ interface Subject {
 }
 
 const PRIORITY_COLORS: Record<string, string> = {
-  high: '#ffb4ab',
-  medium: '#eec13c',
-  low: '#7bc67b',
-}
-
-const PRIORITY_DOT: Record<string, string> = {
-  high: '#ffb4ab',
-  medium: '#ffb785',
-  low: '#c4c0ff',
+  high: 'bg-error shadow-[0_0_8px_rgba(255,75,75,0.6)]',
+  medium: 'bg-secondary shadow-[0_0_8px_rgba(0,242,254,0.6)]',
+  low: 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]',
 }
 
 export default function TasksPage() {
@@ -46,24 +44,22 @@ export default function TasksPage() {
 
   const fetchData = async () => {
     try {
-      // ── Dev bypass: use mock data ─────────────────────────────────
       if (import.meta.env.VITE_BYPASS_AUTH === 'true') {
         setTasks([
           { id: '1', title: 'Finish React assignment', description: 'Complete the hooks section', status: 'in_progress', priority: 'high', due_date: '2026-06-20', subject_id: '1' },
           { id: '2', title: 'Read Chapter 5 – Physics', description: null, status: 'todo', priority: 'medium', due_date: '2026-06-21', subject_id: null },
           { id: '3', title: 'Math problem set', description: null, status: 'done', priority: 'low', due_date: null, subject_id: '1' },
         ] as Task[])
-        setSubjects([{ id: '1', name: 'Mathematics', color: '#c4c0ff' }, { id: '2', name: 'Physics', color: '#eec13c' }])
+        setSubjects([{ id: '1', name: 'Mathematics', color: '#4facfe' }, { id: '2', name: 'Physics', color: '#ff4b4b' }])
         setLoading(false)
         return
       }
-      // ─────────────────────────────────────────────────────────────
-      const userId = await getUserId();
+      const userId = await getUserId()
       if (!userId) { navigate('/login', { replace: true }); return }
       const [tasksRes, subjectsRes] = await Promise.all([
         supabase.from('tasks').select('*').eq('user_id', userId).order('created_at', { ascending: false }).order('status', { ascending: true }),
         supabase.from('subjects').select('id,name,color').eq('user_id', userId),
-      ]);
+      ])
       setTasks((tasksRes.data || []) as Task[])
       setSubjects(subjectsRes.data || [])
     } catch (e: any) {
@@ -73,7 +69,6 @@ export default function TasksPage() {
       setLoading(false)
     }
   }
-
 
   const openAddModal = () => {
     setEditingTask(null)
@@ -90,7 +85,7 @@ export default function TasksPage() {
   const handleSave = async () => {
     if (!newTask.title.trim()) return
     setSaving(true)
-    const userId = await getUserId();
+    const userId = await getUserId()
     if (!userId) { setSaving(false); return }
     const payload = {
       title: newTask.title,
@@ -99,15 +94,15 @@ export default function TasksPage() {
       due_date: newTask.due_date || null,
       subject_id: newTask.subject_id || null,
       status: newTask.status,
-    };
+    }
     if (editingTask) {
-      const { error } = await supabase.from('tasks').update(payload).eq('id', editingTask.id);
-      if (error) toast.error(error.message);
-      else { toast.success('Task updated!'); setShowModal(false); fetchData(); }
+      const { error } = await supabase.from('tasks').update(payload).eq('id', editingTask.id)
+      if (error) toast.error(error.message)
+      else { toast.success('Task updated!'); setShowModal(false); fetchData() }
     } else {
-      const { error } = await supabase.from('tasks').insert({ ...payload, user_id: userId });
-      if (error) toast.error(error.message);
-      else { toast.success('Task created!'); setShowModal(false); fetchData(); }
+      const { error } = await supabase.from('tasks').insert({ ...payload, user_id: userId })
+      if (error) toast.error(error.message)
+      else { toast.success('Task created!'); setShowModal(false); fetchData() }
     }
     setSaving(false)
   }
@@ -132,36 +127,36 @@ export default function TasksPage() {
 
   const getSubject = (id: string | null) => subjects.find(s => s.id === id)
 
+  const containerVariants = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.1 } } }
+  const itemVariants = { hidden: { opacity: 0, scale: 0.95 }, show: { opacity: 1, scale: 1 } }
+
   return (
-    <div className="bg-[#0a0e1a] text-[#dfe2f3] min-h-screen pb-24 overflow-x-hidden">
-      {/* Atmospheric bg */}
-      <div className="fixed top-1/4 -left-20 w-64 h-64 rounded-full blur-[100px] pointer-events-none" style={{ background: 'rgba(196,192,255,0.05)' }} />
-      <div className="fixed bottom-1/4 -right-20 w-80 h-80 rounded-full blur-[120px] pointer-events-none" style={{ background: 'rgba(238,193,60,0.05)' }} />
+    <div className="bg-background min-h-screen pb-24 text-text-main font-sans antialiased overflow-x-hidden relative">
+      <div className="fixed inset-0 bg-luminous-glow pointer-events-none z-0" />
 
       {/* Header */}
-      <header className="fixed top-0 z-50 w-full backdrop-blur-xl border-b border-white/10 flex justify-between items-center px-6 py-4" style={{ background: 'rgba(15,19,31,0.8)', boxShadow: '0 0 20px rgba(108,99,255,0.1)' }}>
-        <div className="flex items-center gap-4">
-          <button onClick={() => navigate('/dashboard')} className="text-[#c4c0ff] p-2 hover:bg-white/5 rounded-full">
-            <span className="material-symbols-outlined">arrow_back</span>
+      <header className="sticky top-0 z-40 backdrop-blur-md border-b border-surface-border bg-background/60">
+        <div className="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
+          <div className="flex items-center gap-4">
+            <button onClick={() => navigate('/dashboard')} className="p-2 rounded-full hover:bg-surface-hover transition-colors">
+              <ArrowLeft className="w-5 h-5 text-text-muted hover:text-white transition-colors" />
+            </button>
+            <h1 className="font-display text-xl font-bold text-white tracking-tight">Task Board</h1>
+          </div>
+          <button onClick={openAddModal} className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-background hover:scale-105 transition-transform shadow-[0_0_20px_rgba(79,172,254,0.4)]">
+            <Plus className="w-5 h-5" />
           </button>
-          <span className="text-2xl font-bold text-[#eec13c] tracking-tight" style={{ fontFamily: 'Syne, sans-serif' }}>StudyMind AI</span>
         </div>
-        <button onClick={openAddModal} className="text-[#c4c0ff] hover:text-[#eec13c] transition-colors">
-          <span className="material-symbols-outlined">add_task</span>
-        </button>
       </header>
 
-      <main className="pt-20 px-4">
-        {/* Page title */}
-        <div className="py-6">
-          <h1 className="text-3xl font-bold text-[#dfe2f3]" style={{ fontFamily: 'Syne, sans-serif' }}>Task Board</h1>
-          <p className="text-[#c7c4d8] mt-1">Manage your study tasks with AI-powered scheduling.</p>
-        </div>
-
+      <main className="relative z-10 max-w-7xl mx-auto px-4 py-8">
+        
         {/* Filter bar */}
-        <div className="flex gap-2 py-2 overflow-x-auto mb-4" style={{ scrollbarWidth: 'none' }}>
+        <div className="flex gap-2 overflow-x-auto mb-8 hide-scrollbar pb-2">
           {['All', 'High Priority', 'Due Today'].map(f => (
-            <button key={f} className="flex items-center gap-1 px-4 py-1 rounded-full text-sm font-medium whitespace-nowrap transition-all" style={{ background: f === 'All' ? 'rgba(238,193,60,0.15)' : 'rgba(255,255,255,0.03)', border: f === 'All' ? '1px solid rgba(238,193,60,0.4)' : '1px solid rgba(255,255,255,0.1)', color: f === 'All' ? '#eec13c' : '#c7c4d8' }}>
+            <button key={f} className={`flex items-center gap-1 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest whitespace-nowrap transition-all ${
+              f === 'All' ? 'bg-primary/20 text-primary border border-primary/40' : 'bg-surface border border-surface-border text-text-muted hover:text-white hover:bg-surface-hover'
+            }`}>
               {f}
             </button>
           ))}
@@ -169,70 +164,79 @@ export default function TasksPage() {
 
         {/* Kanban columns */}
         {loading ? (
-          <div className="text-center py-20 text-[#c7c4d8]">Loading tasks...</div>
+          <div className="flex justify-center p-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+          </div>
         ) : (
-          <div className="flex gap-4 overflow-x-auto pb-8" style={{ scrollSnapType: 'x mandatory', scrollbarWidth: 'none' }}>
+          <div className="flex gap-4 overflow-x-auto pb-8 hide-scrollbar" style={{ scrollSnapType: 'x mandatory' }}>
             {columns.map(col => {
               const colTasks = tasks.filter(t => t.status === col.key)
               return (
                 <section key={col.key} className="flex flex-col gap-4 flex-shrink-0" style={{ width: 'calc(100vw - 32px)', maxWidth: '380px', scrollSnapAlign: 'start' }}>
-                  <div className="flex justify-between items-center px-1">
-                    <h2 className="text-xl font-semibold text-[#dfe2f3]" style={{ fontFamily: 'Syne, sans-serif' }}>{col.label}</h2>
-                    <span className="px-3 py-0.5 rounded-full text-sm font-medium text-[#c7c4d8]" style={{ background: 'rgba(38,42,55,1)' }}>{colTasks.length}</span>
+                  <div className="flex justify-between items-center px-2">
+                    <h2 className="text-sm font-bold tracking-widest uppercase text-text-muted">{col.label}</h2>
+                    <span className="px-3 py-0.5 rounded-full text-xs font-bold text-white bg-surface border border-surface-border">{colTasks.length}</span>
                   </div>
 
-                  <div className="flex flex-col gap-4">
-                    {colTasks.map(task => {
-                      const subj = getSubject(task.subject_id)
-                      return (
-                        <div
-                          key={task.id}
-                          className="rounded-xl p-4 flex flex-col gap-3 cursor-pointer active:scale-[0.98] transition-all"
-                          style={{ background: 'rgba(255,255,255,0.03)', backdropFilter: 'blur(12px)', border: col.key === 'in_progress' ? '1px solid rgba(196,192,255,0.3)' : '1px solid rgba(255,255,255,0.1)', borderLeft: col.key === 'in_progress' ? '4px solid #c4c0ff' : undefined, opacity: col.key === 'done' ? 0.6 : 1 }}
-                          onClick={() => openEditModal(task)}
-                        >
-                          <div className="flex justify-between items-start">
-                            {subj ? (
-                              <span className="text-xs font-medium px-2 py-1 rounded-lg" style={{ color: subj.color, border: '1px solid ' + subj.color + '44' }}>{subj.name}</span>
-                            ) : (
-                              <span className="text-xs font-medium px-2 py-1 rounded-lg text-[#c7c4d8]" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>No Subject</span>
-                            )}
-                            <div className="w-3 h-3 rounded-full" style={{ background: PRIORITY_DOT[task.priority], boxShadow: '0 0 8px ' + PRIORITY_DOT[task.priority] + '88' }} />
-                          </div>
-                          <h3 className={`text-base font-semibold leading-tight ${col.key === 'done' ? 'line-through text-[#c7c4d8]' : 'text-[#dfe2f3]'}`}>{task.title}</h3>
-                          {task.description && <p className="text-xs text-[#c7c4d8] line-clamp-2">{task.description}</p>}
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-1 text-[#c7c4d8] text-xs">
-                              {task.due_date && (
-                                <><span className="material-symbols-outlined text-sm">calendar_today</span> {task.due_date}</>
+                  <motion.div variants={containerVariants} initial="hidden" animate="show" className="flex flex-col gap-3">
+                    <AnimatePresence>
+                      {colTasks.map(task => {
+                        const subj = getSubject(task.subject_id)
+                        return (
+                          <motion.div
+                            layout
+                            variants={itemVariants}
+                            key={task.id}
+                            className={`glass-card p-5 flex flex-col gap-3 cursor-pointer hover:border-primary/40 transition-all ${col.key === 'done' ? 'opacity-50 hover:opacity-100' : ''}`}
+                            onClick={() => openEditModal(task)}
+                          >
+                            <div className="flex justify-between items-start">
+                              {subj ? (
+                                <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-md" style={{ color: subj.color, backgroundColor: subj.color + '20', border: '1px solid ' + subj.color + '40' }}>{subj.name}</span>
+                              ) : (
+                                <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-md text-text-muted bg-surface border border-surface-border">No Subject</span>
                               )}
+                              <div className={`w-2.5 h-2.5 rounded-full ${PRIORITY_COLORS[task.priority]}`} />
                             </div>
-                            <div className="flex gap-1">
-                              {col.key !== 'in_progress' && (
-                                <button onClick={e => { e.stopPropagation(); handleStatusChange(task, 'in_progress') }} className="p-1 text-[#c7c4d8]/40 hover:text-[#eec13c] transition-colors" title="Move to In Progress">
-                                  <span className="material-symbols-outlined text-sm">play_arrow</span>
-                                </button>
-                              )}
-                              {col.key !== 'done' && (
-                                <button onClick={e => { e.stopPropagation(); handleStatusChange(task, 'done') }} className="p-1 text-[#c7c4d8]/40 hover:text-[#7bc67b] transition-colors" title="Mark Done">
-                                  <span className="material-symbols-outlined text-sm">check_circle</span>
-                                </button>
-                              )}
-                              <button onClick={e => { e.stopPropagation(); handleDelete(task.id) }} className="p-1 text-[#c7c4d8]/40 hover:text-red-400 transition-colors" title="Delete">
-                                <span className="material-symbols-outlined text-sm">delete</span>
-                              </button>
+                            
+                            <div>
+                              <h3 className={`text-base font-display font-bold leading-tight ${col.key === 'done' ? 'line-through text-text-muted' : 'text-white'}`}>{task.title}</h3>
+                              {task.description && <p className="text-xs text-text-muted mt-1 line-clamp-2">{task.description}</p>}
                             </div>
-                          </div>
-                        </div>
-                      )
-                    })}
+
+                            <div className="flex items-center justify-between mt-2 pt-3 border-t border-surface-border">
+                              <div className="flex items-center gap-1.5 text-text-muted text-xs font-medium">
+                                {task.due_date && (
+                                  <><Calendar className="w-3.5 h-3.5" /> {task.due_date}</>
+                                )}
+                              </div>
+                              <div className="flex gap-2">
+                                {col.key !== 'in_progress' && (
+                                  <button onClick={e => { e.stopPropagation(); handleStatusChange(task, 'in_progress') }} className="text-text-muted hover:text-secondary transition-colors" title="Move to In Progress">
+                                    <PlayCircle className="w-5 h-5" />
+                                  </button>
+                                )}
+                                {col.key !== 'done' && (
+                                  <button onClick={e => { e.stopPropagation(); handleStatusChange(task, 'done') }} className="text-text-muted hover:text-success transition-colors" title="Mark Done">
+                                    <CheckCircle className="w-5 h-5" />
+                                  </button>
+                                )}
+                                <button onClick={e => { e.stopPropagation(); handleDelete(task.id) }} className="text-text-muted hover:text-error transition-colors" title="Delete">
+                                  <Trash2 className="w-5 h-5" />
+                                </button>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )
+                      })}
+                    </AnimatePresence>
 
                     {/* Add task button */}
-                    <button onClick={openAddModal} className="w-full py-4 rounded-xl border-2 border-dashed border-white/5 flex items-center justify-center gap-2 text-[#c7c4d8] hover:bg-white/5 transition-all active:scale-95">
-                      <span className="material-symbols-outlined">add</span>
-                      <span className="text-sm font-medium uppercase tracking-wider">Add Task</span>
+                    <button onClick={openAddModal} className="w-full py-4 rounded-xl border-2 border-dashed border-surface-border bg-surface/30 flex items-center justify-center gap-2 text-text-muted hover:text-white hover:border-primary/50 transition-all group">
+                      <Plus className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                      <span className="text-xs font-bold uppercase tracking-wider">Add Task</span>
                     </button>
-                  </div>
+                  </motion.div>
                 </section>
               )
             })}
@@ -241,68 +245,89 @@ export default function TasksPage() {
       </main>
 
       {/* Add/Edit Task Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-0 md:p-4" style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}>
-          <div className="w-full md:max-w-lg rounded-t-2xl md:rounded-2xl p-6 space-y-5" style={{ background: '#1b1f2c', border: '1px solid rgba(255,255,255,0.1)' }}>
-            <div className="flex justify-between items-center">
-              <h3 className="text-xl font-bold text-[#dfe2f3]" style={{ fontFamily: 'Syne, sans-serif' }}>{editingTask ? 'Edit Task' : 'New Task'}</h3>
-              <button onClick={() => setShowModal(false)} className="text-[#c7c4d8] hover:text-white"><span className="material-symbols-outlined">close</span></button>
-            </div>
-
-            <input
-              className="w-full bg-[#0f131f] border border-[#464555] rounded-lg px-4 py-3 text-[#dfe2f3] focus:border-[#c4c0ff] focus:outline-none"
-              placeholder="Task title..."
-              value={newTask.title}
-              onChange={e => setNewTask(p => ({ ...p, title: e.target.value }))}
-            />
-            <textarea
-              className="w-full bg-[#0f131f] border border-[#464555] rounded-lg px-4 py-3 text-[#dfe2f3] focus:border-[#c4c0ff] focus:outline-none resize-none"
-              placeholder="Description (optional)..."
-              rows={2}
-              value={newTask.description}
-              onChange={e => setNewTask(p => ({ ...p, description: e.target.value }))}
-            />
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="text-xs uppercase tracking-widest text-[#eec13c] mb-2 block">Priority</label>
-                <select className="w-full bg-[#0f131f] border border-[#464555] rounded-lg px-3 py-2 text-[#dfe2f3] focus:border-[#c4c0ff] focus:outline-none" value={newTask.priority} onChange={e => setNewTask(p => ({ ...p, priority: e.target.value }))}>
-                  <option value="high">🔴 High</option>
-                  <option value="medium">🟡 Medium</option>
-                  <option value="low">🟢 Low</option>
-                </select>
+      <AnimatePresence>
+        {showModal && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-0 md:p-4 bg-background/80 backdrop-blur-md"
+          >
+            <motion.div 
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="w-full md:max-w-lg rounded-t-3xl md:rounded-3xl p-8 space-y-6 glass-card border-surface-border bg-surface shadow-2xl"
+            >
+              <div className="flex justify-between items-center">
+                <h3 className="text-2xl font-display font-bold text-white">{editingTask ? 'Edit Task' : 'New Task'}</h3>
+                <button onClick={() => setShowModal(false)} className="w-8 h-8 rounded-full bg-surface-hover flex items-center justify-center text-text-muted hover:text-white transition-colors">
+                  <X className="w-4 h-4" />
+                </button>
               </div>
-              <div>
-                <label className="text-xs uppercase tracking-widest text-[#eec13c] mb-2 block">Status</label>
-                <select className="w-full bg-[#0f131f] border border-[#464555] rounded-lg px-3 py-2 text-[#dfe2f3] focus:border-[#c4c0ff] focus:outline-none" value={newTask.status} onChange={e => setNewTask(p => ({ ...p, status: e.target.value }))}>
-                  <option value="todo">To Do</option>
-                  <option value="in_progress">In Progress</option>
-                  <option value="done">Done</option>
-                </select>
-              </div>
-            </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="text-xs uppercase tracking-widest text-[#eec13c] mb-2 block">Due Date</label>
-                <input type="date" className="w-full bg-[#0f131f] border border-[#464555] rounded-lg px-3 py-2 text-[#dfe2f3] focus:border-[#c4c0ff] focus:outline-none" value={newTask.due_date} onChange={e => setNewTask(p => ({ ...p, due_date: e.target.value }))} />
-              </div>
-              <div>
-                <label className="text-xs uppercase tracking-widest text-[#eec13c] mb-2 block">Subject</label>
-                <select className="w-full bg-[#0f131f] border border-[#464555] rounded-lg px-3 py-2 text-[#dfe2f3] focus:border-[#c4c0ff] focus:outline-none" value={newTask.subject_id} onChange={e => setNewTask(p => ({ ...p, subject_id: e.target.value }))}>
-                  <option value="">None</option>
-                  {subjects.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
-                </select>
-              </div>
-            </div>
+              <div className="space-y-4">
+                <input
+                  className="w-full bg-background border border-surface-border rounded-xl px-4 py-3 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all"
+                  placeholder="Task title..."
+                  value={newTask.title}
+                  onChange={e => setNewTask(p => ({ ...p, title: e.target.value }))}
+                />
+                <textarea
+                  className="w-full bg-background border border-surface-border rounded-xl px-4 py-3 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all resize-none"
+                  placeholder="Description (optional)..."
+                  rows={2}
+                  value={newTask.description}
+                  onChange={e => setNewTask(p => ({ ...p, description: e.target.value }))}
+                />
 
-            <button onClick={handleSave} disabled={saving || !newTask.title.trim()} className="w-full py-4 rounded-xl font-bold text-sm uppercase tracking-wider transition-all active:scale-95 disabled:opacity-50" style={{ background: '#eec13c', color: '#3d2e00' }}>
-              {saving ? 'Saving...' : editingTask ? 'Update Task' : 'Create Task'}
-            </button>
-          </div>
-        </div>
-      )}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-text-muted mb-2 block">Priority</label>
+                    <select className="w-full bg-background border border-surface-border rounded-xl px-3 py-3 text-white focus:border-primary focus:outline-none" value={newTask.priority} onChange={e => setNewTask(p => ({ ...p, priority: e.target.value }))}>
+                      <option value="high">🔴 High</option>
+                      <option value="medium">🟡 Medium</option>
+                      <option value="low">🟢 Low</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-text-muted mb-2 block">Status</label>
+                    <select className="w-full bg-background border border-surface-border rounded-xl px-3 py-3 text-white focus:border-primary focus:outline-none" value={newTask.status} onChange={e => setNewTask(p => ({ ...p, status: e.target.value }))}>
+                      <option value="todo">To Do</option>
+                      <option value="in_progress">In Progress</option>
+                      <option value="done">Done</option>
+                    </select>
+                  </div>
+                </div>
 
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-text-muted mb-2 block">Due Date</label>
+                    <input type="date" className="w-full bg-background border border-surface-border rounded-xl px-3 py-3 text-white focus:border-primary focus:outline-none [color-scheme:dark]" value={newTask.due_date} onChange={e => setNewTask(p => ({ ...p, due_date: e.target.value }))} />
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-text-muted mb-2 block">Subject</label>
+                    <select className="w-full bg-background border border-surface-border rounded-xl px-3 py-3 text-white focus:border-primary focus:outline-none" value={newTask.subject_id} onChange={e => setNewTask(p => ({ ...p, subject_id: e.target.value }))}>
+                      <option value="">None</option>
+                      {subjects.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <button onClick={handleSave} disabled={saving || !newTask.title.trim()} className="w-full py-4 rounded-xl font-bold text-sm uppercase tracking-widest transition-all active:scale-95 disabled:opacity-50 mt-4 bg-primary text-background hover:brightness-110">
+                {saving ? 'Saving...' : editingTask ? 'Update Task' : 'Create Task'}
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <style>{`
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
       <BottomNav />
     </div>
   )
