@@ -1,9 +1,11 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { supabase } from '@/lib/supabase'
 import { useAuthStore } from '@/store/authStore'
+import { motion } from 'framer-motion'
+import { Sparkles, ArrowRight, Mail, Lock, Eye, EyeOff } from 'lucide-react'
 
 interface LoginFormData {
   email: string
@@ -15,7 +17,6 @@ export default function LoginPage() {
   const { onboardingCompleted } = useAuthStore()
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
-  const cardRef = useRef<HTMLDivElement>(null)
   const inflight = useRef(false) // prevents double-submit
 
   const {
@@ -24,47 +25,27 @@ export default function LoginPage() {
     formState: { errors },
   } = useForm<LoginFormData>()
 
-  // Mouse parallax on card
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const card = cardRef.current
-      if (!card) return
-      const x = e.clientX / window.innerWidth
-      const y = e.clientY / window.innerHeight
-      const moveX = (x - 0.5) * 12
-      const moveY = (y - 0.5) * 12
-      card.style.transform = `translate(${moveX}px, ${moveY}px)`
-    }
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [])
-
   const onSubmit = async (data: LoginFormData) => {
-    // Prevent concurrent requests
     if (inflight.current || isLoading) return
     inflight.current = true
     setIsLoading(true)
 
     try {
-      // ── Dev bypass: skip Supabase entirely ────────────────────────
       if (import.meta.env.VITE_BYPASS_AUTH === 'true') {
         toast.success('Welcome back, Scholar! 🎓 (dev mode)', {
-          style: { background: '#1b1f2c', color: '#dfe2f3', border: '1px solid rgba(196,192,255,0.2)' },
+          style: { background: '#09090b', color: '#00f2fe', border: '1px solid rgba(0,242,254,0.2)' },
         })
         navigate('/dashboard', { replace: true })
         return
       }
-      // ─────────────────────────────────────────────────────────────
 
-      // Validate inputs first (no network call)
       if (!data.email?.trim() || !data.password) {
         toast.error('Please provide both email and password.', {
-          style: { background: '#1b1f2c', color: '#ffb4ab', border: '1px solid rgba(255,180,171,0.2)' },
+          style: { background: '#09090b', color: '#ff4b4b', border: '1px solid rgba(255,75,75,0.2)' },
         })
         return
       }
 
-      // Single Supabase auth call
       const { data: authData, error } = await supabase.auth.signInWithPassword({
         email: data.email.trim(),
         password: data.password,
@@ -77,21 +58,21 @@ export default function LoginPage() {
             ? 'Invalid email or password. Please check your credentials.'
             : error.message
         toast.error(userMessage, {
-          style: { background: '#1b1f2c', color: '#ffb4ab', border: '1px solid rgba(255,180,171,0.2)' },
+          style: { background: '#09090b', color: '#ff4b4b', border: '1px solid rgba(255,75,75,0.2)' },
         })
         return
       }
 
       if (authData?.user) {
         toast.success('Welcome back, Scholar! 🎓', {
-          style: { background: '#1b1f2c', color: '#dfe2f3', border: '1px solid rgba(196,192,255,0.2)' },
+          style: { background: '#09090b', color: '#00f2fe', border: '1px solid rgba(0,242,254,0.2)' },
         })
         navigate('/dashboard', { replace: true })
       }
     } catch (err: unknown) {
       console.error('Unexpected login error:', err)
       toast.error('Something went wrong. Please try again.', {
-        style: { background: '#1b1f2c', color: '#ffb4ab', border: '1px solid rgba(255,180,171,0.2)' },
+        style: { background: '#09090b', color: '#ff4b4b', border: '1px solid rgba(255,75,75,0.2)' },
       })
     } finally {
       setIsLoading(false)
@@ -100,238 +81,133 @@ export default function LoginPage() {
   }
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center p-6 font-body-md text-on-surface overflow-hidden"
-      style={{
-        backgroundColor: '#0a0e1a',
-        backgroundImage: `
-          radial-gradient(at 0% 0%, rgba(108, 99, 255, 0.15) 0px, transparent 50%),
-          radial-gradient(at 100% 100%, rgba(108, 99, 255, 0.1) 0px, transparent 50%)
-        `,
-      }}
-    >
-      {/* Spinning ring background decorations */}
-      <div className="fixed inset-0 pointer-events-none opacity-20 overflow-hidden">
-        <div
-          className="absolute top-[10%] left-[5%] w-[80%] h-[80%] rounded-full border border-[rgba(196,192,255,0.2)]"
-          style={{ animation: 'spin 60s linear infinite' }}
-        />
-        <div
-          className="absolute top-[15%] left-[10%] w-[70%] h-[70%] rounded-full border border-[rgba(238,193,60,0.1)]"
-          style={{ animation: 'spin 45s linear infinite reverse' }}
-        />
-      </div>
+    <div className="min-h-screen flex flex-col items-center justify-center font-sans text-text-main bg-background bg-luminous-glow relative overflow-hidden">
+      
+      {/* Decorative Orbs */}
+      <div className="absolute top-[-10%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-primary/20 blur-[100px] pointer-events-none animate-pulse-glow" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-secondary/20 blur-[100px] pointer-events-none animate-pulse-glow" style={{ animationDelay: '2s' }} />
 
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full flex justify-between items-center px-6 py-4 z-50">
-        <div className="flex items-center gap-2">
-          <span className="material-symbols-outlined text-[#c4c0ff]">school</span>
-          <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 600, fontSize: 20, color: '#dfe2f3' }}>
-            StudyMind AI
-          </span>
-        </div>
-        <button className="font-label-md text-label-md text-[#eec13c] hover:opacity-80 transition-opacity uppercase tracking-widest text-sm">
-          Help
+      <header className="fixed top-0 left-0 w-full flex justify-between items-center px-8 py-6 z-50">
+        <motion.div 
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="flex items-center gap-2"
+        >
+          <Sparkles className="text-secondary w-6 h-6" />
+          <h1 className="font-display text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+            StudyMind
+          </h1>
+        </motion.div>
+        <button className="font-display font-semibold text-text-muted hover:text-primary transition-colors tracking-wide text-sm">
+          HELP
         </button>
       </header>
 
       {/* Login card */}
-      <main className="relative z-10 w-full max-w-[400px]">
-        {/* Glow behind card */}
-        <div className="absolute -top-12 -left-12 w-32 h-32 rounded-full pointer-events-none" style={{ background: 'rgba(196,192,255,0.2)', filter: 'blur(60px)' }} />
-        <div className="absolute -bottom-12 -right-12 w-32 h-32 rounded-full pointer-events-none" style={{ background: 'rgba(238,193,60,0.1)', filter: 'blur(60px)' }} />
-
-        <div
-          ref={cardRef}
-          className="flex flex-col gap-6 items-center rounded-xl p-6 shadow-2xl"
-          style={{
-            backdropFilter: 'blur(12px)',
-            background: 'rgba(255,255,255,0.05)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            boxShadow: '0 0 20px rgba(108, 99, 255, 0.2)',
-            transition: 'transform 0.1s ease-out',
-          }}
+      <main className="relative z-10 w-full max-w-[400px] px-6">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="flex flex-col gap-6 items-center glass-card p-8 relative overflow-hidden"
         >
+          {/* Subtle inner highlight */}
+          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
           {/* Brand */}
-          <div className="flex flex-col items-center gap-2 mt-2">
-            <div
-              className="w-16 h-16 rounded-full flex items-center justify-center mb-2"
-              style={{
-                background: 'rgba(49,52,66,0.8)',
-                border: '1px solid rgba(196,192,255,0.3)',
-              }}
-            >
-              <span
-                className="material-symbols-outlined text-[#c4c0ff]"
-                style={{ fontSize: 32, fontVariationSettings: "'FILL' 1" }}
-              >
-                auto_awesome
-              </span>
-            </div>
-            <h1
-              className="text-center"
-              style={{ fontFamily: 'Syne, sans-serif', fontSize: 36, fontWeight: 800, color: '#eec13c', letterSpacing: '-0.02em' }}
-            >
-              Login
+          <div className="flex flex-col items-center gap-2 mt-2 w-full">
+            <h1 className="text-center font-display text-3xl font-bold text-white tracking-tight">
+              Welcome Back
             </h1>
-            <p className="text-center text-sm px-4" style={{ color: '#c7c4d8', fontFamily: 'DM Sans, sans-serif' }}>
-              Welcome back, Scholar. Access your research lab.
+            <p className="text-center text-sm text-text-muted font-medium">
+              Access your personalized learning lab.
             </p>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-5 mt-2">
+            
             {/* Email */}
-            <div className="flex flex-col gap-1">
-              <label
-                className="uppercase tracking-widest px-1"
-                style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 14, fontWeight: 500, color: '#eec13c', letterSpacing: '0.05em' }}
-              >
-                Academic Email
-              </label>
-              <div className="relative group">
-                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#918fa1] group-focus-within:text-[#c4c0ff] transition-colors" style={{ fontSize: 20 }}>
-                  mail
-                </span>
-                <input
-                  type="email"
-                  placeholder="scholar@university.edu"
-                  {...register('email', {
-                    required: 'Email is required',
-                    pattern: { value: /^\S+@\S+\.\S+$/, message: 'Invalid email' },
-                  })}
-                  className="w-full pl-10 pr-4 py-4 rounded-t-lg transition-all"
-                  style={{
-                    background: '#0a0e1a',
-                    border: 'none',
-                    borderBottom: errors.email ? '1px solid #ffb4ab' : '1px solid #464555',
-                    color: '#dfe2f3',
-                    fontFamily: 'DM Sans, sans-serif',
-                    outline: 'none',
-                  }}
-                  onFocus={e => (e.target.style.borderBottomColor = '#c4c0ff')}
-                  onBlur={e => (e.target.style.borderBottomColor = errors.email ? '#ffb4ab' : '#464555')}
-                />
-              </div>
+            <div className="relative group">
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted group-focus-within:text-primary transition-colors" />
+              <input
+                type="email"
+                placeholder="Academic Email"
+                {...register('email', {
+                  required: 'Email is required',
+                  pattern: { value: /^\S+@\S+\.\S+$/, message: 'Invalid email' },
+                })}
+                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white placeholder-white/30 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all"
+              />
               {errors.email && (
-                <span className="text-xs px-1" style={{ color: '#ffb4ab', fontFamily: 'DM Sans, sans-serif' }}>
+                <span className="absolute -bottom-5 left-2 text-xs text-error">
                   {errors.email.message}
                 </span>
               )}
             </div>
 
             {/* Password */}
-            <div className="flex flex-col gap-1">
-              <div className="flex justify-between items-center px-1">
-                <label
-                  className="uppercase tracking-widest"
-                  style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 14, fontWeight: 500, color: '#eec13c', letterSpacing: '0.05em' }}
-                >
-                  Passphrase
-                </label>
-                <button
-                  type="button"
-                  className="text-sm hover:text-[#eec13c] transition-colors"
-                  style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 14, color: '#918fa1' }}
-                >
-                  Forgot?
-                </button>
-              </div>
-              <div className="relative group">
-                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#918fa1] group-focus-within:text-[#c4c0ff] transition-colors" style={{ fontSize: 20 }}>
-                  lock
-                </span>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="••••••••••••"
-                  {...register('password', { required: 'Password is required', minLength: { value: 6, message: 'Min 6 characters' } })}
-                  className="w-full pl-10 pr-12 py-4 rounded-t-lg transition-all"
-                  style={{
-                    background: '#0a0e1a',
-                    border: 'none',
-                    borderBottom: errors.password ? '1px solid #ffb4ab' : '1px solid #464555',
-                    color: '#dfe2f3',
-                    fontFamily: 'DM Sans, sans-serif',
-                    outline: 'none',
-                  }}
-                  onFocus={e => (e.target.style.borderBottomColor = '#c4c0ff')}
-                  onBlur={e => (e.target.style.borderBottomColor = errors.password ? '#ffb4ab' : '#464555')}
-                />
-                <button
-                  type="button"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#918fa1] hover:text-[#c4c0ff] transition-colors"
-                  onClick={() => setShowPassword(v => !v)}
-                >
-                  <span className="material-symbols-outlined" style={{ fontSize: 20 }}>
-                    {showPassword ? 'visibility_off' : 'visibility'}
-                  </span>
-                </button>
-              </div>
+            <div className="relative group mt-2">
+              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted group-focus-within:text-primary transition-colors" />
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Passphrase"
+                {...register('password', { required: 'Password is required', minLength: { value: 6, message: 'Min 6 characters' } })}
+                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-12 text-white placeholder-white/30 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all"
+              />
+              <button
+                type="button"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted hover:text-primary transition-colors focus:outline-none"
+                onClick={() => setShowPassword(v => !v)}
+              >
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
               {errors.password && (
-                <span className="text-xs px-1" style={{ color: '#ffb4ab', fontFamily: 'DM Sans, sans-serif' }}>
+                <span className="absolute -bottom-5 left-2 text-xs text-error">
                   {errors.password.message}
                 </span>
               )}
+            </div>
+            
+            <div className="w-full flex justify-end mt-1">
+              <button
+                type="button"
+                className="text-xs font-semibold text-text-muted hover:text-primary transition-colors"
+              >
+                Forgot Passphrase?
+              </button>
             </div>
 
             {/* Login button */}
             <button
               type="submit"
               disabled={isLoading}
-              className="relative overflow-hidden w-full rounded-lg mt-4 active:scale-[0.98] transition-all disabled:opacity-70"
-              style={{
-                background: '#c4c0ff',
-                padding: '16px',
-                fontFamily: 'DM Sans, sans-serif',
-                fontSize: 14,
-                fontWeight: 700,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                color: '#2000a4',
-                boxShadow: '0 4px 20px rgba(196,192,255,0.2)',
-              }}
-              onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 30px rgba(196,192,255,0.4)')}
-              onMouseLeave={e => ((e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 20px rgba(196,192,255,0.2)')}
+              className="mt-2 relative w-full group overflow-hidden rounded-xl font-display font-bold tracking-wide text-background py-4 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <span className="relative z-10">{isLoading ? 'Authenticating...' : 'Login'}</span>
-              {/* Shimmer */}
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background: 'linear-gradient(to bottom right, transparent 0%, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%, transparent 100%)',
-                  animation: 'shimmer 3s infinite',
-                }}
-              />
+              <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary transition-transform duration-300 group-hover:scale-105" />
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                {isLoading ? 'AUTHENTICATING...' : 'ACCESS LAB'}
+                {!isLoading && <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />}
+              </span>
             </button>
 
           </form>
 
           {/* Sign up link */}
-          <div className="mt-2">
-            <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 16, color: '#c7c4d8' }}>
+          <div className="mt-4 w-full text-center">
+            <p className="text-sm text-text-muted">
               New to the lab?{' '}
               <Link
                 to="/signup"
-                className="font-bold hover:underline transition-all ml-1"
-                style={{ color: '#eec13c', textDecorationColor: 'rgba(238,193,60,0.3)', textUnderlineOffset: 4 }}
+                className="font-bold text-primary hover:text-secondary transition-colors ml-1"
               >
                 Create account
               </Link>
             </p>
           </div>
-        </div>
+        </motion.div>
       </main>
-
-      <style>{`
-        @keyframes shimmer {
-          0% { transform: translateX(-100%) rotate(0deg); }
-          100% { transform: translateX(100%) rotate(0deg); }
-        }
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
     </div>
   )
 }

@@ -10,8 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@capacitor/android": "^8.4.1",
     "@supabase/supabase-js": "^2.39.7",
     "@tanstack/react-query": "^5.17.19",
+    "framer-motion": "^12.40.0",
+    "lucide-react": "^1.21.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.3",

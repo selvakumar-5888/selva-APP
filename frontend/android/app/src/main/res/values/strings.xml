@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">StudyMind AI</string>
+    <string name="title_activity_main">StudyMind AI</string>
+    <string name="package_name">com.studymind.ai</string>
+    <string name="custom_url_scheme">com.studymind.ai</string>
+</resources>
