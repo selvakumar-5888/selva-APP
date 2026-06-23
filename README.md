@@ -1,4 +1,4 @@
-# StudyMind AI Platform
+# selva-APP / StudyMind AI Platform
 
 A full-stack AI-powered study platform built with **Vite + React + TypeScript + Supabase**.
 
@@ -74,4 +74,4 @@ npm run dev
 
 
 ## Prompt ( edha apadiye copy pani antigravity la paste paniru )
-analysis this complete project and understand the project mind and continue test this using chrome extension if you occur any error retity and debug that 
+analysis this complete project and understand the project mind and continue test this using chrome extension if you occur any error retity and debug that
