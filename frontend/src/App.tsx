@@ -23,8 +23,10 @@ function App() {
         <Route path="/" element={<SplashPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/register" element={<SignUpPage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/farmer" element={<DashboardPage />} />
         <Route path="/library" element={<LibraryPage />} />
         <Route path="/tasks" element={<TasksPage />} />
         <Route path="/notes" element={<NotesPage />} />

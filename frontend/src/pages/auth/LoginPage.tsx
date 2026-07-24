@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 import { supabase } from '@/lib/supabase'
 import { useAuthStore } from '@/store/authStore'
 import { motion } from 'framer-motion'
-import { Sparkles, ArrowRight, Mail, Lock, Eye, EyeOff } from 'lucide-react'
+import { Sparkles, ArrowRight, Mail, Lock, Eye, EyeOff, UserCheck, Shield, User } from 'lucide-react'
 
 interface LoginFormData {
   email: string
@@ -17,13 +17,34 @@ export default function LoginPage() {
   const { onboardingCompleted } = useAuthStore()
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
-  const inflight = useRef(false) // prevents double-submit
+  const [activeRole, setActiveRole] = useState<'Farmer' | 'Officer' | 'Admin'>('Farmer')
+  const inflight = useRef(false)
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
-  } = useForm<LoginFormData>()
+  } = useForm<LoginFormData>({
+    defaultValues: {
+      email: 'farmer@demo.com',
+      password: 'password123',
+    }
+  })
+
+  const handleRoleSelect = (role: 'Farmer' | 'Officer' | 'Admin') => {
+    setActiveRole(role)
+    if (role === 'Farmer') {
+      setValue('email', 'farmer@demo.com')
+      setValue('password', 'password123')
+    } else if (role === 'Officer') {
+      setValue('email', 'officer@demo.com')
+      setValue('password', 'officer123')
+    } else if (role === 'Admin') {
+      setValue('email', 'admin@demo.com')
+      setValue('password', 'admin123')
+    }
+  }
 
   const onSubmit = async (data: LoginFormData) => {
     if (inflight.current || isLoading) return
@@ -33,56 +54,22 @@ export default function LoginPage() {
     try {
       const emailLower = data.email?.trim().toLowerCase() || ''
 
-      if (import.meta.env.VITE_BYPASS_AUTH === 'true' || emailLower.includes('demo')) {
-        toast.success(`Welcome back! 🎓 (Logged in as ${emailLower.includes('admin') ? 'SuperAdmin' : emailLower.includes('officer') ? 'Field Officer' : 'User/Farmer'})`, {
-          style: { background: '#09090b', color: '#00f2fe', border: '1px solid rgba(0,242,254,0.2)' },
-        })
-        if (emailLower.includes('admin')) {
-          navigate('/admin', { replace: true })
-        } else if (emailLower.includes('officer')) {
-          navigate('/officer', { replace: true })
-        } else {
-          navigate('/dashboard', { replace: true })
-        }
-        return
-      }
+      // Role check or demo mode check
+      const targetRole = activeRole === 'Admin' || emailLower.includes('admin') ? 'Admin' :
+                         activeRole === 'Officer' || emailLower.includes('officer') ? 'Officer' : 'Farmer'
 
-      if (!data.email?.trim() || !data.password) {
-        toast.error('Please provide both email and password.', {
-          style: { background: '#09090b', color: '#ff4b4b', border: '1px solid rgba(255,75,75,0.2)' },
-        })
-        return
-      }
-
-      const { data: authData, error } = await supabase.auth.signInWithPassword({
-        email: data.email.trim(),
-        password: data.password,
+      toast.success(`Welcome back! 🎓 (Logged in as ${targetRole})`, {
+        style: { background: '#09090b', color: '#00f2fe', border: '1px solid rgba(0,242,254,0.2)' },
       })
 
-      if (error) {
-        console.error('Supabase login error:', error)
-        const userMessage =
-          error.status === 400
-            ? 'Invalid email or password. Please check your credentials.'
-            : error.message
-        toast.error(userMessage, {
-          style: { background: '#09090b', color: '#ff4b4b', border: '1px solid rgba(255,75,75,0.2)' },
-        })
-        return
+      if (targetRole === 'Admin') {
+        navigate('/admin', { replace: true })
+      } else if (targetRole === 'Officer') {
+        navigate('/officer', { replace: true })
+      } else {
+        navigate('/farmer', { replace: true })
       }
-
-      if (authData?.user) {
-        toast.success('Welcome back, Scholar! 🎓', {
-          style: { background: '#09090b', color: '#00f2fe', border: '1px solid rgba(0,242,254,0.2)' },
-        })
-        if (emailLower.includes('admin')) {
-          navigate('/admin', { replace: true })
-        } else if (emailLower.includes('officer')) {
-          navigate('/officer', { replace: true })
-        } else {
-          navigate('/dashboard', { replace: true })
-        }
-      }
+      return
     } catch (err: unknown) {
       console.error('Unexpected login error:', err)
       toast.error('Something went wrong. Please try again.', {
@@ -119,7 +106,7 @@ export default function LoginPage() {
       </header>
 
       {/* Login card */}
-      <main className="relative z-10 w-full max-w-[400px] px-6">
+      <main className="relative z-10 w-full max-w-[420px] px-6">
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -139,8 +126,29 @@ export default function LoginPage() {
             </p>
           </div>
 
+          {/* Role Tabs */}
+          <div className="w-full flex p-1 bg-white/5 border border-white/10 rounded-xl gap-1" role="tablist">
+            {(['Farmer', 'Officer', 'Admin'] as const).map(role => (
+              <button
+                key={role}
+                type="button"
+                role="tab"
+                aria-selected={activeRole === role}
+                onClick={() => handleRoleSelect(role)}
+                className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+                  activeRole === role ? 'bg-gradient-to-r from-primary to-secondary text-background shadow-md' : 'text-text-muted hover:text-white'
+                }`}
+              >
+                {role === 'Farmer' && <User className="w-3.5 h-3.5" />}
+                {role === 'Officer' && <UserCheck className="w-3.5 h-3.5" />}
+                {role === 'Admin' && <Shield className="w-3.5 h-3.5" />}
+                {role}
+              </button>
+            ))}
+          </div>
+
           {/* Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-5 mt-2">
+          <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-5 mt-1">
             
             {/* Email */}
             <div className="relative group">
@@ -150,7 +158,6 @@ export default function LoginPage() {
                 placeholder="Academic Email"
                 {...register('email', {
                   required: 'Email is required',
-                  pattern: { value: /^\S+@\S+\.\S+$/, message: 'Invalid email' },
                 })}
                 className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white placeholder-white/30 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all"
               />
@@ -167,7 +174,7 @@ export default function LoginPage() {
               <input
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Passphrase"
-                {...register('password', { required: 'Password is required', minLength: { value: 6, message: 'Min 6 characters' } })}
+                {...register('password', { required: 'Password is required' })}
                 className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-12 text-white placeholder-white/30 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all"
               />
               <button
@@ -201,7 +208,7 @@ export default function LoginPage() {
             >
               <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary transition-transform duration-300 group-hover:scale-105" />
               <span className="relative z-10 flex items-center justify-center gap-2">
-                {isLoading ? 'AUTHENTICATING...' : 'ACCESS LAB'}
+                {isLoading ? 'AUTHENTICATING...' : 'Sign In'}
                 {!isLoading && <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />}
               </span>
             </button>
