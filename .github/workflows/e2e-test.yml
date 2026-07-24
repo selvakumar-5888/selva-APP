@@ -1,0 +1,73 @@
+name: e2e-test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  e2e-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Frontend Dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Install Backend Dependencies
+        run: |
+          cd backend
+          npm install
+
+      - name: Start Backend Service
+        run: |
+          cd backend
+          npm run dev &
+        
+      - name: Start Frontend Service
+        run: |
+          cd frontend
+          npm run dev &
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Python Dependencies
+        run: |
+          cd e2e-tests
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Wait for Ports to be Ready
+        run: |
+          # Give services a moment to start
+          sleep 10
+          # We don't strictly require wait if the script handles retries, but it's good practice.
+          timeout 60 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:3000)" != "200" ]]; do sleep 2; done' || echo "Frontend ready or timeout"
+
+      - name: Run E2E Test Suite
+        env:
+          USER_EMAIL: ${{ secrets.USER_EMAIL || 'user@example.com' }}
+          USER_PASS: ${{ secrets.USER_PASS || 'password123' }}
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL || 'admin@example.com' }}
+          ADMIN_PASS: ${{ secrets.ADMIN_PASS || 'password123' }}
+          OFFICER_EMAIL: ${{ secrets.OFFICER_EMAIL || 'officer@example.com' }}
+          OFFICER_PASS: ${{ secrets.OFFICER_PASS || 'password123' }}
+        run: |
+          cd e2e-tests
+          python run_tests.py
