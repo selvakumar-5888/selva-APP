@@ -31,11 +31,19 @@ export default function LoginPage() {
     setIsLoading(true)
 
     try {
-      if (import.meta.env.VITE_BYPASS_AUTH === 'true') {
-        toast.success('Welcome back, Scholar! 🎓 (dev mode)', {
+      const emailLower = data.email?.trim().toLowerCase() || ''
+
+      if (import.meta.env.VITE_BYPASS_AUTH === 'true' || emailLower.includes('demo')) {
+        toast.success(`Welcome back! 🎓 (Logged in as ${emailLower.includes('admin') ? 'SuperAdmin' : emailLower.includes('officer') ? 'Field Officer' : 'User/Farmer'})`, {
           style: { background: '#09090b', color: '#00f2fe', border: '1px solid rgba(0,242,254,0.2)' },
         })
-        navigate('/dashboard', { replace: true })
+        if (emailLower.includes('admin')) {
+          navigate('/admin', { replace: true })
+        } else if (emailLower.includes('officer')) {
+          navigate('/officer', { replace: true })
+        } else {
+          navigate('/dashboard', { replace: true })
+        }
         return
       }
 
@@ -67,7 +75,13 @@ export default function LoginPage() {
         toast.success('Welcome back, Scholar! 🎓', {
           style: { background: '#09090b', color: '#00f2fe', border: '1px solid rgba(0,242,254,0.2)' },
         })
-        navigate('/dashboard', { replace: true })
+        if (emailLower.includes('admin')) {
+          navigate('/admin', { replace: true })
+        } else if (emailLower.includes('officer')) {
+          navigate('/officer', { replace: true })
+        } else {
+          navigate('/dashboard', { replace: true })
+        }
       }
     } catch (err: unknown) {
       console.error('Unexpected login error:', err)

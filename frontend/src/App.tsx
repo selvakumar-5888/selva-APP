@@ -12,6 +12,8 @@ import FlashcardsPage from './pages/flashcards/FlashcardsPage'
 import ProfilePage from './pages/profile/ProfilePage'
 import StudyRoomsPage from './pages/study-rooms/StudyRoomsPage'
 import LeaderboardPage from './pages/leaderboard/LeaderboardPage'
+import OfficerPage from './pages/officer/OfficerPage'
+import AdminPage from './pages/admin/AdminPage'
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/study-rooms" element={<StudyRoomsPage />} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
+        <Route path="/officer" element={<OfficerPage />} />
+        <Route path="/admin" element={<AdminPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

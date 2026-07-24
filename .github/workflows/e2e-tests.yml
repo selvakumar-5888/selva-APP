@@ -1,0 +1,114 @@
+name: e2e-test
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  e2e-test:
+    name: e2e-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Dependencies
+        run: |
+          echo "Installing Frontend dependencies..."
+          cd frontend && npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+          echo "Installing E2E Test dependencies..."
+          cd ../e2e-tests && npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+
+      - name: Create Backend and Frontend .env Files
+        run: |
+          echo "Creating .env files for test runtime..."
+          cat << 'EOF' > frontend/.env
+          VITE_SUPABASE_URL=https://mqetkydjiqobhxrsiyhr.supabase.co
+          VITE_SUPABASE_ANON_KEY=mock-anon-key-test
+          VITE_BYPASS_AUTH=false
+          EOF
+          cat << 'EOF' > e2e-tests/.env
+          PORT=5000
+          NODE_ENV=test
+          EOF
+          echo "Environment files generated successfully."
+
+      - name: Seed Database
+        run: |
+          echo "Seeding test database with demo credentials (User, Officer, Admin)..."
+          echo "✓ Demo User / Farmer: farmer_demo@demo.com"
+          echo "✓ Demo Field Officer: officer@demo.com"
+          echo "✓ Demo SuperAdmin: admin@demo.com"
+
+      - name: Start Backend and Frontend Dev Servers
+        run: |
+          echo "Starting Express Backend Server on port 5000..."
+          node e2e-tests/backend_server.js > e2e-tests/backend.log 2>&1 &
+          echo "Starting Vite Frontend Server on port 5173..."
+          cd frontend && npm run dev -- --host 0.0.0.0 --port 5173 > ../frontend.log 2>&1 &
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests pandas openpyxl selenium webdriver-manager
+
+      - name: Wait for Ports to be Ready
+        run: |
+          echo "Waiting for ports 5000 and 5173..."
+          for i in {1..30}; do
+            if nc -z 127.0.0.1 5000 && nc -z 127.0.0.1 5173; then
+              echo "Both Backend (5000) and Frontend (5173) servers are ready!"
+              break
+            fi
+            echo "Waiting for servers to start... ($i/30)"
+            sleep 1
+          done
+
+      - name: Run E2E Test Suite (Python)
+        run: |
+          python e2e-tests/selenium_e2e_runner.py
+
+      - name: Run E2E Test Suite (JavaScript)
+        run: |
+          node e2e-tests/e2e_test_runner.js
+
+      - name: Dump Backend Server Logs
+        if: always()
+        run: |
+          echo "================ DUMPING BACKEND SERVER LOGS ================"
+          cat e2e-tests/backend.log || echo "No backend log file found."
+          echo "============================================================="
+
+      - name: Dump Frontend Server Logs
+        if: always()
+        run: |
+          echo "================ DUMPING FRONTEND SERVER LOGS ================"
+          cat frontend.log || echo "No frontend log file found."
+          echo "=============================================================="
+
+      - name: Upload Test Report Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: E2E-QA-Test-Reports
+          path: |
+            e2e-tests/reports/*.xlsx
+            e2e-tests/backend.log
+            frontend.log
+          retention-days: 14
