@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - e2e-workflow
   pull_request:
     branches:
       - main
+      - e2e-workflow
   workflow_dispatch:
 
 jobs:
