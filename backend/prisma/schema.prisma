@@ -1,0 +1,305 @@
+// This is the complete database schema for StudyMind AI
+// It defines all the tables and relationships in the database
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum Role {
+  STUDENT
+  TEACHER
+  PROFESSIONAL
+}
+
+enum StudyStyle {
+  VISUAL
+  AUDITORY
+  READING
+  KINESTHETIC
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum FlashcardDifficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum SessionStatus {
+  ACTIVE
+  COMPLETED
+  ABANDONED
+}
+
+// ─── Models ───────────────────────────────────────────────────────────────────
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String
+  passwordHash  String
+  avatar        String?
+  role          Role     @default(STUDENT)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  preferences   UserPreferences?
+  subjects      Subject[]
+  tasks         Task[]
+  notes         Note[]
+  sessions      StudySession[]
+  flashcardDecks FlashcardDeck[]
+  exams         Exam[]
+  streak        Streak?
+  badges        UserBadge[]
+  groupMemberships GroupMember[]
+  xpPoints      Int      @default(0)
+  onboardingComplete Boolean @default(false)
+  refreshTokens RefreshToken[]
+
+  @@index([email])
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model UserPreferences {
+  id                String     @id @default(cuid())
+  userId            String     @unique
+  user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  studyStyle        StudyStyle @default(VISUAL)
+  dailyGoalMinutes  Int        @default(120)
+  weeklyGoalDays    Int        @default(5)
+  reminderEnabled   Boolean    @default(true)
+  reminderTime      String     @default("09:00")
+  theme             String     @default("dark")
+  notificationsEnabled Boolean @default(true)
+  pomodoroLength    Int        @default(25)
+  shortBreakLength  Int        @default(5)
+  longBreakLength   Int        @default(15)
+}
+
+model Subject {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  color       String   @default("#7C3AED")
+  icon        String?
+  description String?
+  progress    Float    @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  topics      Topic[]
+  sessions    StudySession[]
+  tasks       Task[]
+  exams       Exam[]
+
+  @@index([userId])
+}
+
+model Topic {
+  id          String   @id @default(cuid())
+  subjectId   String
+  subject     Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  name        String
+  completed   Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  @@index([subjectId])
+}
+
+model StudySession {
+  id           String        @id @default(cuid())
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subjectId    String?
+  subject      Subject?      @relation(fields: [subjectId], references: [id])
+  title        String
+  startTime    DateTime
+  endTime      DateTime?
+  plannedMinutes Int
+  actualMinutes  Int?
+  status       SessionStatus @default(ACTIVE)
+  notes        String?
+  pomodorosCompleted Int     @default(0)
+  focusScore   Float?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([startTime])
+}
+
+model Task {
+  id          String       @id @default(cuid())
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subjectId   String?
+  subject     Subject?     @relation(fields: [subjectId], references: [id])
+  title       String
+  description String?
+  status      TaskStatus   @default(TODO)
+  priority    TaskPriority @default(MEDIUM)
+  dueDate     DateTime?
+  completedAt DateTime?
+  order       Int          @default(0)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+model Note {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  content     String   @db.Text
+  summary     String?  @db.Text
+  tags        String[]
+  pinned      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model FlashcardDeck {
+  id          String      @id @default(cuid())
+  userId      String
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  color       String      @default("#7C3AED")
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  flashcards  Flashcard[]
+
+  @@index([userId])
+}
+
+model Flashcard {
+  id          String              @id @default(cuid())
+  deckId      String
+  deck        FlashcardDeck       @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  front       String              @db.Text
+  back        String              @db.Text
+  difficulty  FlashcardDifficulty @default(MEDIUM)
+  confidence  Int                 @default(0) // 0-5 scale
+  nextReview  DateTime?
+  reviewCount Int                 @default(0)
+  createdAt   DateTime            @default(now())
+
+  @@index([deckId])
+}
+
+model Exam {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subjectId   String?
+  subject     Subject? @relation(fields: [subjectId], references: [id])
+  title       String
+  date        DateTime
+  duration    Int?     // minutes
+  location    String?
+  notes       String?
+  completed   Boolean  @default(false)
+  score       Float?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([date])
+}
+
+model Streak {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  currentStreak Int      @default(0)
+  longestStreak Int      @default(0)
+  lastStudyDate DateTime?
+  totalDays     Int      @default(0)
+  updatedAt     DateTime @updatedAt
+}
+
+model Badge {
+  id          String      @id @default(cuid())
+  name        String      @unique
+  description String
+  icon        String
+  condition   String      // e.g. "streak_7", "hours_100"
+  rarity      String      @default("common") // common, rare, epic, legendary
+  createdAt   DateTime    @default(now())
+
+  userBadges  UserBadge[]
+}
+
+model UserBadge {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badgeId   String
+  badge     Badge    @relation(fields: [badgeId], references: [id])
+  earnedAt  DateTime @default(now())
+
+  @@unique([userId, badgeId])
+  @@index([userId])
+}
+
+model StudyGroup {
+  id          String        @id @default(cuid())
+  name        String
+  description String?
+  inviteCode  String        @unique @default(cuid())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  members     GroupMember[]
+}
+
+model GroupMember {
+  id        String     @id @default(cuid())
+  groupId   String
+  group     StudyGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      String     @default("member") // admin, member
+  joinedAt  DateTime   @default(now())
+
+  @@unique([groupId, userId])
+  @@index([userId])
+}

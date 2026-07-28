@@ -1,0 +1,40 @@
+# ── Environment files (NEVER commit these — they contain secrets!) ────────────
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# ── Node.js ─────────────────────────────────────────────────────────────────
+node_modules/
+dist/
+build/
+.next/
+out/
+
+# ── Python ───────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+.pytest_cache/
+
+# ── Database ─────────────────────────────────────────────────────────────────
+*.db
+*.sqlite
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── OS files ─────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── IDE ───────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp

@@ -71,3 +71,14 @@ jobs:
         run: |
           cd e2e-tests
           python run_tests.py
+
+      - name: Generate Load Test Report
+        run: |
+          npm install xlsx
+          node e2e-tests/generate_load_test.js
+
+      - name: Upload Load Test Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: load-test-report
+          path: load_test_report.xlsx
